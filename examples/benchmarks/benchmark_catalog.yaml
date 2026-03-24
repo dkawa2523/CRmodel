@@ -1,0 +1,11 @@
+benchmarks:
+- id: nf3_ar_ccp_clean_2023
+  path: nf3_ar_ccp_clean_2023
+  truth_case: case_truth.yaml
+  init_case: case_init.yaml
+  inverse: inverse.yaml
+- id: cl2_ar_icp_fuller2001
+  path: cl2_ar_icp_fuller2001
+  truth_case: case_truth.yaml
+  init_case: case_init.yaml
+  inverse: inverse.yaml

@@ -1,0 +1,98 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1320" height="860" viewBox="0 0 1320 860">
+<style>
+text { font-family: Arial, sans-serif; }
+</style>
+<rect width="1320" height="860" fill="white"/>
+<text x="24" y="30" font-size="22" font-weight="700" fill="#111827">Window Fidelity</text>
+<text x="24" y="56" font-size="14" fill="#4b5563">Cl2/Ar ICP actinometry benchmark (literature-anchored, measurement-like)</text>
+<rect x="280.0" y="100.0" width="980.0" height="340.0" fill="white" stroke="#374151" stroke-width="1"/>
+<line x1="280.0" y1="440.0" x2="1260.0" y2="440.0" stroke="#e5e7eb" stroke-width="1"/>
+<text x="272.0" y="444.0" text-anchor="end" font-size="11" fill="#374151">-0.50</text>
+<line x1="280.0" y1="355.0" x2="1260.0" y2="355.0" stroke="#e5e7eb" stroke-width="1"/>
+<text x="272.0" y="359.0" text-anchor="end" font-size="11" fill="#374151">1.00</text>
+<line x1="280.0" y1="270.0" x2="1260.0" y2="270.0" stroke="#e5e7eb" stroke-width="1"/>
+<text x="272.0" y="274.0" text-anchor="end" font-size="11" fill="#374151">2.50</text>
+<line x1="280.0" y1="185.0" x2="1260.0" y2="185.0" stroke="#e5e7eb" stroke-width="1"/>
+<text x="272.0" y="189.0" text-anchor="end" font-size="11" fill="#374151">4.00</text>
+<line x1="280.0" y1="100.0" x2="1260.0" y2="100.0" stroke="#e5e7eb" stroke-width="1"/>
+<text x="272.0" y="104.0" text-anchor="end" font-size="11" fill="#374151">5.50</text>
+<line x1="280.0" y1="100.0" x2="280.0" y2="440.0" stroke="#e5e7eb" stroke-width="1"/>
+<text x="280.0" y="456.0" text-anchor="middle" font-size="11" fill="#374151">-0.15</text>
+<line x1="476.0" y1="100.0" x2="476.0" y2="440.0" stroke="#e5e7eb" stroke-width="1"/>
+<text x="476.0" y="456.0" text-anchor="middle" font-size="11" fill="#374151">0.17</text>
+<line x1="672.0" y1="100.0" x2="672.0" y2="440.0" stroke="#e5e7eb" stroke-width="1"/>
+<text x="672.0" y="456.0" text-anchor="middle" font-size="11" fill="#374151">0.49</text>
+<line x1="868.0" y1="100.0" x2="868.0" y2="440.0" stroke="#e5e7eb" stroke-width="1"/>
+<text x="868.0" y="456.0" text-anchor="middle" font-size="11" fill="#374151">0.81</text>
+<line x1="1064.0" y1="100.0" x2="1064.0" y2="440.0" stroke="#e5e7eb" stroke-width="1"/>
+<text x="1064.0" y="456.0" text-anchor="middle" font-size="11" fill="#374151">1.14</text>
+<line x1="1260.0" y1="100.0" x2="1260.0" y2="440.0" stroke="#e5e7eb" stroke-width="1"/>
+<text x="1260.0" y="456.0" text-anchor="middle" font-size="11" fill="#374151">1.46</text>
+<text x="770.0" y="474.0" text-anchor="middle" font-size="12" fill="#374151">Ratio to measurement</text>
+<text x="234.0" y="92.0" text-anchor="start" font-size="12" fill="#374151">Window</text>
+<text x="280.0" y="86.0" font-size="13" font-weight="700" fill="#111827">Window area and peak ratios</text>
+<line x1="981.1" y1="100.0" x2="981.1" y2="440.0" stroke="#dc2626" stroke-width="2" stroke-dasharray="4,4"/>
+<line x1="371.4" y1="100.0" x2="371.4" y2="440.0" stroke="#9ca3af" stroke-width="1" stroke-dasharray="2,4"/>
+<rect x="981.1" y="115.3" width="32.7" height="10" fill="#2563eb" opacity="0.85"/>
+<rect x="981.1" y="131.3" width="32.5" height="10" fill="#d97706" opacity="0.85"/>
+<text x="270.0" y="132.3" text-anchor="end" font-size="12" fill="#374151">ClII_481_986</text>
+<text x="1268.0" y="124.3" font-size="11" fill="#2563eb">A 1.05</text>
+<text x="1268.0" y="138.3" font-size="11" fill="#d97706">P 1.05</text>
+<rect x="957.1" y="172.0" width="24.0" height="10" fill="#2563eb" opacity="0.85"/>
+<rect x="981.1" y="188.0" width="14.0" height="10" fill="#d97706" opacity="0.85"/>
+<text x="270.0" y="189.0" text-anchor="end" font-size="12" fill="#374151">ArII_480_602</text>
+<text x="1268.0" y="181.0" font-size="11" fill="#2563eb">A 0.96</text>
+<text x="1268.0" y="195.0" font-size="11" fill="#d97706">P 1.02</text>
+<rect x="981.1" y="228.7" width="149.7" height="10" fill="#2563eb" opacity="0.85"/>
+<rect x="981.1" y="244.7" width="187.5" height="10" fill="#d97706" opacity="0.85"/>
+<text x="270.0" y="245.7" text-anchor="end" font-size="12" fill="#374151">ClI_822_200_interference</text>
+<text x="1268.0" y="237.7" font-size="11" fill="#2563eb">A 1.25</text>
+<text x="1268.0" y="251.7" font-size="11" fill="#d97706">P 1.31</text>
+<rect x="981.1" y="285.3" width="109.4" height="10" fill="#2563eb" opacity="0.85"/>
+<rect x="981.1" y="301.3" width="128.6" height="10" fill="#d97706" opacity="0.85"/>
+<text x="270.0" y="302.3" text-anchor="end" font-size="12" fill="#374151">XeI_828_012</text>
+<text x="1268.0" y="294.3" font-size="11" fill="#2563eb">A 1.18</text>
+<text x="1268.0" y="308.3" font-size="11" fill="#d97706">P 1.21</text>
+<rect x="949.9" y="342.0" width="31.1" height="10" fill="#2563eb" opacity="0.85"/>
+<rect x="570.5" y="358.0" width="410.6" height="10" fill="#d97706" opacity="0.85"/>
+<text x="270.0" y="359.0" text-anchor="end" font-size="12" fill="#374151">Cl2_band_306</text>
+<text x="1268.0" y="351.0" font-size="11" fill="#2563eb">A 0.95</text>
+<text x="1268.0" y="365.0" font-size="11" fill="#d97706">P 0.33</text>
+<rect x="371.4" y="398.7" width="609.6" height="10" fill="#2563eb" opacity="0.85"/>
+<rect x="371.4" y="414.7" width="609.6" height="10" fill="#d97706" opacity="0.85"/>
+<text x="270.0" y="415.7" text-anchor="end" font-size="12" fill="#374151">ArI_750_387</text>
+<text x="1268.0" y="407.7" font-size="11" fill="#2563eb">A 4.8e-13</text>
+<text x="1268.0" y="421.7" font-size="11" fill="#d97706">P 5.5e-13</text>
+<rect x="280.0" y="520.0" width="980.0" height="220.0" fill="white" stroke="#374151" stroke-width="1"/>
+<line x1="280.0" y1="740.0" x2="1260.0" y2="740.0" stroke="#e5e7eb" stroke-width="1"/>
+<text x="272.0" y="744.0" text-anchor="end" font-size="11" fill="#374151">0</text>
+<line x1="280.0" y1="685.0" x2="1260.0" y2="685.0" stroke="#e5e7eb" stroke-width="1"/>
+<text x="272.0" y="689.0" text-anchor="end" font-size="11" fill="#374151">0.72</text>
+<line x1="280.0" y1="630.0" x2="1260.0" y2="630.0" stroke="#e5e7eb" stroke-width="1"/>
+<text x="272.0" y="634.0" text-anchor="end" font-size="11" fill="#374151">1.45</text>
+<line x1="280.0" y1="575.0" x2="1260.0" y2="575.0" stroke="#e5e7eb" stroke-width="1"/>
+<text x="272.0" y="579.0" text-anchor="end" font-size="11" fill="#374151">2.17</text>
+<line x1="280.0" y1="520.0" x2="1260.0" y2="520.0" stroke="#e5e7eb" stroke-width="1"/>
+<text x="272.0" y="524.0" text-anchor="end" font-size="11" fill="#374151">2.90</text>
+<text x="770.0" y="774.0" text-anchor="middle" font-size="12" fill="#374151">Window index</text>
+<text x="234.0" y="512.0" text-anchor="start" font-size="12" fill="#374151">Abs peak shift (nm)</text>
+<text x="280.0" y="506.0" font-size="13" font-weight="700" fill="#111827">Mean absolute peak shift</text>
+<rect x="316.3" y="740.0" width="90.7" height="0.0" fill="#059669"/>
+<text x="361.7" y="756.0" text-anchor="middle" font-size="11" fill="#374151">1</text>
+<text x="361.7" y="734.0" text-anchor="middle" font-size="11" fill="#111827">0</text>
+<rect x="479.6" y="740.0" width="90.7" height="0.0" fill="#059669"/>
+<text x="525.0" y="756.0" text-anchor="middle" font-size="11" fill="#374151">2</text>
+<text x="525.0" y="734.0" text-anchor="middle" font-size="11" fill="#111827">0</text>
+<rect x="643.0" y="740.0" width="90.7" height="0.0" fill="#059669"/>
+<text x="688.3" y="756.0" text-anchor="middle" font-size="11" fill="#374151">3</text>
+<text x="688.3" y="734.0" text-anchor="middle" font-size="11" fill="#111827">0</text>
+<rect x="806.3" y="740.0" width="90.7" height="0.0" fill="#059669"/>
+<text x="851.7" y="756.0" text-anchor="middle" font-size="11" fill="#374151">4</text>
+<text x="851.7" y="734.0" text-anchor="middle" font-size="11" fill="#111827">0</text>
+<rect x="969.6" y="548.7" width="90.7" height="191.3" fill="#059669"/>
+<text x="1015.0" y="756.0" text-anchor="middle" font-size="11" fill="#374151">5</text>
+<text x="1015.0" y="542.7" text-anchor="middle" font-size="11" fill="#111827">2.52</text>
+<rect x="1133.0" y="706.6" width="90.7" height="33.4" fill="#059669"/>
+<text x="1178.3" y="756.0" text-anchor="middle" font-size="11" fill="#374151">6</text>
+<text x="1178.3" y="700.6" text-anchor="middle" font-size="11" fill="#111827">0.44</text>
+</svg>

@@ -1,0 +1,127 @@
+plasma_mode: te
+gas_mixture:
+  total_pressure_Pa: 3.0
+  gas_temperature_K: 400.0
+  fractions:
+    Ar: 0.3
+    Cl2: 0.7
+energy_grid:
+  min_eV: 0.0
+  max_eV: 150.0
+  n_points: 800
+geometry:
+  mode: axisym_shell
+  chamber_radius_m: 0.15
+  chamber_height_m: 0.08
+  z_m: 0.035
+  chord_r_m:
+  - 0.0
+  - 0.02
+  - 0.04
+  - 0.06
+  - 0.08
+  n_shells: 3
+plasma_state:
+  te_eedf_kind: maxwell
+  ne_shells_m3:
+  - 9999998935378288.0
+  - 8000000237594184.0
+  - 6000000018383260.0
+  te_shells_eV:
+  - 2.50000003523659
+  - 2.1999999993499038
+  - 2.00000000651413
+  metastables:
+    Ar_1s5:
+    - 5.0e14
+    - 4.0e14
+    - 2.0e14
+  radicals:
+    F:
+    - 1.0e19
+    - 8.0e18
+    - 6.0e18
+    Cl:
+    - 1.0e19
+    - 8.0e18
+    - 6.0e18
+    B:
+    - 5.0e17
+    - 4.0e17
+    - 3.0e17
+    BCl:
+    - 5.0e17
+    - 4.0e17
+    - 3.0e17
+residuals:
+  mode: custom
+  species_density_m3:
+    H2O: 0.0
+    N2: 0.0
+    O2: 0.0
+    CO: 0.0
+    CO2: 0.0
+    H2: 0.0
+wall:
+  priors:
+    gamma_O:
+      type: loguniform
+      min: 1.0e-05
+      max: 0.1
+    gamma_Ar_meta:
+      type: loguniform
+      min: 0.0001
+      max: 0.1
+  gamma:
+    O: 0.001
+    Ar: 0.005
+states:
+- id: Ar_2p1
+  species: Ar
+  energy_eV: 13.48
+  solve: true
+reactions:
+- id: exc_Ar_to_2p1
+  kind: electron_excitation
+  source_state: Ar
+  target_state: Ar_2p1
+  cross_section_file: data/cross_sections_curated/ar/Ar_ground_to_4p_2p1_curated.csv
+- id: exc_Ar1s5_to_2p1
+  kind: electron_excitation
+  source_state: Ar_1s5
+  target_state: Ar_2p1
+  cross_section_file: data/cross_sections_curated/ar/Ar_1s5_to_4p_2p1_curated.csv
+transitions:
+- id: Ar750
+  upper: Ar_2p1
+  lower: Ar_1s2
+  wavelength_nm: 750.386
+  A_s-1: 4.5e7
+  profile:
+    kind: gaussian
+    fwhm_nm: 0.03
+bands:
+- id: Cl726
+  kind: effective_excitation_band
+  source_density_key: Cl
+  cross_section_file: data/cross_sections_curated/cl2/ClI_725p662_effective_curated.csv
+  center_nm: 725.662
+  fwhm_nm: 1.8
+  amplitude_scale: 1.0
+  profile_kind: gaussian
+- id: Cl755
+  kind: effective_excitation_band
+  source_density_key: Cl
+  cross_section_file: data/cross_sections_curated/cl2/ClI_754p707_effective_curated.csv
+  center_nm: 754.707
+  fwhm_nm: 1.8
+  amplitude_scale: 1.0
+  profile_kind: gaussian
+diagnostics:
+  window_registry: diagnostics/windows_ar_nf3_cl2_bcl3_curated.yaml
+  window_families:
+  - Ar
+  - Cl2/Ar
+instruments:
+- id: uvvis_lowres
+  yaml_file: instruments/uvvis_lowres.yaml

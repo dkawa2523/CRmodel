@@ -1,0 +1,31 @@
+benchmark_id: nf3_ar_ccp_clean_2023
+title: NF3/Ar CCP chamber-clean benchmark (literature-anchored, measurement-like)
+benchmark_kind: literature_anchored_measurement_like
+source:
+  citation: An, S.; Hong, S.J., Spectroscopic Analysis of NF3 Plasmas with Oxygen
+    Additive for PECVD Chamber Cleaning, Coatings 13(1), 91 (2023).
+  doi: 10.3390/coatings13010091
+physical_anchor:
+  reactor: 13.56 MHz CCP PECVD, 6-inch wafer
+  rf_power_W: 300
+  pressure_mTorr: 1000
+  chuck_temperature_C: 300
+  gas_flows_sccm:
+    NF3: 50.0
+    Ar: 2.0
+    O2: 0.0
+  notes: The published study varied O2 ratio; this benchmark uses the O2=0 NF3/Ar
+    branch and spatializes a single-view spectrum into 5 synthetic chords.
+expected_features:
+- Broad N2 second positive emission between 300 and 400 nm.
+- Broad N2 first positive emission between 550 and 700 nm.
+- Atomic F lines near 703.7 and 712.9 nm, with a weaker line near 685.6 nm.
+- Ar actinometer line near 750.4 nm and a weaker line near 811.5 nm.
+measurement_model:
+  global_wavelength_shift_nm: 0.08
+  global_gain: 1.04
+  baseline_offset_fraction_of_max: 0.006
+  baseline_slope_fraction_of_max: 0.01
+  relative_noise_sigma: 0.018
+  additive_noise_fraction_of_max: 0.003
+  seed: 202303

@@ -1,0 +1,17 @@
+
+id: uvvis_lowres
+wavelength_min_nm: 200.0
+wavelength_max_nm: 800.0
+bin_nm: 0.5
+throughput:
+  wavelength_nm: [200.0, 300.0, 500.0, 800.0]
+  value: [0.45, 0.70, 1.00, 0.85]
+lsf:
+  kind: gaussian
+  fwhm_nm: 0.7
+baseline:
+  kind: constant
+  offset: 0.0
+nuisance:
+  gain: 1.0
+  wavelength_shift_nm: 0.0

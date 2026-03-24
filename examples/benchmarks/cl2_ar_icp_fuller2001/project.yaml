@@ -1,0 +1,7 @@
+kind: oescr_project
+project:
+  name: cl2_ar_icp_fuller2001
+case: case_init.yaml
+inverse: inverse.yaml
+outputs:
+  default_dir: runs/default

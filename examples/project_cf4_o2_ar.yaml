@@ -1,0 +1,7 @@
+kind: oescr_project
+project:
+  name: cf4_o2_ar_demo
+case: case_init_cf4_o2_ar.yaml
+inverse: inverse_cf4_o2_ar.yaml
+outputs:
+  default_dir: runs/cf4_o2_ar_demo

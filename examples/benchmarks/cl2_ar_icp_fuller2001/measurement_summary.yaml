@@ -1,0 +1,23 @@
+benchmark_id: cl2_ar_icp_fuller2001
+instrument_summaries:
+  cl2_benchmark_scan:
+    chord_0:
+      max_truth: 6024349920830641.0
+      max_measurement: 5548394739533632.0
+      mean_measurement: 33692152223022.49
+    chord_1:
+      max_truth: 5879365970152785.0
+      max_measurement: 5226732339530854.0
+      mean_measurement: 31959194011479.35
+    chord_2:
+      max_truth: 5373836806829285.0
+      max_measurement: 4996916144317844.0
+      mean_measurement: 30139065657579.434
+    chord_3:
+      max_truth: 4436334199284857.0
+      max_measurement: 4204394767878868.0
+      mean_measurement: 25083093892290.164
+    chord_4:
+      max_truth: 3869262245086925.0
+      max_measurement: 3606756717986471.5
+      mean_measurement: 21416206057116.82

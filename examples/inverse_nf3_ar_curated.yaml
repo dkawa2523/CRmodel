@@ -1,0 +1,78 @@
+measurements:
+- instrument_id: uvvis_lowres
+  files:
+  - measurements_nf3_curated/chord_0.csv
+  - measurements_nf3_curated/chord_1.csv
+  - measurements_nf3_curated/chord_2.csv
+  - measurements_nf3_curated/chord_3.csv
+  - measurements_nf3_curated/chord_4.csv
+fit:
+  objective:
+    spectrum_weight: 1.0
+    window_fit_weight: 0.2
+    window_fit_normalization: area
+    window_baseline_mode: local_linear
+    area_weight: 0.35
+    peak_weight: 0.05
+    auto_gain_fit: true
+    auto_offset_fit: true
+  global:
+    enabled: false
+    maxiter: 1
+    popsize: 4
+    seed: 1
+  local:
+    enabled: true
+    max_nfev: 60
+  uncertainty:
+    laplace: true
+  regularization:
+    smooth_arrays:
+    - name: ne_shells_m3
+      order: 2
+      weight: 0.05
+    - name: te_shells_eV
+      order: 2
+      weight: 0.05
+parameters:
+- name: ne0
+  path: plasma_state.ne_shells_m3[0]
+  scale: log
+  bounds:
+  - 5000000000000000.0
+  - 4.0e+16
+- name: ne1
+  path: plasma_state.ne_shells_m3[1]
+  scale: log
+  bounds:
+  - 5000000000000000.0
+  - 4.0e+16
+- name: ne2
+  path: plasma_state.ne_shells_m3[2]
+  scale: log
+  bounds:
+  - 5000000000000000.0
+  - 4.0e+16
+- name: te0
+  path: plasma_state.te_shells_eV[0]
+  scale: linear
+  bounds:
+  - 1.2
+  - 4.0
+- name: te1
+  path: plasma_state.te_shells_eV[1]
+  scale: linear
+  bounds:
+  - 1.2
+  - 4.0
+- name: te2
+  path: plasma_state.te_shells_eV[2]
+  scale: linear
+  bounds:
+  - 1.2
+  - 4.0
+priors:
+- type: log_gaussian
+  path: plasma_state.metastables.Ar_1s5[0]
+  mean_log10: 14.7
+  sigma_log10: 0.6

@@ -1,0 +1,256 @@
+windows:
+- name: ArI_696_543
+  family: Ar
+  species: Ar I
+  kind: atomic_line
+  center_nm: 696.543
+  half_width_nm: 1.2
+  max_bin_nm: 1.0
+  use_area: true
+  use_peak: true
+  notes: Common visible Ar line from the NIST handbook strong-lines table.
+  reference: NIST Handbook of Basic Atomic Spectroscopic Data
+  use_window_fit: true
+- name: ArI_706_722
+  family: Ar
+  species: Ar I
+  kind: atomic_line
+  center_nm: 706.722
+  half_width_nm: 1.2
+  max_bin_nm: 1.0
+  use_area: true
+  use_peak: true
+  notes: Common visible Ar line from the NIST handbook strong-lines table.
+  reference: NIST Handbook of Basic Atomic Spectroscopic Data
+  use_window_fit: true
+- name: ArI_738_398
+  family: Ar
+  species: Ar I
+  kind: atomic_line
+  center_nm: 738.398
+  half_width_nm: 1.0
+  max_bin_nm: 0.5
+  use_area: true
+  use_peak: true
+  notes: Useful for richer Ar line sets; be careful in BCl3 plasmas because nearby
+    Cl emission around 738.6 nm can interfere.
+  reference: NIST Handbook of Basic Atomic Spectroscopic Data
+  use_window_fit: true
+- name: ArI_750_387
+  family: Ar
+  species: Ar I
+  kind: atomic_line
+  center_nm: 750.387
+  half_width_nm: 1.0
+  max_bin_nm: 1.0
+  use_area: true
+  use_peak: true
+  notes: Primary Ar actinometer line used repeatedly in CF4/Ar, NF3/Ar, SF6/Ar, Cl2/Ar,
+    and BCl3/Ar OES literature.
+  reference: NIST Handbook of Basic Atomic Spectroscopic Data
+  use_window_fit: true
+- name: ArI_763_511
+  family: Ar
+  species: Ar I
+  kind: atomic_line
+  center_nm: 763.511
+  half_width_nm: 1.0
+  max_bin_nm: 1.0
+  use_area: true
+  use_peak: true
+  notes: Bright Ar line often used with 750.4 nm and 811.5 nm in Ar CR/OES work.
+  reference: NIST ASD / NIST Handbook
+  use_window_fit: true
+- name: ArI_772_376
+  family: Ar
+  species: Ar I
+  kind: atomic_line
+  center_nm: 772.376
+  half_width_nm: 1.0
+  max_bin_nm: 1.0
+  use_area: true
+  use_peak: true
+  notes: Bright Ar line from the NIST handbook strong-lines table.
+  reference: NIST Handbook of Basic Atomic Spectroscopic Data
+  use_window_fit: true
+- name: ArI_794_818
+  family: Ar
+  species: Ar I
+  kind: atomic_line
+  center_nm: 794.818
+  half_width_nm: 1.0
+  max_bin_nm: 1.0
+  use_area: true
+  use_peak: true
+  notes: Bright Ar line from the NIST handbook strong-lines table.
+  reference: NIST Handbook of Basic Atomic Spectroscopic Data
+  use_window_fit: true
+- name: FI_685_603
+  family: NF3/Ar
+  species: F I
+  kind: atomic_line
+  center_nm: 685.603
+  half_width_nm: 1.0
+  max_bin_nm: 1.0
+  use_area: true
+  use_peak: true
+  notes: Visible F line used in fluorine actinometry. Threshold around 14.5 eV is
+    tabulated in recent plasma-OES actinometry work.
+  reference: NIST handbook line table + Actinometry table in CF4/O2/N2 plasma OES
+    study
+  use_window_fit: true
+- name: FI_703_747
+  family: NF3/Ar
+  species: F I
+  kind: atomic_line
+  center_nm: 703.747
+  half_width_nm: 1.0
+  max_bin_nm: 1.0
+  use_area: true
+  use_peak: true
+  notes: Canonical F line for fluorine radical actinometry in NF3 and SF6 plasmas.
+  reference: NIST handbook line table + SF6 time-resolved actinometry literature
+  use_window_fit: true
+- name: FI_712_789
+  family: NF3/Ar
+  species: F I
+  kind: atomic_line
+  center_nm: 712.789
+  half_width_nm: 1.0
+  max_bin_nm: 1.0
+  use_area: true
+  use_peak: true
+  notes: Alternative F line when 703.7 nm is blended or detector response is poor.
+  reference: NIST handbook line table + NF3 plasma OES literature
+  use_window_fit: true
+- name: NF3_endpoint_220_290
+  family: NF3/Ar
+  species: mixed_volatiles
+  kind: broadband_window
+  center_nm: 255.0
+  half_width_nm: 35.0
+  max_bin_nm: 2.0
+  use_area: true
+  use_peak: false
+  notes: The 220–290 nm region was reported as especially informative for endpoint
+    detection in NF3/Ar etching of LiNbO3 because it contains volatile Nb fluorides/oxyfluorides
+    and strong process-state contrast.
+  reference: LiNbO3 etch OES in NF3/Ar ICP plasma
+  use_window_fit: false
+  window_fit_weight: 0.0
+  area_weight: 0.45
+- name: ClI_725_662
+  family: Cl2/Ar
+  species: Cl I
+  kind: atomic_line
+  center_nm: 725.662
+  half_width_nm: 1.0
+  max_bin_nm: 0.5
+  use_area: true
+  use_peak: true
+  notes: Visible neutral chlorine line from the NIST handbook strong-lines table.
+  reference: NIST Handbook of Basic Atomic Spectroscopic Data
+  use_window_fit: true
+- name: ClI_754_707
+  family: Cl2/Ar
+  species: Cl I
+  kind: atomic_line
+  center_nm: 754.707
+  half_width_nm: 1.0
+  max_bin_nm: 0.5
+  use_area: true
+  use_peak: true
+  notes: Visible neutral chlorine line from the NIST handbook strong-lines table.
+  reference: NIST Handbook of Basic Atomic Spectroscopic Data
+  use_window_fit: true
+- name: ClI_774_497
+  family: Cl2/Ar
+  species: Cl I
+  kind: atomic_line
+  center_nm: 774.497
+  half_width_nm: 1.0
+  max_bin_nm: 0.5
+  use_area: true
+  use_peak: true
+  notes: Visible neutral chlorine line from the NIST handbook strong-lines table.
+  reference: NIST Handbook of Basic Atomic Spectroscopic Data
+  use_window_fit: true
+- name: ClI_792_465
+  family: Cl2/Ar
+  species: Cl I
+  kind: atomic_line
+  center_nm: 792.465
+  half_width_nm: 1.0
+  max_bin_nm: 0.5
+  use_area: true
+  use_peak: true
+  notes: Visible neutral chlorine line from the NIST handbook strong-lines table;
+    nearby 792.54 nm is also used in BCl3/Ar process studies.
+  reference: NIST Handbook of Basic Atomic Spectroscopic Data
+  use_window_fit: true
+- name: BCl_AX_272_band
+  family: BCl3/Ar
+  species: BCl
+  kind: molecular_band
+  center_nm: 272.0
+  half_width_nm: 8.0
+  max_bin_nm: 2.0
+  use_area: true
+  use_peak: false
+  notes: BCl A^1Pi-X^1Sigma+ band; reported in BCl3 fluorescence and BCl3/Ar OES diagnostics.
+  reference: BCl3 fluorescence spectroscopy / Ar-BCl3 OES literature
+  use_window_fit: true
+  window_fit_normalization: area
+- name: BI_208_957
+  family: BCl3/Ar
+  species: B I
+  kind: atomic_line
+  center_nm: 208.957
+  half_width_nm: 1.0
+  max_bin_nm: 1.0
+  use_area: true
+  use_peak: true
+  notes: Neutral B line around 209 nm; BCl3 fluorescence/emission studies report this
+    line and NIST boron tables list the nearby B I doublet at 208.889/208.957 nm.
+  reference: NIST Boron tables + BCl3 emission-cross-section literature
+  use_window_fit: true
+- name: BI_249_724
+  family: BCl3/Ar
+  species: B I
+  kind: atomic_line_doublet_window
+  center_nm: 249.724
+  half_width_nm: 1.4
+  max_bin_nm: 1.0
+  use_area: true
+  use_peak: true
+  notes: Window covering the B I doublet at 249.677/249.772 nm; the 250 nm B emission
+    is reported in BCl3 fluorescence/emission work.
+  reference: NIST Boron tables + BCl3 emission-cross-section literature
+  use_window_fit: true
+- name: ClI_738_620_BCl3
+  family: BCl3/Ar
+  species: Cl I
+  kind: atomic_line
+  center_nm: 738.62
+  half_width_nm: 0.8
+  max_bin_nm: 0.2
+  use_area: true
+  use_peak: true
+  requires_high_res: true
+  default_enabled: false
+  notes: Used in a BCl3 plasma actinometry/OES dissertation, but it is close to the
+    strong Ar 738.398 nm line and should only be used with higher resolution or deblending.
+  reference: UC dissertation snippet cited in README_real_data.md
+  use_window_fit: true
+- name: ClI_792_540_BCl3
+  family: BCl3/Ar
+  species: Cl I
+  kind: atomic_line
+  center_nm: 792.54
+  half_width_nm: 1.0
+  max_bin_nm: 1.0
+  use_area: true
+  use_peak: true
+  notes: Used with Ar 750.42 nm in BCl3 plasma actinometry/OES studies.
+  reference: UC dissertation snippet cited in README_real_data.md
+  use_window_fit: true

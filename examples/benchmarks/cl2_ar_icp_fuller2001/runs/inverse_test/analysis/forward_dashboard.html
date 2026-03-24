@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Cl2/Ar ICP actinometry benchmark (literature-anchored, measurement-like) - Forward Dashboard</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 24px; color: #111827; background: #f8fafc; }
+    h1, h2 { margin-bottom: 8px; }
+    .card { background: white; border: 1px solid #e5e7eb; border-radius: 12px; padding: 18px; margin-bottom: 18px; }
+    .meta { color: #4b5563; font-size: 14px; }
+    .plots img { width: 100%; max-width: 1200px; border: 1px solid #e5e7eb; border-radius: 10px; background: white; }
+    ul { margin-top: 6px; }
+    table { border-collapse: collapse; width: 100%; max-width: 720px; }
+    th, td { border: 1px solid #d1d5db; padding: 8px 10px; text-align: left; font-size: 14px; }
+    th { background: #f3f4f6; }
+    a { color: #2563eb; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>Cl2/Ar ICP actinometry benchmark (literature-anchored, measurement-like) Forward Dashboard</h1>
+    <div class="meta">Benchmark ID: cl2_ar_icp_fuller2001</div>
+    <div class="meta">Source: Fuller, N.C.M.; Herman, I.P.; Donnelly, V.M., Optical actinometry of Cl2, Cl, Cl+, and Ar+ densities in inductively coupled Cl2-Ar plasmas, J. Appl. Phys. 90, 3182-3191 (2001).</div>
+    <div class="meta"><a href="analysis_report.md">Inverse-oriented report</a> | <a href="analysis_summary.yaml">YAML summary</a> | <a href="chord_metrics.csv">Chord metrics</a> | <a href="window_metrics.csv">Window metrics</a></div>
+  </div>
+  <div class="card">
+    <h2>Forward Scenario Snapshot</h2>
+    <table>
+      <tr><th>Scenario</th><th>Cost</th><th>Mean Corr.</th><th>Mean NRMSE/std</th><th>Mean Gain</th></tr>
+      <tr><td>init</td><td>506.2716</td><td>0.9840</td><td>0.2192</td><td>1.1356</td></tr><tr><td>truth</td><td>507.0948</td><td>0.9840</td><td>0.2194</td><td>0.9412</td></tr>
+    </table>
+  </div>
+  <div class="card">
+    <h2>Plasma OES View</h2>
+    <ul><li>Initial forward mismatch is dominated by ClII_481_986 (1.06), ArII_480_602 (0.96), ClI_822_200_interference (0.96).</li><li>Truth-forward agreement is dominated by ClII_481_986 (1.06), ArII_480_602 (0.96), ClI_822_200_interference (0.97).</li><li>Truth-forward stays in the same spectral basin as init; objective change is -0.2% and mean correlation changes by 0.0000.</li><li>Broad or structured windows with residual shape/centroid mismatch remain in Cl2_band_306, indicating profile/baseline sensitivity rather than simple line-intensity error.</li></ul>
+  </div>
+  <div class="card">
+    <h2>Measurement Engineering View</h2>
+    <ul><li>Mean gain needed to align init-forward is 1.136, while truth-forward needs 0.941; the ratio 1.21 is the practical absolute-calibration mismatch indicator.</li><li>Truth-forward mean NRMSE/std is 0.2194 versus 0.2192 for init-forward.</li></ul>
+  </div>
+  <div class="card plots">
+    <h2>Forward Quality</h2>
+    <img src="plots/forward_quality.svg" alt="Forward quality plot">
+  </div>
+  <div class="card plots">
+    <h2>Forward Window Fidelity</h2>
+    <img src="plots/forward_window_fidelity.svg" alt="Forward window fidelity plot">
+  </div>
+  <div class="card plots">
+    <h2>Forward Spectral Overlays</h2>
+    <img src="plots/forward_spectra_overview.svg" alt="Forward spectral overlays">
+  </div>
+</body>
+</html>

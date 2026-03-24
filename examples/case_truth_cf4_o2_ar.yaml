@@ -1,0 +1,165 @@
+
+plasma_mode: te
+
+gas_mixture:
+  total_pressure_Pa: 5.0
+  gas_temperature_K: 400.0
+  fractions:
+    Ar: 0.15
+    CF4: 0.70
+    O2: 0.15
+
+energy_grid:
+  min_eV: 0.0
+  max_eV: 40.0
+  n_points: 700
+
+geometry:
+  mode: axisym_shell
+  chamber_radius_m: 0.15
+  chamber_height_m: 0.08
+  z_m: 0.035
+  chord_r_m: [0.00, 0.02, 0.04, 0.06, 0.08]
+  n_shells: 3
+
+plasma_state:
+  te_eedf_kind: maxwell
+  ne_shells_m3: [1.8e16, 1.4e16, 1.0e16]
+  te_shells_eV: [2.6, 2.2, 1.8]
+  metastables:
+    Ar_1s5: [7.0e14, 5.0e14, 3.0e14]
+  radicals:
+    CF: [8.0e17, 6.0e17, 4.0e17]
+    CF2: [1.3e18, 1.0e18, 7.0e17]
+    O: [9.0e18, 6.0e18, 4.0e18]
+    Cl: [0.0, 0.0, 0.0]
+    F: [1.5e19, 1.2e19, 9.0e18]
+
+residuals:
+  mode: custom
+  species_density_m3:
+    H2O: 0.0
+    N2: 0.0
+    CO: 0.0
+    CO2: 0.0
+    H2: 0.0
+
+wall:
+  priors:
+    gamma_O:
+      type: loguniform
+      min: 1.0e-5
+      max: 1.0e-1
+    gamma_Ar_meta:
+      type: loguniform
+      min: 1.0e-4
+      max: 1.0e-1
+  gamma:
+    O: 1.0e-3
+    Ar: 5.0e-3
+
+states:
+  - id: Ar_2p1
+    species: Ar
+    energy_eV: 13.48
+    mass_amu: 39.948
+    solve: true
+  - id: Ar_2p2
+    species: Ar
+    energy_eV: 13.33
+    mass_amu: 39.948
+    solve: true
+  - id: O_3p5P
+    species: O
+    energy_eV: 10.74
+    mass_amu: 15.999
+    solve: true
+
+reactions:
+  - id: exc_Ar_to_2p1
+    kind: electron_excitation
+    source_state: Ar
+    target_state: Ar_2p1
+    cross_section_file: data/cross_sections/Ar_to_2p1.csv
+  - id: exc_Ar_to_2p2
+    kind: electron_excitation
+    source_state: Ar
+    target_state: Ar_2p2
+    cross_section_file: data/cross_sections/Ar_to_2p2.csv
+  - id: step_Ar1s5_to_2p1
+    kind: electron_excitation
+    source_state: Ar_1s5
+    target_state: Ar_2p1
+    cross_section_file: data/cross_sections/Ar1s5_to_2p1.csv
+  - id: step_Ar1s5_to_2p2
+    kind: electron_excitation
+    source_state: Ar_1s5
+    target_state: Ar_2p2
+    cross_section_file: data/cross_sections/Ar1s5_to_2p2.csv
+  - id: exc_O_to_3p5P
+    kind: electron_excitation
+    source_state: O
+    target_state: O_3p5P
+    cross_section_file: data/cross_sections/O_to_3p5P.csv
+
+transitions:
+  - id: Ar750
+    upper: Ar_2p1
+    lower: Ar_1s2
+    wavelength_nm: 750.386
+    A_s-1: 4.5e7
+    profile:
+      kind: gaussian
+      fwhm_nm: 0.03
+  - id: Ar763
+    upper: Ar_2p2
+    lower: Ar_1s5
+    wavelength_nm: 763.511
+    A_s-1: 3.8e7
+    profile:
+      kind: gaussian
+      fwhm_nm: 0.03
+  - id: O777
+    upper: O_3p5P
+    lower: O_3s5S
+    wavelength_nm: 777.417
+    A_s-1: 3.2e7
+    profile:
+      kind: gaussian
+      fwhm_nm: 0.03
+
+quenching:
+  - state: Ar_2p1
+    collider: O2
+    rate_coefficient_m3_s: 1.5e-16
+  - state: Ar_2p2
+    collider: O2
+    rate_coefficient_m3_s: 1.5e-16
+  - state: O_3p5P
+    collider: O2
+    rate_coefficient_m3_s: 2.0e-16
+
+bands:
+  - id: CF_202
+    kind: effective_excitation_band
+    source_density_key: CF
+    cross_section_file: data/cross_sections/CF_eff_202.csv
+    center_nm: 202.4
+    fwhm_nm: 6.0
+    amplitude_scale: 1.0e-6
+    profile_kind: gaussian
+  - id: CF2_252
+    kind: effective_excitation_band
+    source_density_key: CF2
+    cross_section_file: data/cross_sections/CF2_eff_252.csv
+    center_nm: 251.9
+    fwhm_nm: 8.0
+    amplitude_scale: 1.0e-6
+    profile_kind: gaussian
+
+diagnostics:
+  window_registry: diagnostics/windows.yaml
+
+instruments:
+  - id: uvvis_lowres
+    yaml_file: instruments/uvvis_lowres.yaml

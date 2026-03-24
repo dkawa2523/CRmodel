@@ -1,0 +1,80 @@
+windows:
+- name: N2_SPS_300_400
+  family: NF3/Ar benchmark
+  species: N2(C-B)
+  kind: broadband_window
+  center_nm: 350.0
+  half_width_nm: 50.0
+  max_bin_nm: 1.0
+  use_area: true
+  use_peak: false
+  use_window_fit: true
+  window_fit_normalization: area
+  reference: An & Hong 2023
+- name: N2_FP_550_700
+  family: NF3/Ar benchmark
+  species: N2(B-A)
+  kind: broadband_window
+  center_nm: 625.0
+  half_width_nm: 75.0
+  max_bin_nm: 1.0
+  use_area: true
+  use_peak: false
+  use_window_fit: true
+  window_fit_normalization: area
+  reference: An & Hong 2023
+- name: FI_685_603
+  family: NF3/Ar benchmark
+  species: F I
+  kind: atomic_line
+  center_nm: 685.603
+  half_width_nm: 1.2
+  max_bin_nm: 1.0
+  use_area: true
+  use_peak: true
+  use_window_fit: true
+  reference: NIST / NF3 plasma OES
+- name: FI_703_747
+  family: NF3/Ar benchmark
+  species: F I
+  kind: atomic_line
+  center_nm: 703.747
+  half_width_nm: 1.2
+  max_bin_nm: 1.0
+  use_area: true
+  use_peak: true
+  use_window_fit: true
+  reference: An & Hong 2023
+- name: FI_712_789
+  family: NF3/Ar benchmark
+  species: F I
+  kind: atomic_line
+  center_nm: 712.789
+  half_width_nm: 1.2
+  max_bin_nm: 1.0
+  use_area: true
+  use_peak: true
+  use_window_fit: true
+  reference: An & Hong 2023
+- name: ArI_750_387
+  family: NF3/Ar benchmark
+  species: Ar I
+  kind: atomic_line
+  center_nm: 750.387
+  half_width_nm: 1.2
+  max_bin_nm: 1.0
+  use_area: true
+  use_peak: true
+  use_window_fit: true
+  reference: NIST / An & Hong 2023
+- name: ArI_811_531
+  family: NF3/Ar benchmark
+  species: Ar I
+  kind: atomic_line
+  center_nm: 811.531
+  half_width_nm: 1.2
+  max_bin_nm: 1.0
+  use_area: true
+  use_peak: true
+  use_window_fit: true
+  reference: NIST / An & Hong 2023

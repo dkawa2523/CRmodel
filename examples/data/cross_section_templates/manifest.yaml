@@ -1,0 +1,154 @@
+templates:
+  - id: Ar_ground_to_4p_2p1
+    file: ar/Ar_ground_to_4p_2p1_template.csv
+    template_class: structure_only
+    intended_window: ArI_750_387
+    source_priority:
+      - LXCat contributor export for Ar state-resolved excitation
+      - NIST ASD / handbook for level and line verification
+    notes: Populate before quantitative forward modeling.
+
+  - id: Ar_ground_to_4p_2p2
+    file: ar/Ar_ground_to_4p_2p2_template.csv
+    template_class: structure_only
+    intended_window: ArI_763_511
+    source_priority:
+      - LXCat contributor export for Ar state-resolved excitation
+      - NIST ASD / handbook for level and line verification
+
+  - id: Ar_1s5_to_4p_2p1
+    file: ar/Ar_1s5_to_4p_2p1_template.csv
+    template_class: structure_only
+    intended_window: ArI_750_387
+    source_priority:
+      - Piech et al. metastable-excitation measurements
+      - digitized literature dataset
+
+  - id: Ar_1s5_to_4p_2p2
+    file: ar/Ar_1s5_to_4p_2p2_template.csv
+    template_class: structure_only
+    intended_window: ArI_763_511
+    source_priority:
+      - Piech et al. metastable-excitation measurements
+      - digitized literature dataset
+
+  - id: FI_685p603_effective
+    file: nf3/FI_685p603_effective_template.csv
+    template_class: structure_only
+    intended_window: FI_685_603
+    source_priority:
+      - effective-emitter fit against calibrated NF3/Ar spectra
+      - dedicated F excitation dataset if available
+
+  - id: FI_703p747_effective
+    file: nf3/FI_703p747_effective_template.csv
+    template_class: structure_only
+    intended_window: FI_703_747
+    source_priority:
+      - effective-emitter fit against calibrated NF3/Ar spectra
+      - dedicated F excitation dataset if available
+
+  - id: FI_712p789_effective
+    file: nf3/FI_712p789_effective_template.csv
+    template_class: structure_only
+    intended_window: FI_712_789
+    source_priority:
+      - effective-emitter fit against calibrated NF3/Ar spectra
+      - dedicated F excitation dataset if available
+
+  - id: NF3_total_ionization
+    file: nf3/NF3_total_ionization_template.csv
+    template_class: structure_only
+    source_priority:
+      - published electron-impact ionization curve
+      - LXCat contributor export if available
+
+  - id: NF3_attachment
+    file: nf3/NF3_attachment_template.csv
+    template_class: structure_only
+    source_priority:
+      - published attachment review / swarm data
+      - LXCat contributor export if available
+
+  - id: ClI_725p662_effective
+    file: cl2/ClI_725p662_effective_template.csv
+    template_class: structure_only
+    intended_window: ClI_725_662
+    source_priority:
+      - effective-emitter fit
+      - dedicated state-resolved Cl excitation data if available
+
+  - id: ClI_754p707_effective
+    file: cl2/ClI_754p707_effective_template.csv
+    template_class: structure_only
+    intended_window: ClI_754_707
+    source_priority:
+      - effective-emitter fit
+      - dedicated state-resolved Cl excitation data if available
+
+  - id: ClI_822p2_dissociative_excitation
+    file: cl2/ClI_822p2_dissociative_excitation_template.csv
+    template_class: structure_only
+    intended_window: ClI_822_200_interference
+    source_priority:
+      - Fuller et al. interference-aware calibration
+    notes: Keep as a separate interference channel.
+
+  - id: Cl2_total_ionization
+    file: cl2/Cl2_total_ionization_template.csv
+    template_class: structure_only
+    source_priority:
+      - NIST Cl2 review suggested curve
+      - LXCat contributor export if available
+
+  - id: Cl2_attachment
+    file: cl2/Cl2_attachment_template.csv
+    template_class: structure_only
+    source_priority:
+      - NIST Cl2 review suggested curve
+      - LXCat contributor export if available
+
+  - id: Cl2_dissociation
+    file: cl2/Cl2_dissociation_template.csv
+    template_class: structure_only
+    source_priority:
+      - NIST Cl2 review suggested curve
+      - LXCat contributor export if available
+
+  - id: BCl_272_effective
+    file: bcl3/BCl_272_effective_template.csv
+    template_class: anchored_from_literature
+    intended_window: BCl_AX_272_band
+    source_priority:
+      - Tokue et al. emission-cross-section measurement
+    notes: Only the 100 eV anchor is bundled.
+
+  - id: BI_209_effective
+    file: bcl3/BI_209_effective_template.csv
+    template_class: anchored_from_literature
+    intended_window: BI_208_957
+    source_priority:
+      - Tokue et al. emission-cross-section measurement
+    notes: Only the 100 eV anchor is bundled.
+
+  - id: BI_250_effective
+    file: bcl3/BI_250_effective_template.csv
+    template_class: anchored_from_literature
+    intended_window: BI_249_724
+    source_priority:
+      - Tokue et al. emission-cross-section measurement
+    notes: Only the 100 eV anchor is bundled.
+
+  - id: BCl3_total_ionization
+    file: bcl3/BCl3_total_ionization_template.csv
+    template_class: structure_only
+    source_priority:
+      - Christophorou & Olthoff JPCRD review
+      - LXCat contributor export if available
+
+  - id: BCl3_attachment
+    file: bcl3/BCl3_attachment_template.csv
+    template_class: structure_only
+    source_priority:
+      - Christophorou & Olthoff JPCRD review
+      - LXCat contributor export if available

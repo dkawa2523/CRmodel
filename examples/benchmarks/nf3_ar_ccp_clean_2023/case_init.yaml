@@ -1,0 +1,8 @@
+include: case_truth.yaml
+
+plasma_state:
+  ne_shells_m3: [8.4e15, 6.8e15, 5.5e15]
+  te_shells_eV: [2.35, 2.05, 1.85]
+  radicals:
+    F: [6.5e18, 5.0e18, 3.8e18]
+    N2_emit: [1.3e18, 9.0e17, 6.5e17]

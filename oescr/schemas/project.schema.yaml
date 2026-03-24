@@ -1,0 +1,21 @@
+$schema: https://json-schema.org/draft/2020-12/schema
+$title: OESCR project manifest
+$type: object
+required: [kind, case]
+properties:
+  kind:
+    type: string
+    enum: [oescr_project]
+  project:
+    type: object
+    properties:
+      name: {type: string}
+    additionalProperties: false
+  case: {type: string}
+  inverse: {type: string}
+  outputs:
+    type: object
+    properties:
+      default_dir: {type: string}
+    additionalProperties: false
+additionalProperties: false

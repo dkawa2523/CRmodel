@@ -1,0 +1,37 @@
+$schema: https://json-schema.org/draft/2020-12/schema
+$title: OESCR diagnostics window registry
+$type: object
+required: [windows]
+properties:
+  kind:
+    type: string
+    enum: [oescr_window_registry]
+  windows:
+    type: array
+    minItems: 1
+    items:
+      type: object
+      required: [name, center_nm, half_width_nm]
+      properties:
+        name: {type: string}
+        family: {type: string}
+        species: {type: string}
+        kind: {type: string}
+        center_nm: {type: number}
+        half_width_nm: {type: number, exclusiveMinimum: 0}
+        max_bin_nm: {type: number, exclusiveMinimum: 0}
+        use_area: {type: boolean}
+        use_peak: {type: boolean}
+        use_window_fit: {type: boolean}
+        window_fit_weight: {type: number, minimum: 0}
+        window_fit_normalization: {type: string, enum: [none, area, peak, l2]}
+        window_fit_local_gain: {type: boolean}
+        area_weight: {type: number, minimum: 0}
+        peak_weight: {type: number, minimum: 0}
+        baseline_mode: {type: string, enum: [none, off, disabled, flat, constant, local_linear]}
+        requires_high_res: {type: boolean}
+        enabled: {type: boolean}
+        default_enabled: {type: boolean}
+        reference: {type: string}
+      additionalProperties: false
+additionalProperties: false

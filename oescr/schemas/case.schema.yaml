@@ -1,0 +1,347 @@
+$schema: https://json-schema.org/draft/2020-12/schema
+$title: OESCR case configuration
+$type: object
+required:
+  - plasma_mode
+  - gas_mixture
+  - geometry
+  - plasma_state
+  - states
+  - reactions
+  - instruments
+properties:
+  kind:
+    type: string
+    enum: [oescr_case]
+  plasma_mode:
+    type: string
+    enum: [te, eedf_bimaxwell, eedf_tabulated]
+  gas_mixture:
+    type: object
+    required: [total_pressure_Pa, gas_temperature_K, fractions]
+    properties:
+      total_pressure_Pa: {type: number}
+      gas_temperature_K: {type: number, exclusiveMinimum: 0}
+      fractions:
+        type: object
+        minProperties: 1
+        additionalProperties: {type: number, minimum: 0}
+    additionalProperties: false
+  energy_grid:
+    type: object
+    properties:
+      min_eV: {type: number, minimum: 0}
+      max_eV: {type: number, exclusiveMinimum: 0}
+      n_points: {type: integer, minimum: 8}
+    additionalProperties: false
+  geometry:
+    type: object
+    required: [mode]
+    properties:
+      mode:
+        type: string
+        enum: [chordavg, axisym_shell, asym_lowrank, user_field]
+      chamber_radius_m: {type: number, exclusiveMinimum: 0}
+      chamber_height_m: {type: number, exclusiveMinimum: 0}
+      z_m: {type: number}
+      chord_r_m:
+        type: array
+        items: {type: number, minimum: 0}
+      chord_angles_rad:
+        type: array
+        items: {type: number}
+      mode1_amplitude:
+        type: array
+        items: {type: number}
+      n_shells: {type: integer, minimum: 1}
+      weights_file: {type: string}
+      weights_matrix:
+        type: array
+        items:
+          type: array
+          items: {type: number}
+    additionalProperties: false
+  plasma_state:
+    type: object
+    properties:
+      te_eedf_kind:
+        type: string
+        enum: [maxwell, druyvesteyn, bi_maxwell]
+      ne_shells_m3:
+        type: array
+        items: {type: number, minimum: 0}
+      te_shells_eV:
+        type: array
+        items: {type: number, exclusiveMinimum: 0}
+      te_bimaxwell_shells:
+        type: array
+        items:
+          type: object
+          required: [Tc_eV, Th_eV, hot_fraction]
+          properties:
+            Tc_eV: {type: number, exclusiveMinimum: 0}
+            Th_eV: {type: number, exclusiveMinimum: 0}
+            hot_fraction: {type: number, minimum: 0, maximum: 1}
+          additionalProperties: false
+      eedf_bimaxwell_shells:
+        type: array
+        items:
+          type: object
+          required: [Tc_eV, Th_eV, hot_fraction]
+          properties:
+            Tc_eV: {type: number, exclusiveMinimum: 0}
+            Th_eV: {type: number, exclusiveMinimum: 0}
+            hot_fraction: {type: number, minimum: 0, maximum: 1}
+          additionalProperties: false
+      eedf_tabulated_shells:
+        type: array
+        items:
+          type: object
+          required: [energy_eV, fE]
+          properties:
+            energy_eV:
+              type: array
+              items: {type: number, minimum: 0}
+              minItems: 2
+            fE:
+              type: array
+              items: {type: number, minimum: 0}
+              minItems: 2
+          additionalProperties: false
+      metastables:
+        type: object
+        additionalProperties:
+          type: array
+          items: {type: number, minimum: 0}
+      radicals:
+        type: object
+        additionalProperties:
+          type: array
+          items: {type: number, minimum: 0}
+    additionalProperties: false
+  residuals:
+    type: object
+    properties:
+      mode: {type: string, enum: [off, custom, typical_high_vacuum]}
+      species_density_m3:
+        type: object
+        additionalProperties: {type: number, minimum: 0}
+    additionalProperties: false
+  wall:
+    type: object
+    properties:
+      model: {type: string, enum: [none, gamma_thermal]}
+      characteristic_length_m: {type: number, exclusiveMinimum: 0}
+      gamma_default: {type: number, minimum: 0, maximum: 1}
+      gamma:
+        type: object
+        additionalProperties: {type: number, minimum: 0, maximum: 1}
+      priors:
+        type: object
+        additionalProperties:
+          type: object
+          required: [type, min, max]
+          properties:
+            type: {type: string}
+            min: {type: number, exclusiveMinimum: 0}
+            max: {type: number, exclusiveMinimum: 0}
+          additionalProperties: true
+    additionalProperties: false
+  states:
+    type: array
+    minItems: 1
+    items:
+      type: object
+      required: [id, energy_eV]
+      properties:
+        id: {type: string, minLength: 1}
+        species: {type: string}
+        energy_eV: {type: number}
+        solve: {type: boolean}
+        mass_amu: {type: number, exclusiveMinimum: 0}
+        degeneracy: {type: number, exclusiveMinimum: 0}
+      additionalProperties: false
+  reactions:
+    type: array
+    minItems: 1
+    items:
+      type: object
+      required: [id, kind, source_state, target_state]
+      properties:
+        id: {type: string, minLength: 1}
+        kind: {type: string}
+        source_state: {type: string}
+        target_state: {type: string}
+        colliders:
+          type: array
+          items: {type: string}
+        cross_section_file: {type: string}
+        coefficient_m3_s: {type: number, minimum: 0}
+        threshold_model:
+          type: object
+          required: [threshold_eV, sigma_peak_m2, epeak_eV]
+          properties:
+            threshold_eV: {type: number, minimum: 0}
+            sigma_peak_m2: {type: number, minimum: 0}
+            epeak_eV: {type: number, minimum: 0}
+          additionalProperties: false
+      additionalProperties: false
+  transitions:
+    type: array
+    items:
+      type: object
+      required: [upper, lower, wavelength_nm, A_s-1]
+      properties:
+        id: {type: string}
+        upper: {type: string}
+        lower: {type: string}
+        wavelength_nm: {type: number}
+        A_s-1: {type: number, minimum: 0}
+        profile:
+          type: object
+          properties:
+            kind: {type: string, enum: [gaussian]}
+            fwhm_nm: {type: number, exclusiveMinimum: 0}
+          additionalProperties: false
+        trapping:
+          type: object
+          properties:
+            kind: {type: string, enum: [none, beta_override, escape_factor]}
+            model: {type: string, enum: [slab, cylinder]}
+            shape: {type: string, enum: [slab, cylinder]}
+            tau0: {type: number, minimum: 0}
+            beta_override: {type: number, minimum: 0}
+          additionalProperties: false
+      additionalProperties: false
+  quenching:
+    type: array
+    items:
+      type: object
+      required: [state, collider, rate_coefficient_m3_s]
+      properties:
+        state: {type: string}
+        collider: {type: string}
+        rate_coefficient_m3_s: {type: number, minimum: 0}
+      additionalProperties: false
+  losses:
+    type: array
+    items:
+      type: object
+      required: [state, rate_coefficient_s-1]
+      properties:
+        state: {type: string}
+        rate_coefficient_s-1: {type: number, minimum: 0}
+      additionalProperties: false
+  bands:
+    type: array
+    items:
+      type: object
+      required: [id, kind, source_density_key]
+      properties:
+        id: {type: string}
+        kind: {type: string, enum: [effective_excitation_band, effective_density_band]}
+        source_density_key: {type: string}
+        cross_section_file: {type: string}
+        coefficient_m3_s: {type: number, minimum: 0}
+        coefficient: {type: number, minimum: 0}
+        amplitude_scale: {type: number, minimum: 0}
+        center_nm: {type: number}
+        fwhm_nm: {type: number, exclusiveMinimum: 0}
+        profile_kind: {type: string, enum: [gaussian, tabulated]}
+        profile_file: {type: string}
+      additionalProperties: false
+  diagnostics:
+    type: object
+    properties:
+      window_registry: {type: [string, 'null']}
+      window_names:
+        type: array
+        items: {type: string}
+      window_families:
+        type: array
+        items: {type: string}
+      exclude_window_names:
+        type: array
+        items: {type: string}
+      include_disabled_windows: {type: boolean}
+    additionalProperties: false
+  benchmark_anchor:
+    type: object
+    additionalProperties: true
+  metadata:
+    type: object
+    additionalProperties: true
+  instruments:
+    type: array
+    minItems: 1
+    items:
+      oneOf:
+        - type: object
+          required: [id, yaml_file]
+          properties:
+            id: {type: string}
+            yaml_file: {type: string}
+          additionalProperties: false
+        - type: object
+          properties:
+            kind:
+              type: string
+              enum: [oescr_instrument]
+            id: {type: string}
+            wavelength_grid_nm:
+              type: array
+              items: {type: number}
+              minItems: 2
+            wavelength_min_nm: {type: number}
+            wavelength_max_nm: {type: number}
+            bin_nm: {type: number, exclusiveMinimum: 0}
+            throughput:
+              oneOf:
+                - type: number
+                  minimum: 0
+                - type: object
+                  properties:
+                    kind: {type: string, enum: [constant, tabulated]}
+                    value: {type: number, minimum: 0}
+                    wavelength_nm:
+                      type: array
+                      items: {type: number}
+                      minItems: 2
+                    value_array:
+                      type: array
+                      items: {type: number, minimum: 0}
+                      minItems: 2
+                    value:
+                      type: array
+                      items: {type: number, minimum: 0}
+                      minItems: 2
+                  additionalProperties: true
+            lsf:
+              type: object
+              properties:
+                kind: {type: string, enum: [gaussian, voigt]}
+                fwhm_nm: {type: number, exclusiveMinimum: 0}
+                fwhm_g_nm: {type: number, exclusiveMinimum: 0}
+                fwhm_l_nm: {type: number, exclusiveMinimum: 0}
+              additionalProperties: false
+            baseline:
+              type: object
+              properties:
+                kind: {type: string, enum: [constant, polynomial]}
+                offset: {type: number}
+                coefficients:
+                  type: array
+                  items: {type: number}
+                  minItems: 1
+              additionalProperties: false
+            nuisance:
+              type: object
+              properties:
+                gain: {type: number, exclusiveMinimum: 0}
+                wavelength_shift_nm: {type: number}
+              additionalProperties: false
+          additionalProperties: false
+          anyOf:
+            - required: [wavelength_grid_nm]
+            - required: [wavelength_min_nm, wavelength_max_nm, bin_nm]
+additionalProperties: false

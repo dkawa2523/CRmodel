@@ -1,0 +1,7 @@
+kind: oescr_project
+project:
+  name: nf3_ar_ccp_clean_2023
+case: case_init.yaml
+inverse: inverse.yaml
+outputs:
+  default_dir: runs/default

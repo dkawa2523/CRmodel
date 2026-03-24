@@ -1,0 +1,26 @@
+id: cl2_benchmark_scan
+wavelength_min_nm: 270.0
+wavelength_max_nm: 885.0
+bin_nm: 0.2
+throughput:
+  wavelength_nm:
+  - 270.0
+  - 306.0
+  - 480.0
+  - 750.0
+  - 885.0
+  value:
+  - 0.5
+  - 0.7
+  - 0.95
+  - 1.0
+  - 0.88
+lsf:
+  kind: gaussian
+  fwhm_nm: 0.18
+baseline:
+  kind: constant
+  offset: 0.0
+nuisance:
+  gain: 1.0
+  wavelength_shift_nm: 0.0

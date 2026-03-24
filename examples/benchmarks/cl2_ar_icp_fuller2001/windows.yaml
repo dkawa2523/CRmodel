@@ -1,0 +1,68 @@
+windows:
+- name: Cl2_band_306
+  family: Cl2/Ar benchmark
+  species: Cl2*
+  kind: molecular_band
+  center_nm: 306.0
+  half_width_nm: 10.0
+  max_bin_nm: 0.5
+  use_area: true
+  use_peak: false
+  use_window_fit: true
+  window_fit_normalization: area
+  reference: Fuller et al. 2001
+- name: ArII_480_602
+  family: Cl2/Ar benchmark
+  species: Ar II
+  kind: ionic_line
+  center_nm: 480.602
+  half_width_nm: 0.8
+  max_bin_nm: 0.25
+  use_area: true
+  use_peak: true
+  use_window_fit: true
+  reference: Fuller et al. 2001
+- name: ClII_481_986
+  family: Cl2/Ar benchmark
+  species: Cl II
+  kind: ionic_line
+  center_nm: 481.986
+  half_width_nm: 0.8
+  max_bin_nm: 0.25
+  use_area: true
+  use_peak: true
+  use_window_fit: true
+  reference: Fuller et al. 2001
+- name: ArI_750_387
+  family: Cl2/Ar benchmark
+  species: Ar I
+  kind: atomic_line
+  center_nm: 750.387
+  half_width_nm: 1.0
+  max_bin_nm: 0.5
+  use_area: true
+  use_peak: true
+  use_window_fit: true
+  reference: NIST
+- name: ClI_822_200_interference
+  family: Cl2/Ar benchmark
+  species: Cl I + Cl2 dissociative excitation
+  kind: atomic_line_with_interference
+  center_nm: 822.2
+  half_width_nm: 1.2
+  max_bin_nm: 0.5
+  use_area: true
+  use_peak: true
+  use_window_fit: true
+  reference: Fuller et al. 2001
+- name: XeI_828_012
+  family: Cl2/Ar benchmark
+  species: Xe I
+  kind: actinometer_line
+  center_nm: 828.012
+  half_width_nm: 1.0
+  max_bin_nm: 0.5
+  use_area: true
+  use_peak: true
+  use_window_fit: true
+  reference: Fuller et al. 2001

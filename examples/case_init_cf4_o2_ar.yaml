@@ -1,0 +1,12 @@
+include: case_truth_cf4_o2_ar.yaml
+
+plasma_state:
+  ne_shells_m3: [1.1e16, 1.0e16, 0.9e16]
+  te_shells_eV: [2.1, 2.0, 1.7]
+  metastables:
+    Ar_1s5: [5.0e14, 4.0e14, 2.5e14]
+  radicals:
+    CF: [6.0e17, 5.0e17, 4.0e17]
+    CF2: [1.0e18, 8.0e17, 6.0e17]
+    O: [7.0e18, 5.0e18, 3.0e18]
+    F: [1.2e19, 1.0e19, 8.0e18]

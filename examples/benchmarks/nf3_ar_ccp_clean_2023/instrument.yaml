@@ -1,0 +1,26 @@
+id: nf3_benchmark_uvvis
+wavelength_min_nm: 300.0
+wavelength_max_nm: 820.0
+bin_nm: 0.5
+throughput:
+  wavelength_nm:
+  - 300.0
+  - 360.0
+  - 500.0
+  - 700.0
+  - 820.0
+  value:
+  - 0.55
+  - 0.8
+  - 1.0
+  - 0.92
+  - 0.76
+lsf:
+  kind: gaussian
+  fwhm_nm: 0.8
+baseline:
+  kind: constant
+  offset: 0.0
+nuisance:
+  gain: 1.0
+  wavelength_shift_nm: 0.0

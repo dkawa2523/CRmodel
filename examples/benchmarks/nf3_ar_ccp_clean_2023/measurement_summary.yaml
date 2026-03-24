@@ -1,0 +1,23 @@
+benchmark_id: nf3_ar_ccp_clean_2023
+instrument_summaries:
+  nf3_benchmark_uvvis:
+    chord_0:
+      max_truth: 1.2001533568804867e+17
+      max_measurement: 1.2803031761475781e+17
+      mean_measurement: 1805648877413386.0
+    chord_1:
+      max_truth: 1.130576847985982e+17
+      max_measurement: 1.2276471611049933e+17
+      mean_measurement: 1771786437358297.2
+    chord_2:
+      max_truth: 8.722673308544467e+16
+      max_measurement: 8.475572504747333e+16
+      mean_measurement: 1297270747825149.2
+    chord_3:
+      max_truth: 3.843113977953745e+16
+      max_measurement: 4.040889218399417e+16
+      mean_measurement: 585631096469090.0
+    chord_4:
+      max_truth: 3.0507416775741224e+16
+      max_measurement: 3.203310686624881e+16
+      mean_measurement: 466174673729308.0

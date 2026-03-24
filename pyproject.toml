@@ -1,0 +1,24 @@
+
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "oescr"
+version = "0.1.0"
+description = "Research scaffold for low-pressure semiconductor OESCR forward and inverse modeling"
+requires-python = ">=3.10"
+dependencies = [
+  "numpy>=1.24",
+  "scipy>=1.10",
+  "PyYAML>=6.0",
+  "jsonschema>=4.0"
+]
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["oescr*"]
+
+
+[tool.setuptools.package-data]
+"oescr.schemas" = ["*.yaml"]

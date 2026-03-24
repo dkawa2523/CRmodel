@@ -1,0 +1,102 @@
+measurements:
+  - instrument_id: nf3_benchmark_uvvis
+    files_glob: measurements/chord_*.csv
+
+fit:
+  objective:
+    spectrum_weight: 1.0
+    window_fit_weight: 0.35
+    window_fit_normalization: area
+    window_baseline_mode: local_linear
+    area_weight: 0.6
+    peak_weight: 0.08
+    auto_gain_fit: true
+    auto_offset_fit: true
+    auto_gain_scope: instrument
+    gain_prior_weight: 0.12
+    gain_prior_sigma_log10: 0.2
+    window_ratio_weight: 0.0
+    window_ratio_metric: peak
+    window_ratio_reference: FI_703_747
+    window_ratio_min_relative_signal: 0.05
+    window_ratio_pairs:
+      - name: F704_over_Ar811
+        numerator: FI_703_747
+        denominator: ArI_811_531
+        metric: peak
+        min_relative_signal: 0.05
+        weight: 0.18
+      - name: F713_over_F704
+        numerator: FI_712_789
+        denominator: FI_703_747
+        metric: peak
+        min_relative_signal: 0.05
+        weight: 0.08
+      - name: N2FP_over_F704
+        numerator: N2_FP_550_700
+        denominator: FI_703_747
+        metric: area
+        min_relative_signal: 0.05
+        weight: 0.10
+  global:
+    enabled: true
+    maxiter: 6
+    popsize: 6
+    seed: 3
+  local:
+    enabled: true
+    max_nfev: 80
+  uncertainty:
+    laplace: true
+  regularization:
+    smooth_arrays:
+      - path: plasma_state.ne_shells_m3
+        order: 2
+        weight: 0.05
+      - path: plasma_state.te_shells_eV
+        order: 2
+        weight: 0.05
+
+parameter_groups:
+  - template: shell_array
+    name_prefix: ne
+    path: plasma_state.ne_shells_m3
+    scale: log
+    bounds: [4.0e15, 3.0e16]
+  - template: shell_array
+    name_prefix: te
+    path: plasma_state.te_shells_eV
+    scale: linear
+    bounds: [1.2, 4.5]
+  - template: shell_array
+    name_prefix: F
+    path: plasma_state.radicals.F
+    scale: log
+    bounds: [1.0e18, 2.0e19]
+  - template: shell_array
+    name_prefix: N2e
+    path: plasma_state.radicals.N2_emit
+    scale: log
+    bounds: [1.0e17, 5.0e18]
+
+priors:
+  - type: log_gaussian
+    path: plasma_state.metastables.Ar_1s5[0]
+    mean_log10: 14.4
+    sigma_log10: 0.6
+  - type: log_gaussian
+    path: plasma_state.ne_shells_m3
+    mean_log10: [15.924279286061882, 15.832508912706237, 15.740362689494244]
+    sigma_log10: 0.18
+  - type: gaussian
+    path: plasma_state.te_shells_eV
+    mean: [2.35, 2.05, 1.85]
+    sigma: 0.45
+  - type: log_gaussian
+    path: plasma_state.radicals.F
+    mean_log10: [18.812913356642856, 18.69897000433602, 18.57978359661681]
+    sigma_log10: 0.18
+  - type: log_gaussian
+    path: plasma_state.radicals.N2_emit
+    mean_log10: [18.113943352306837, 17.954242509439325, 17.812913356642856]
+    sigma_log10: 0.2

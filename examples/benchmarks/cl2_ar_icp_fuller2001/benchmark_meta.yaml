@@ -1,0 +1,35 @@
+benchmark_id: cl2_ar_icp_fuller2001
+title: Cl2/Ar ICP actinometry benchmark (literature-anchored, measurement-like)
+benchmark_kind: literature_anchored_measurement_like
+source:
+  citation: Fuller, N.C.M.; Herman, I.P.; Donnelly, V.M., Optical actinometry of Cl2,
+    Cl, Cl+, and Ar+ densities in inductively coupled Cl2-Ar plasmas, J. Appl. Phys.
+    90, 3182-3191 (2001).
+  doi: 10.1063/1.1391222
+physical_anchor:
+  reactor: 13.56 MHz ICP, 6-inch stainless cube with quartz viewports
+  rf_power_W: 600
+  pressure_mTorr: 18.0
+  gas_flows_sccm:
+    Cl2: 8.0
+    Ar: 28.4
+    trace_rare_gas_equimix: 1.2
+  ar_fraction_percent: 78
+  optical_setup: 0.64 m monochromator, 0.175 nm bandpass, corrected for monochromator/PMT
+    response
+  notes: The published measurement was line-integrated from one viewed region; this
+    benchmark spatializes it into 5 synthetic chords.
+expected_features:
+- Broad Cl2 molecular emission band centered near 306 nm.
+- Separated ionic lines near 480.7 nm (Ar+) and 482.0 nm (Cl+).
+- Neutral Cl emission near 822.2 nm with an interference contribution from dissociative
+  excitation of Cl2.
+- A weak Xe actinometer line near 828.0 nm.
+measurement_model:
+  global_wavelength_shift_nm: -0.03
+  global_gain: 0.97
+  baseline_offset_fraction_of_max: 0.004
+  baseline_slope_fraction_of_max: 0.006
+  relative_noise_sigma: 0.012
+  additive_noise_fraction_of_max: 0.0015
+  seed: 200110

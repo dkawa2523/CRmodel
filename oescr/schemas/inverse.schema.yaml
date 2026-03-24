@@ -1,0 +1,180 @@
+$schema: https://json-schema.org/draft/2020-12/schema
+$title: OESCR inverse configuration
+$type: object
+properties:
+  kind:
+    type: string
+    enum: [oescr_inverse]
+  measurements:
+    type: array
+    minItems: 1
+    items:
+      type: object
+      required: [instrument_id]
+      properties:
+        instrument_id: {type: string}
+        file: {type: string}
+        files:
+          type: array
+          items: {type: string}
+          minItems: 1
+        files_glob: {type: string}
+      additionalProperties: false
+      anyOf:
+        - required: [file]
+        - required: [files]
+        - required: [files_glob]
+  fit:
+    type: object
+    properties:
+      objective:
+        type: object
+        properties:
+          spectrum_weight: {type: number, minimum: 0}
+          window_fit_weight: {type: number, minimum: 0}
+          window_fit_normalization: {type: string, enum: [none, area, peak, l2]}
+          window_baseline_mode: {type: string, enum: [none, off, disabled, flat, constant, local_linear]}
+          area_weight: {type: number, minimum: 0}
+          peak_weight: {type: number, minimum: 0}
+          auto_gain_fit: {type: boolean}
+          auto_offset_fit: {type: boolean}
+          auto_gain_scope: {type: string, enum: [chord, instrument]}
+          window_fit_local_gain: {type: boolean}
+          gain_prior_weight: {type: number, minimum: 0}
+          gain_prior_target: {type: number, exclusiveMinimum: 0}
+          gain_prior_sigma_log10: {type: number, exclusiveMinimum: 0}
+          window_ratio_weight: {type: number, minimum: 0}
+          window_ratio_metric: {type: string, enum: [area, peak]}
+          window_ratio_reference: {type: string}
+          window_ratio_min_relative_signal: {type: number, minimum: 0}
+          window_ratio_pairs:
+            type: array
+            items:
+              type: object
+              required: [numerator, denominator]
+              properties:
+                name: {type: string}
+                numerator: {type: string}
+                denominator: {type: string}
+                metric: {type: string, enum: [area, peak]}
+                min_relative_signal: {type: number, minimum: 0}
+                weight: {type: number, minimum: 0}
+              additionalProperties: false
+        additionalProperties: false
+      global:
+        type: object
+        properties:
+          enabled: {type: boolean}
+          maxiter: {type: integer, minimum: 0}
+          popsize: {type: integer, minimum: 1}
+          seed: {type: integer}
+          tol: {type: number, minimum: 0}
+        additionalProperties: false
+      local:
+        type: object
+        properties:
+          enabled: {type: boolean}
+          max_nfev: {type: integer, minimum: 1}
+        additionalProperties: false
+      uncertainty:
+        type: object
+        properties:
+          laplace: {type: boolean}
+        additionalProperties: false
+      regularization:
+        type: object
+        properties:
+          smooth_arrays:
+            type: array
+            items:
+              type: object
+              required: [weight]
+              properties:
+                path: {type: string}
+                name: {type: string}
+                order: {type: integer, enum: [1, 2]}
+                weight: {type: number, minimum: 0}
+              additionalProperties: false
+        additionalProperties: false
+    additionalProperties: false
+  parameters:
+    type: array
+    items:
+      type: object
+      required: [name, path, bounds]
+      properties:
+        name: {type: string}
+        path: {type: string}
+        scale: {type: string, enum: [linear, log]}
+        bounds:
+          type: array
+          minItems: 2
+          maxItems: 2
+          items: {type: number}
+      additionalProperties: false
+  parameter_groups:
+    type: array
+    items:
+      type: object
+      required: [template, path, bounds]
+      properties:
+        template: {type: string, enum: [shell_array, array, radial_array]}
+        name_prefix: {type: string}
+        path: {type: string}
+        scale: {type: string, enum: [linear, log]}
+        bounds:
+          type: array
+          minItems: 2
+          maxItems: 2
+          items: {type: number}
+        indices:
+          oneOf:
+            - type: string
+              enum: [all, '*']
+            - type: array
+              items: {type: integer, minimum: 0}
+        suffix_format: {type: string}
+      additionalProperties: false
+  priors:
+    type: array
+    items:
+      type: object
+      required: [type, path]
+      properties:
+        type: {type: string, enum: [gaussian, log_gaussian]}
+        path: {type: string}
+        mean:
+          oneOf:
+            - type: number
+            - type: array
+              minItems: 1
+              items: {type: number}
+        sigma:
+          oneOf:
+            - type: number
+              exclusiveMinimum: 0
+            - type: array
+              minItems: 1
+              items:
+                type: number
+                exclusiveMinimum: 0
+        mean_log10:
+          oneOf:
+            - type: number
+            - type: array
+              minItems: 1
+              items: {type: number}
+        sigma_log10:
+          oneOf:
+            - type: number
+              exclusiveMinimum: 0
+            - type: array
+              minItems: 1
+              items:
+                type: number
+                exclusiveMinimum: 0
+      additionalProperties: false
+additionalProperties: false
+anyOf:
+  - required: [measurements, parameters]
+  - required: [measurements, parameter_groups]

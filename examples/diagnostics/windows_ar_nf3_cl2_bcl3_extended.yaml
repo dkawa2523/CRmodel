@@ -1,0 +1,104 @@
+windows:
+  - name: ArI_800_616_edge
+    family: Ar
+    species: Ar I
+    kind: atomic_line
+    center_nm: 800.616
+    half_width_nm: 1.0
+    max_bin_nm: 1.0
+    use_area: true
+    use_peak: true
+    default_enabled: false
+    notes: Strong Ar line, but disabled by default because instruments ending at 800 nm often clip this window.
+    reference: NIST Handbook of Basic Atomic Spectroscopic Data
+
+  - name: ArI_811_531
+    family: Ar
+    species: Ar I
+    kind: atomic_line
+    center_nm: 811.531
+    half_width_nm: 1.0
+    max_bin_nm: 1.0
+    use_area: true
+    use_peak: true
+    default_enabled: false
+    notes: One of the brightest Ar lines; disabled by default because many UV-VIS instruments stop near 800 nm.
+    reference: NIST Handbook of Basic Atomic Spectroscopic Data
+
+  - name: NF3_N2_SPS_300_400
+    family: NF3/Ar
+    species: N2(C-B)
+    kind: broadband_window
+    center_nm: 350.0
+    half_width_nm: 50.0
+    max_bin_nm: 2.0
+    use_area: true
+    use_peak: false
+    default_enabled: false
+    notes: NF3 plasmas can show N2 second positive bands in the 300–400 nm region. Keep disabled unless the reactor chemistry actually produces N2-rich spectra.
+    reference: NF3 plasma with O2 additive OES study
+
+  - name: NF3_N2_first_positive_550_700
+    family: NF3/Ar
+    species: N2(B-A)
+    kind: broadband_window
+    center_nm: 625.0
+    half_width_nm: 75.0
+    max_bin_nm: 2.0
+    use_area: true
+    use_peak: false
+    default_enabled: false
+    notes: NF3 plasmas can show N2 first positive bands in the 550–700 nm region. Use for broadband diagnostics, not narrow-line fitting.
+    reference: NF3 plasma with O2 additive OES study
+
+  - name: ClI_822_200_interference
+    family: Cl2/Ar
+    species: Cl I (and Cl2 dissociative excitation contribution)
+    kind: atomic_line_with_interference
+    center_nm: 822.2
+    half_width_nm: 1.5
+    max_bin_nm: 1.0
+    use_area: true
+    use_peak: true
+    default_enabled: false
+    notes: Fuller et al. showed that the 822.2 nm feature contains a dissociative-excitation contribution from Cl2 to Cl(4p 2D^o); do not treat it as a pure atomic-Cl proxy without the interference term.
+    reference: Cl2/Ar optical actinometry paper
+
+  - name: BCl2plus_280_350
+    family: BCl3/Ar
+    species: BCl2+
+    kind: broadband_window
+    center_nm: 315.0
+    half_width_nm: 35.0
+    max_bin_nm: 2.0
+    use_area: true
+    use_peak: false
+    default_enabled: false
+    notes: Weak vibronically resolved BCl2+ emission was reported between 280 and 350 nm in BCl3 fluorescence spectroscopy.
+    reference: BCl3 fluorescence spectroscopy
+
+  - name: BCl2_broad_250_500
+    family: BCl3/Ar
+    species: BCl2
+    kind: broadband_window
+    center_nm: 375.0
+    half_width_nm: 125.0
+    max_bin_nm: 5.0
+    use_area: true
+    use_peak: false
+    default_enabled: false
+    notes: Exploratory broad window for one family of BCl2 emissions reported between 250 and 500 nm. Use only after background subtraction and weighting control.
+    reference: BCl3 fluorescence spectroscopy
+
+  - name: BCl2_broad_400_650
+    family: BCl3/Ar
+    species: BCl2
+    kind: broadband_window
+    center_nm: 525.0
+    half_width_nm: 125.0
+    max_bin_nm: 5.0
+    use_area: true
+    use_peak: false
+    default_enabled: false
+    notes: Exploratory broad window for another BCl2 emission family reported between 400 and 650 nm.
+    reference: BCl3 fluorescence spectroscopy

@@ -1,0 +1,390 @@
+benchmark_id: cl2_ar_icp_fuller2001
+title: Cl2/Ar ICP actinometry benchmark (literature-anchored, measurement-like)
+source_citation: Fuller, N.C.M.; Herman, I.P.; Donnelly, V.M., Optical actinometry
+  of Cl2, Cl, Cl+, and Ar+ densities in inductively coupled Cl2-Ar plasmas, J. Appl.
+  Phys. 90, 3182-3191 (2001).
+scenario_summary:
+- scenario: init
+  cost: 507.4403144664789
+  mean_correlation: 0.9840112574681992
+  mean_nrmse_std: 0.21948895885882846
+  mean_nrmse_range: 0.007107204290845913
+  mean_gain: 1.1358084154182253
+- scenario: opt
+  cost: 507.360742399737
+  mean_correlation: 0.9840112583243853
+  mean_nrmse_std: 0.21948900217627126
+  mean_nrmse_range: 0.007107205703656872
+  mean_gain: 1.135808460336333
+- scenario: truth
+  cost: 509.8124558671544
+  mean_correlation: 0.9840247917571743
+  mean_nrmse_std: 0.22018485788516054
+  mean_nrmse_range: 0.007129804029548365
+  mean_gain: 0.9374935718359936
+instrument_summary:
+- instrument_id: cl2_benchmark_scan
+  wavelength_min_nm: 270.0
+  wavelength_max_nm: 884.999999999965
+  bin_nm: 0.1999999999999886
+  selected_window_count: 6
+  selected_windows:
+  - Cl2_band_306
+  - ArII_480_602
+  - ClII_481_986
+  - ArI_750_387
+  - ClI_822_200_interference
+  - XeI_828_012
+  gain_mean: 1.135808460336333
+  gain_min: 1.135808460336333
+  gain_max: 1.135808460336333
+  offset_abs_max: 4.698207946552001e-16
+parameter_recovery:
+- group: ne
+  path: plasma_state.ne_shells_m3
+  scale: log
+  trend: monotonic decrease from core to edge
+  init_values:
+  - 1.75e+16
+  - 1.45e+16
+  - 1.05e+16
+  opt_values:
+  - 1.7802674970546728e+16
+  - 1.4292510531325646e+16
+  - 1.0771103589948324e+16
+  truth_values:
+  - 2.2e+16
+  - 1.75e+16
+  - 1.2e+16
+  init_mean_abs_rel_error: 0.166991341991342
+  opt_mean_abs_rel_error: 0.15882688266847847
+  improvement_fraction: 0.04889151273056318
+  mean_relative_uncertainty: 0.9495589525226068
+- group: te
+  path: plasma_state.te_shells_eV
+  scale: linear
+  trend: monotonic decrease from core to edge
+  init_values:
+  - 3.75
+  - 3.2
+  - 2.75
+  opt_values:
+  - 3.725543465099189
+  - 3.2304347989876825
+  - 2.736413036166221
+  truth_values:
+  - 4.1
+  - 3.55
+  - 3.0
+  init_mean_abs_rel_error: 0.08909691209588146
+  opt_mean_abs_rel_error: 0.08973718331039958
+  improvement_fraction: -0.007186233500764839
+  mean_relative_uncertainty: 0.06729338384449594
+- group: Cl
+  path: plasma_state.radicals.Cl
+  scale: log
+  trend: monotonic decrease from core to edge
+  init_values:
+  - 1.4e+19
+  - 1.1e+19
+  - 7.8e+18
+  opt_values:
+  - 1.4000499531865379e+19
+  - 1.0999676755106714e+19
+  - 7.80004885155045e+18
+  truth_values:
+  - 1.8e+19
+  - 1.4e+19
+  - 9.0e+18
+  init_mean_abs_rel_error: 0.18994708994708995
+  opt_mean_abs_rel_error: 0.18994372634729004
+  improvement_fraction: 1.7708088083093805e-05
+  mean_relative_uncertainty: 0.219766079577573
+- group: Cl2e
+  path: plasma_state.radicals.Cl2_emit
+  scale: log
+  trend: monotonic decrease from core to edge
+  init_values:
+  - 7.5e+18
+  - 5.8e+18
+  - 4.2e+18
+  opt_values:
+  - 7.499460549741851e+18
+  - 5.799784695143952e+18
+  - 4.2000979722391987e+18
+  truth_values:
+  - 9.0e+18
+  - 7.0e+18
+  - 4.5e+18
+  init_mean_abs_rel_error: 0.1349206349206349
+  opt_mean_abs_rel_error: 0.13494360996911478
+  improvement_fraction: -0.00017028565343901736
+  mean_relative_uncertainty: 0.17357041969477263
+window_fidelity:
+- window_name: ClII_481_986
+  kind: ionic_line
+  family: Cl2/Ar benchmark
+  mean_area_ratio: 1.0559320491514845
+  mean_peak_ratio: 1.0554785616326865
+  mean_abs_peak_shift_nm: 0.0
+  mean_abs_measurement_area: 2132830232423747.5
+- window_name: ArII_480_602
+  kind: ionic_line
+  family: Cl2/Ar benchmark
+  mean_area_ratio: 0.9627572488158957
+  mean_peak_ratio: 1.0250663955286647
+  mean_abs_peak_shift_nm: 0.0
+  mean_abs_measurement_area: 1755038240328948.2
+- window_name: ClI_822_200_interference
+  kind: atomic_line_with_interference
+  family: Cl2/Ar benchmark
+  mean_area_ratio: 0.9589777166751927
+  mean_peak_ratio: 0.9919868272542919
+  mean_abs_peak_shift_nm: 0.0
+  mean_abs_measurement_area: 298080760065970.2
+- window_name: XeI_828_012
+  kind: actinometer_line
+  family: Cl2/Ar benchmark
+  mean_area_ratio: 1.1819015351890778
+  mean_peak_ratio: 1.2134576529601824
+  mean_abs_peak_shift_nm: 0.0
+  mean_abs_measurement_area: 211387127459395.6
+- window_name: Cl2_band_306
+  kind: molecular_band
+  family: Cl2/Ar benchmark
+  mean_area_ratio: 1.1630580437736646
+  mean_peak_ratio: 0.399133731883997
+  mean_abs_peak_shift_nm: 2.5200000000000045
+  mean_abs_measurement_area: 95452171815770.28
+- window_name: ArI_750_387
+  kind: atomic_line
+  family: Cl2/Ar benchmark
+  mean_area_ratio: 4.773115659291602e-13
+  mean_peak_ratio: 5.446702492707447e-13
+  mean_abs_peak_shift_nm: 0.43999999999998635
+  mean_abs_measurement_area: 9702443254534.793
+forward_window_fidelity:
+- scenario: init
+  window_name: ArII_480_602
+  kind: ionic_line
+  family: Cl2/Ar benchmark
+  mean_area_ratio: 0.9627572107414929
+  mean_peak_ratio: 1.0250663549901045
+  mean_abs_peak_shift_nm: 0.0
+  mean_abs_measurement_area: 1755038240328948.2
+- scenario: truth
+  window_name: ArII_480_602
+  kind: ionic_line
+  family: Cl2/Ar benchmark
+  mean_area_ratio: 0.9540170523256737
+  mean_peak_ratio: 1.0159253104942185
+  mean_abs_peak_shift_nm: 0.0
+  mean_abs_measurement_area: 1755038240328948.2
+- scenario: init
+  window_name: ArI_750_387
+  kind: atomic_line
+  family: Cl2/Ar benchmark
+  mean_area_ratio: 4.743948027327354e-13
+  mean_peak_ratio: 5.369862061243594e-13
+  mean_abs_peak_shift_nm: 0.43999999999998635
+  mean_abs_measurement_area: 9702443254534.793
+- scenario: truth
+  window_name: ArI_750_387
+  kind: atomic_line
+  family: Cl2/Ar benchmark
+  mean_area_ratio: 7.214391102833749e-13
+  mean_peak_ratio: 8.310296040813203e-13
+  mean_abs_peak_shift_nm: 0.43999999999998635
+  mean_abs_measurement_area: 9702443254534.793
+- scenario: init
+  window_name: Cl2_band_306
+  kind: molecular_band
+  family: Cl2/Ar benchmark
+  mean_area_ratio: 1.1630888130094392
+  mean_peak_ratio: 0.3991435834795949
+  mean_abs_peak_shift_nm: 2.5200000000000045
+  mean_abs_measurement_area: 95452171815770.28
+- scenario: truth
+  window_name: Cl2_band_306
+  kind: molecular_band
+  family: Cl2/Ar benchmark
+  mean_area_ratio: 1.1164843393954462
+  mean_peak_ratio: 0.38281836699325683
+  mean_abs_peak_shift_nm: 2.5200000000000045
+  mean_abs_measurement_area: 95452171815770.28
+- scenario: init
+  window_name: ClII_481_986
+  kind: ionic_line
+  family: Cl2/Ar benchmark
+  mean_area_ratio: 1.0559320073922653
+  mean_peak_ratio: 1.055478519891405
+  mean_abs_peak_shift_nm: 0.0
+  mean_abs_measurement_area: 2132830232423747.5
+- scenario: truth
+  window_name: ClII_481_986
+  kind: ionic_line
+  family: Cl2/Ar benchmark
+  mean_area_ratio: 1.0562834197032582
+  mean_peak_ratio: 1.0558073984957268
+  mean_abs_peak_shift_nm: 0.0
+  mean_abs_measurement_area: 2132830232423747.5
+- scenario: init
+  window_name: ClI_822_200_interference
+  kind: atomic_line_with_interference
+  family: Cl2/Ar benchmark
+  mean_area_ratio: 0.9589859201363298
+  mean_peak_ratio: 0.9919946594239425
+  mean_abs_peak_shift_nm: 0.0
+  mean_abs_measurement_area: 298080760065970.2
+- scenario: truth
+  window_name: ClI_822_200_interference
+  kind: atomic_line_with_interference
+  family: Cl2/Ar benchmark
+  mean_area_ratio: 0.9682761129859155
+  mean_peak_ratio: 1.0035835117228489
+  mean_abs_peak_shift_nm: 0.0
+  mean_abs_measurement_area: 298080760065970.2
+- scenario: init
+  window_name: XeI_828_012
+  kind: actinometer_line
+  family: Cl2/Ar benchmark
+  mean_area_ratio: 1.1819014884481136
+  mean_peak_ratio: 1.2134576049712618
+  mean_abs_peak_shift_nm: 0.0
+  mean_abs_measurement_area: 211387127459395.6
+- scenario: truth
+  window_name: XeI_828_012
+  kind: actinometer_line
+  family: Cl2/Ar benchmark
+  mean_area_ratio: 0.9755386849775245
+  mean_peak_ratio: 1.001585028701491
+  mean_abs_peak_shift_nm: 0.0
+  mean_abs_measurement_area: 211387127459395.6
+dominant_windows:
+- window_name: ClII_481_986
+  kind: ionic_line
+  family: Cl2/Ar benchmark
+  mean_abs_measurement_area: 2132830232423747.5
+  mean_area_ratio: 1.0559320491514845
+  mean_peak_ratio: 1.0554785616326865
+  mean_abs_peak_shift_nm: 0.0
+- window_name: ArII_480_602
+  kind: ionic_line
+  family: Cl2/Ar benchmark
+  mean_abs_measurement_area: 1755038240328948.2
+  mean_area_ratio: 0.9627572488158957
+  mean_peak_ratio: 1.0250663955286647
+  mean_abs_peak_shift_nm: 0.0
+- window_name: ClI_822_200_interference
+  kind: atomic_line_with_interference
+  family: Cl2/Ar benchmark
+  mean_abs_measurement_area: 298080760065970.2
+  mean_area_ratio: 0.9589777166751927
+  mean_peak_ratio: 0.9919868272542919
+  mean_abs_peak_shift_nm: 0.0
+dominant_windows_init:
+- window_name: ClII_481_986
+  kind: ionic_line
+  family: Cl2/Ar benchmark
+  mean_abs_measurement_area: 2132830232423747.5
+  mean_area_ratio: 1.0559320073922653
+  mean_peak_ratio: 1.055478519891405
+  mean_abs_peak_shift_nm: 0.0
+- window_name: ArII_480_602
+  kind: ionic_line
+  family: Cl2/Ar benchmark
+  mean_abs_measurement_area: 1755038240328948.2
+  mean_area_ratio: 0.9627572107414929
+  mean_peak_ratio: 1.0250663549901045
+  mean_abs_peak_shift_nm: 0.0
+- window_name: ClI_822_200_interference
+  kind: atomic_line_with_interference
+  family: Cl2/Ar benchmark
+  mean_abs_measurement_area: 298080760065970.2
+  mean_area_ratio: 0.9589859201363298
+  mean_peak_ratio: 0.9919946594239425
+  mean_abs_peak_shift_nm: 0.0
+dominant_windows_truth:
+- window_name: ClII_481_986
+  kind: ionic_line
+  family: Cl2/Ar benchmark
+  mean_abs_measurement_area: 2132830232423747.5
+  mean_area_ratio: 1.0562834197032582
+  mean_peak_ratio: 1.0558073984957268
+  mean_abs_peak_shift_nm: 0.0
+- window_name: ArII_480_602
+  kind: ionic_line
+  family: Cl2/Ar benchmark
+  mean_abs_measurement_area: 1755038240328948.2
+  mean_area_ratio: 0.9540170523256737
+  mean_peak_ratio: 1.0159253104942185
+  mean_abs_peak_shift_nm: 0.0
+- window_name: ClI_822_200_interference
+  kind: atomic_line_with_interference
+  family: Cl2/Ar benchmark
+  mean_abs_measurement_area: 298080760065970.2
+  mean_area_ratio: 0.9682761129859155
+  mean_peak_ratio: 1.0035835117228489
+  mean_abs_peak_shift_nm: 0.0
+plasma_oes_findings:
+- Dominant measured features are ClII_481_986 (ionic_line, area ratio 1.06), ArII_480_602
+  (ionic_line, area ratio 0.96), ClI_822_200_interference (atomic_line_with_interference,
+  area ratio 0.96).
+- The inverse solution reduces the objective cost by 0.0% relative to the initial
+  state.
+- The truth case remains within the same cost basin as the fitted case, so the fit
+  is consistent with the benchmark physics under noise.
+- Parameter recovery against the benchmark truth is weak for ne, te, Cl, Cl2e; spectral
+  agreement is being achieved mainly through shape matching rather than absolute emissivity
+  recovery.
+- 'Recovered radial trends are ne: monotonic decrease from core to edge, te: monotonic
+  decrease from core to edge, Cl: monotonic decrease from core to edge, Cl2e: monotonic
+  decrease from core to edge.'
+measurement_engineering_findings:
+- cl2_benchmark_scan covers 270.0-885.0 nm with 0.200 nm sampling and uses 6 analysis
+  windows.
+- Fitted gain spans 1.136-1.136 with negligible offsets (max abs offset 4.698e-16).
+- Mean absolute peak shift across narrow features is 0.088 nm, which is the practical
+  wavelength-alignment indicator for the current inverse workflow.
+- The least constrained fitted quantities are ne2 (155.8% rel.), ne0 (84.0% rel.),
+  ne1 (45.0% rel.), Cl0 (31.8% rel.).
+forward_plasma_oes_findings:
+- Initial forward mismatch is dominated by ClII_481_986 (1.06), ArII_480_602 (0.96),
+  ClI_822_200_interference (0.96).
+- Truth-forward agreement is dominated by ClII_481_986 (1.06), ArII_480_602 (0.95),
+  ClI_822_200_interference (0.97).
+- Truth-forward stays in the same spectral basin as init; objective change is -0.5%
+  and mean correlation changes by 0.0000.
+- Broad or structured windows with residual shape/centroid mismatch remain in Cl2_band_306,
+  indicating profile/baseline sensitivity rather than simple line-intensity error.
+forward_measurement_engineering_findings:
+- Mean gain needed to align init-forward is 1.136, while truth-forward needs 0.937;
+  the ratio 1.21 is the practical absolute-calibration mismatch indicator.
+- Truth-forward mean NRMSE/std is 0.2202 versus 0.2195 for init-forward.
+top_relative_uncertainties:
+- name: ne2
+  path: plasma_state.ne_shells_m3[2]
+  scale: log
+  relative_uncertainty: 1.5580468006608879
+- name: ne0
+  path: plasma_state.ne_shells_m3[0]
+  scale: log
+  relative_uncertainty: 0.8404110114082086
+- name: ne1
+  path: plasma_state.ne_shells_m3[1]
+  scale: log
+  relative_uncertainty: 0.4502190454987238
+- name: Cl0
+  path: plasma_state.radicals.Cl[0]
+  scale: log
+  relative_uncertainty: 0.31774007015328376
+plot_outputs:
+  fit_quality: plots/fit_quality.svg
+  parameter_recovery: plots/parameter_recovery.svg
+  window_fidelity: plots/window_fidelity.svg
+  spectra_overview: plots/spectra_overview.svg
+  dashboard: analysis_dashboard.html
+  forward_quality: plots/forward_quality.svg
+  forward_window_fidelity: plots/forward_window_fidelity.svg
+  forward_spectra_overview: plots/forward_spectra_overview.svg
+  forward_dashboard: forward_dashboard.html

@@ -1,0 +1,76 @@
+$schema: https://json-schema.org/draft/2020-12/schema
+$title: OESCR instrument configuration
+$type: object
+properties:
+  kind:
+    type: string
+    enum: [oescr_instrument]
+  id: {type: string}
+  wavelength_grid_nm:
+    type: array
+    items: {type: number}
+    minItems: 2
+  wavelength_min_nm: {type: number}
+  wavelength_max_nm: {type: number}
+  bin_nm: {type: number, exclusiveMinimum: 0}
+  throughput:
+    oneOf:
+      - type: number
+        minimum: 0
+      - type: object
+        properties:
+          kind: {type: string, enum: [constant, tabulated]}
+          value: {type: number, minimum: 0}
+          wavelength_nm:
+            type: array
+            items: {type: number}
+            minItems: 2
+          values:
+            type: array
+            items: {type: number, minimum: 0}
+            minItems: 2
+          value_array:
+            type: array
+            items: {type: number, minimum: 0}
+            minItems: 2
+        additionalProperties: true
+      - type: object
+        required: [wavelength_nm, value]
+        properties:
+          wavelength_nm:
+            type: array
+            items: {type: number}
+            minItems: 2
+          value:
+            type: array
+            items: {type: number, minimum: 0}
+            minItems: 2
+        additionalProperties: false
+  lsf:
+    type: object
+    properties:
+      kind: {type: string, enum: [gaussian, voigt]}
+      fwhm_nm: {type: number, exclusiveMinimum: 0}
+      fwhm_g_nm: {type: number, exclusiveMinimum: 0}
+      fwhm_l_nm: {type: number, exclusiveMinimum: 0}
+    additionalProperties: false
+  baseline:
+    type: object
+    properties:
+      kind: {type: string, enum: [constant, polynomial]}
+      offset: {type: number}
+      coefficients:
+        type: array
+        items: {type: number}
+        minItems: 1
+    additionalProperties: false
+  nuisance:
+    type: object
+    properties:
+      gain: {type: number, exclusiveMinimum: 0}
+      wavelength_shift_nm: {type: number}
+    additionalProperties: false
+additionalProperties: false
+anyOf:
+  - required: [wavelength_grid_nm]
+  - required: [wavelength_min_nm, wavelength_max_nm, bin_nm]
