@@ -32,6 +32,18 @@ The current workflow is:
 
 Residuals are intentionally assembled as one long vector. This keeps the objective readable and allows the use of standard least-squares tools.
 
+To reduce the influence of extremely weak windows, the inverse objective can
+apply `window_min_relative_signal` and skip window-fit, area, and peak residuals
+when a window's measured signal is small relative to the strongest selected
+window in the same chord. The skipped window names are stored in the residual
+`aux` output for later analysis. Default is `0.02`.
+
+For wavelength-separated ratio diagnostics, the inverse objective can also fit
+an optional instrument-level gain tilt (`auto_gain_tilt_fit`) so the scalar
+gain model does not absorb broad spectral slope mismatch. The tilt term is
+optional and can be regularized by `gain_tilt_prior_weight/sigma`
+(defaults: `false`, `0.0`, `1.0`).
+
 ### Regularization
 
 The current regularization is array smoothing on shell profiles. First- and second-order finite-difference penalties are supported.

@@ -38,11 +38,15 @@ properties:
           peak_weight: {type: number, minimum: 0}
           auto_gain_fit: {type: boolean}
           auto_offset_fit: {type: boolean}
+          auto_gain_tilt_fit: {type: boolean, default: false}
           auto_gain_scope: {type: string, enum: [chord, instrument]}
           window_fit_local_gain: {type: boolean}
+          window_min_relative_signal: {type: number, minimum: 0, default: 0.02}
           gain_prior_weight: {type: number, minimum: 0}
           gain_prior_target: {type: number, exclusiveMinimum: 0}
           gain_prior_sigma_log10: {type: number, exclusiveMinimum: 0}
+          gain_tilt_prior_weight: {type: number, minimum: 0, default: 0.0}
+          gain_tilt_prior_sigma: {type: number, exclusiveMinimum: 0, default: 1.0}
           window_ratio_weight: {type: number, minimum: 0}
           window_ratio_metric: {type: string, enum: [area, peak]}
           window_ratio_reference: {type: string}

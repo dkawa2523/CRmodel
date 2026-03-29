@@ -10,6 +10,7 @@ from oescr.inverse.objectives import (
     Measurement,
     fit_gain_offsets_for_instrument,
     gain_prior_residual,
+    gain_tilt_prior_residual,
     window_ratio_pair_residuals,
     window_features,
     window_fit_residuals,
@@ -96,6 +97,14 @@ def test_gain_prior_zero_at_target_gain():
     assert np.allclose(r, 0.0, atol=1.0e-12)
 
 
+def test_gain_tilt_prior_zero_at_zero_tilt_and_positive_otherwise():
+    zero = gain_tilt_prior_residual(tilt=0.0, weight=0.5, sigma=0.25)
+    nonzero = gain_tilt_prior_residual(tilt=0.2, weight=0.5, sigma=0.25)
+    assert np.allclose(zero, 0.0, atol=1.0e-12)
+    assert nonzero.shape == (1,)
+    assert abs(float(nonzero[0])) > 0.0
+
+
 def test_instrument_scope_gain_fits_single_shared_gain():
     wl = np.linspace(700.0, 704.0, 9)
     pred = {"wavelength_nm": wl, "intensity": np.linspace(1.0, 2.0, len(wl))}
@@ -112,6 +121,34 @@ def test_instrument_scope_gain_fits_single_shared_gain():
     )
     assert np.isclose(gains["chord_0"]["gain"], 2.0)
     assert np.isclose(gains["chord_1"]["gain"], 2.0)
+    assert np.isclose(gains["chord_0"]["tilt"], 0.0)
+    assert np.isclose(gains["chord_1"]["tilt"], 0.0)
+
+
+def test_instrument_scope_gain_tilt_fits_linear_spectral_slope():
+    wl = np.linspace(400.0, 900.0, 251)
+    pred_intensity = 1.0 + 0.3 * np.sin(np.linspace(0.0, 3.0 * np.pi, len(wl)))
+    pred = {"wavelength_nm": wl, "intensity": pred_intensity}
+    wl_norm = (wl - 0.5 * (wl.min() + wl.max())) / (0.5 * (wl.max() - wl.min()))
+    gain_true = 1.8
+    tilt_true = 0.22
+    offset_true = 0.0
+    meas_y = gain_true * (1.0 + tilt_true * wl_norm) * pred_intensity + offset_true
+    meas = Measurement(wl, meas_y)
+    gains = fit_gain_offsets_for_instrument(
+        "uvvis",
+        [meas],
+        {"chord_0": pred},
+        {"nuisance": {"gain": 1.0}, "baseline": {"offset": 0.0}},
+        auto_gain=True,
+        auto_offset=False,
+        auto_gain_tilt=True,
+        gain_scope="instrument",
+    )
+    got = gains["chord_0"]
+    assert np.isclose(got["gain"], gain_true, rtol=1.0e-3, atol=1.0e-3)
+    assert np.isclose(got["tilt"], tilt_true, rtol=1.0e-3, atol=1.0e-3)
+    assert np.isclose(got["offset"], offset_true, rtol=1.0e-3, atol=1.0e-3)
 
 
 def test_window_ratio_pair_zero_for_identical_pair_ratio():

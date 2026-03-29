@@ -5,53 +5,57 @@ measurements:
 fit:
   objective:
     spectrum_weight: 1.0
-    window_fit_weight: 0.45
+    window_fit_weight: 0.35
     window_fit_normalization: area
     window_baseline_mode: local_linear
     area_weight: 0.85
     peak_weight: 0.12
     auto_gain_fit: true
     auto_offset_fit: true
+    auto_gain_tilt_fit: false
     auto_gain_scope: instrument
-    gain_prior_weight: 0.08
+    gain_prior_weight: 0.05
     gain_prior_sigma_log10: 0.15
+    gain_tilt_prior_weight: 0.05
+    gain_tilt_prior_sigma: 0.25
     window_ratio_weight: 0.0
     window_ratio_metric: peak
     window_ratio_reference: ClII_481_986
-    window_ratio_min_relative_signal: 0.05
+    window_ratio_min_relative_signal: 0.02
+    window_min_relative_signal: 0.02
     window_ratio_pairs:
       - name: ClII_over_XeI
         numerator: ClII_481_986
         denominator: XeI_828_012
         metric: peak
-        min_relative_signal: 0.05
-        weight: 0.16
+        min_relative_signal: 0.09
+        weight: 0.24
       - name: ClI_over_XeI
         numerator: ClI_822_200_interference
         denominator: XeI_828_012
         metric: peak
-        min_relative_signal: 0.05
-        weight: 0.16
+        min_relative_signal: 0.02
+        weight: 0.20
       - name: ArII_over_ClII
         numerator: ArII_480_602
         denominator: ClII_481_986
         metric: peak
-        min_relative_signal: 0.05
+        min_relative_signal: 0.02
         weight: 0.1
       - name: Cl2band_over_ClI
         numerator: Cl2_band_306
         denominator: ClI_822_200_interference
         metric: area
-        min_relative_signal: 0.05
-        weight: 0.08
+        min_relative_signal: 0.02
+        weight: 0.14
   global:
     enabled: true
-    maxiter: 6
-    popsize: 6
+    maxiter: 14
+    popsize: 10
     seed: 2
   local:
     enabled: true
-    max_nfev: 60
+    max_nfev: 160
   uncertainty:
     laplace: true
   regularization:

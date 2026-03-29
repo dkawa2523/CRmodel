@@ -40,6 +40,17 @@ But JSON Schema alone is not a good place to express:
 - whether a reaction references known states or valid external density keys
 - whether a plugin kind exists and whether its config is physically coherent
 
+The inverse objective also supports a small signal-gating threshold,
+`fit.objective.window_min_relative_signal`, which is used to skip low-signal
+windows from window-fit, area, and peak residual terms while keeping the
+rest of the objective unchanged (default `0.02`).
+
+An optional gain-tilt model is also available for ratio-sensitive inversions:
+`fit.objective.auto_gain_tilt_fit` plus optional regularization
+`fit.objective.gain_tilt_prior_weight` and
+`fit.objective.gain_tilt_prior_sigma`
+(defaults: `false`, `0.0`, `1.0` respectively).
+
 Those checks therefore stay in Python semantic validation.
 
 ## CLI

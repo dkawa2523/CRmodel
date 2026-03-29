@@ -59,6 +59,10 @@ python scripts/run_forward.py examples/case_init_cf4_o2_ar.yaml --out examples/f
 python scripts/run_inverse.py examples/case_init_cf4_o2_ar.yaml examples/inverse_cf4_o2_ar.yaml --out examples/inverse_output
 ```
 
+Generated run artifacts are intentionally not versioned. Keep outputs in a
+user-local directory (for example `--out .local_outputs/...`) and regenerate
+them as needed.
+
 To inspect fully resolved and normalized YAML after `include:` expansion:
 
 ```bash
@@ -77,6 +81,22 @@ Validation is now two-stage.
 
 1. JSON Schema checks the user-facing YAML structure.
 2. Semantic validation checks array lengths, cross references, and plugin-local constraints.
+
+## Strict gate evaluation
+
+After running baseline/improved benchmark analyses, evaluate strict acceptance gates with:
+
+```bash
+python scripts/evaluate_strict_gate.py \
+  --benchmarks nf3_ar_ccp_clean_2023 cl2_ar_icp_fuller2001 \
+  --baseline-run inverse_plan_baseline_20260329 \
+  --baseline-out-name analysis_plan_baseline \
+  --improved-run inverse_plan_improved_20260329 \
+  --improved-out-name analysis_plan_improved \
+  --cl2-pair-threshold 0.80
+```
+
+The command exits with non-zero status when any strict gate fails.
 
 ## Plugin catalog
 

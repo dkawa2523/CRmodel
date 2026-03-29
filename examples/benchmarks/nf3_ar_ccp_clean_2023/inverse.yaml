@@ -5,7 +5,7 @@ measurements:
 fit:
   objective:
     spectrum_weight: 1.0
-    window_fit_weight: 0.35
+    window_fit_weight: 0.28
     window_fit_normalization: area
     window_baseline_mode: local_linear
     area_weight: 0.6
@@ -13,39 +13,40 @@ fit:
     auto_gain_fit: true
     auto_offset_fit: true
     auto_gain_scope: instrument
-    gain_prior_weight: 0.12
+    gain_prior_weight: 0.08
     gain_prior_sigma_log10: 0.2
     window_ratio_weight: 0.0
     window_ratio_metric: peak
     window_ratio_reference: FI_703_747
-    window_ratio_min_relative_signal: 0.05
+    window_ratio_min_relative_signal: 0.02
+    window_min_relative_signal: 0.02
     window_ratio_pairs:
       - name: F704_over_Ar811
         numerator: FI_703_747
         denominator: ArI_811_531
         metric: peak
-        min_relative_signal: 0.05
+        min_relative_signal: 0.02
         weight: 0.18
       - name: F713_over_F704
         numerator: FI_712_789
         denominator: FI_703_747
         metric: peak
-        min_relative_signal: 0.05
+        min_relative_signal: 0.02
         weight: 0.08
       - name: N2FP_over_F704
         numerator: N2_FP_550_700
         denominator: FI_703_747
         metric: area
-        min_relative_signal: 0.05
+        min_relative_signal: 0.02
         weight: 0.10
   global:
     enabled: true
-    maxiter: 6
-    popsize: 6
+    maxiter: 10
+    popsize: 8
     seed: 3
   local:
     enabled: true
-    max_nfev: 80
+    max_nfev: 120
   uncertainty:
     laplace: true
   regularization:
