@@ -5,3 +5,12 @@ __pycache__/
 *.pyo
 *.pyd
 oescr.egg-info/
+
+# generated runtime artifacts
+analysisv1/
+examples/runs/
+examples/forward_output/
+examples/inverse_output/
+examples/forward_*_curated/
+examples/inverse_*_curated_out/
+examples/benchmarks/**/runs/
