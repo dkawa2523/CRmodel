@@ -15,7 +15,7 @@ NF3/Ar と Cl2/Ar の図で、`Initial` スペクトルが最初から `Measurem
 - 実験プラズマの電子温度、電子密度、EEDF、種密度を物理的に正しく予測する
 - forward model の不足や断面積の系統誤差があっても正しい解を得る
 
-したがって現状の正確な呼び方は、**生成データによる自己整合性・workflow benchmark** である。**optimizer robustness benchmark** や **外部物理妥当性 benchmark** ではない。
+したがって従来の `optimization-figures` に対する正確な呼び方は、**生成データによる自己整合性・workflow benchmark** である。**optimizer robustness benchmark** や **外部物理妥当性 benchmark** ではない。遠方初期値用には役割を混ぜず、別の [`robustness-figures`](robustness-figures/) と[評価報告](optimization_robustness_benchmark.md)を追加した。
 
 なお、図の橙線 `Initial` は「global optimizer が最初に評価した点」ではない。これは `case_init.yaml` で定義した比較用の基準予測である。NF3/Ar と Cl2/Ar の実際の global 段階は differential evolution であり、設定 bounds 全域に生成した集団から開始する。最適化履歴の最初の点と橙線は別物である。
 
@@ -25,6 +25,7 @@ NF3/Ar と Cl2/Ar の図で、`Initial` スペクトルが最初から `Measurem
 |---|---|---|---|---|
 | [`validation-figures/`](validation-figures/) | 計算結果は目標値・観測・既知真値と合っているか | 解析解との比較、複数 chord のスペクトル、波長別残差、半径方向 profile | 物理モデルと最終結果を評価する人 | 前向き計算の保存則、生成観測の再現、生成真値の回収度 |
 | [`optimization-figures/`](optimization-figures/) | optimizer は何を探索し、どこへ収束したか | 未知変数、固定変数、EEDF、Loss履歴、評価点、並行座標 | 逆問題とoptimizerを評価する人 | 探索経路、収束挙動、低Loss領域、推定対象と固定入力の区別 |
+| [`robustness-figures/`](robustness-figures/) | 遠方初期値から seed に依存せず held-out chord と真値を回収できるか | 未使用 spectrum、全 seed の parameter/truth、実 Loss 履歴、versioned 閾値 | 逆問題の頑健性と同定性を評価する人 | 現行パラメータ化の内部頑健性。外部物理精度ではない |
 
 両ディレクトリには同じ NF3/Ar、Cl2/Ar、二バンド問題が現れるため、一部のスペクトルは重複して見える。しかし役割は異なる。
 
@@ -243,29 +244,29 @@ Cl2/Arでは電子温度と電子密度を推定していない。図に表示�
 7. **並行座標とidentifiabilityを見る。** 低Loss経路が広い場合、最良一点だけを信頼しない。
 8. **主張範囲を限定する。** 生成自己整合性、外部物理精度、固定入力からの派生量を区別する。
 
-## 7. optimizer robustness benchmarkへ拡張する場合の必要条件
+## 7. optimizer robustness benchmarkの実施結果
 
-現行図を削除する必要はない。現在の自己整合性baselineとして保持し、別の厳しい層を追加するのがよい。
+2026-10-01 に、従来図を自己整合性 baseline として保持したまま、別の厳しい層を追加した。遠方・非単調初期値、truth-near parameter prior なし、seed 7/19/43、chord 0–3 fitting、chord 4 held-out、training Loss のみによる run 選択、version 2 で固定した parameter/held-out tolerance を使用した。評価器 version 1 の noisy pointwise NRMSE にあった noise-floor と固定成分混入の問題は、optimizer 出力を変更せず noise-free truth-spectrum NRMSE へ修正した。
 
-1. truth近傍、遠方、bounds端、乱数の複数初期条件を事前に固定する。
-2. NF3/Ar、Cl2/Arとも複数seedでglobal探索し、成功率、最終Loss、truth誤差の分布を報告する。
-3. prior中心をtruth由来にせず、独立な運転範囲または文献範囲から定める。
-4. 学習に使用しないheld-out wavelength windowまたはheld-out chordで予測誤差を評価する。
-5. auto gain/offsetを使うshape評価と、絶対校正を固定したamplitude評価を別ケースにする。
-6. truth生成器とinverse forward modelを意図的に変え、line shape、断面積、baselineのmodel discrepancyを加える。
-7. `converged` だけでなく、事前登録したparameter toleranceとheld-out spectral toleranceの双方で合否を決める。
-8. 実験benchmarkは外部evaluatorで評価し、OESCR内部の同一数値核による自己採点と分離する。
+結果は NF3/Ar、Cl2/Ar とも **FAIL** である。Loss は数値的に収束したが、seed 間で異なる shell 分布が同程度の Loss を与え、held-out spectrum と真値パラメータを同時に回収できなかった。詳細な設定、図、数値、解釈は[遠方初期値からの最適化頑健性ベンチマーク](optimization_robustness_benchmark.md)に固定している。
 
-この追加層が完成するまでは、NF3/ArとCl2/Arの図に対して「最適化が広い初期条件から頑健に成功した」または「実験物理量を検証した」という表現を用いない。
+したがって現行図に対して「広い初期条件から頑健に成功した」という表現は用いない。次の内部検証は、探索予算の増加ではなく、measurement-only Jacobian が支持する低次元 profile parameterization を導入し、同じ初期値・seed・分割・閾値で再実行する。
+
+なお、次の項目は optimizer 内部頑健性とは別の外部物理検証として未完了である。
+
+1. auto gain/offset を使う shape 評価と、絶対校正を固定した amplitude 評価を別ケースにする。
+2. truth 生成器と inverse forward model を意図的に変え、line shape、断面積、baseline の model discrepancy を加える。
+3. 実験 benchmark を外部 evaluator で評価し、OESCR 内部の同一数値核による自己採点と分離する。
 
 ## 8. 証拠ファイルと再生成
 
 | 内容 | ファイル |
 |---|---|
-| 図の生成コード | [`generate_validation_figures.py`](../scripts/generate_validation_figures.py)、[`generate_optimization_diagnostic_figures.py`](../scripts/generate_optimization_diagnostic_figures.py) |
+| 図の生成コード | [`generate_validation_figures.py`](../scripts/generate_validation_figures.py)、[`generate_optimization_diagnostic_figures.py`](../scripts/generate_optimization_diagnostic_figures.py)、[`generate_robustness_benchmark_figures.py`](../scripts/generate_robustness_benchmark_figures.py) |
 | NF3/Ar初期値・truth・bounds・prior | [`case_init.yaml`](../examples/benchmarks/nf3_ar_ccp_clean_2023/case_init.yaml)、[`case_truth.yaml`](../examples/benchmarks/nf3_ar_ccp_clean_2023/case_truth.yaml)、[`inverse.yaml`](../examples/benchmarks/nf3_ar_ccp_clean_2023/inverse.yaml) |
 | Cl2/Ar初期値・truth・bounds・prior | [`case_init.yaml`](../examples/benchmarks/cl2_ar_icp_fuller2001/case_init.yaml)、[`case_truth.yaml`](../examples/benchmarks/cl2_ar_icp_fuller2001/case_truth.yaml)、[`inverse.yaml`](../examples/benchmarks/cl2_ar_icp_fuller2001/inverse.yaml) |
 | 全パラメータの回収値 | [`parameter_recovery.csv`](optimization-figures/parameter_recovery.csv) |
+| 遠方初期値 benchmark | [`optimization_robustness_benchmark.md`](optimization_robustness_benchmark.md)、[`robustness_summary.csv`](robustness-figures/robustness_summary.csv) |
 | 詳細な物理検証 | [`physical_validation_report.md`](physical_validation_report.md) |
 | モデル式と根拠 | [`model_methods_and_validation.md`](model_methods_and_validation.md) |
 

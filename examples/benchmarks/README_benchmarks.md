@@ -15,6 +15,13 @@ Each benchmark directory now includes:
 - `benchmark_meta.yaml`
 - `validation.yaml`
 
+NF3/Ar と Cl2/Ar には、通常の workflow 回帰ケースとは別に次の
+optimizer robustness 設定も含まれる。
+
+- `case_robust_init.yaml` — 真値から遠い非単調初期分布
+- `inverse_robust.yaml` — chord 0–3 のみを fitting し、truth-near parameter prior を除外
+- `robustness.yaml` — seed、held-out chord、作図 window、versioned 合格条件
+
 `measurements/` and `forward_truth/` are fixed, versioned fixtures because
 their hashes participate in the evidence contract. Optimizer results, report
 directories, and regenerated forward runs are local artifacts and are ignored;
@@ -26,6 +33,8 @@ Recommended commands:
 python scripts/validate_project.py examples/benchmarks/nf3_ar_ccp_clean_2023/project.yaml
 python scripts/run_project.py examples/benchmarks/nf3_ar_ccp_clean_2023/project.yaml --task inverse
 python scripts/audit_validation_evidence.py
+python scripts/run_optimization_robustness_benchmarks.py
+python scripts/generate_robustness_benchmark_figures.py
 python scripts/summarize_identifiability.py \
   examples/benchmarks/nf3_ar_ccp_clean_2023/case_init.yaml \
   examples/benchmarks/nf3_ar_ccp_clean_2023/inverse.yaml
@@ -40,6 +49,13 @@ SHA-256 and records their evidence level, preprocessing, evaluator version,
 result contract, generated-truth data use, and limitations.
 These literature-anchored spectra are generated self-consistency fixtures, not
 redistributed or held-out experimental spectra.
+
+The distant-initialization benchmark deliberately remains an internal
+same-model test. Its current NF3/Ar and Cl2/Ar runs fail the versioned
+parameter-recovery and held-out-chord criteria; see
+[`docs/optimization_robustness_benchmark.md`](../../docs/optimization_robustness_benchmark.md).
+Do not replace this result with the best truth-aware seed or interpret it as an
+external physics qualification.
 
 Every new analysis summary separates `analysis_contract` from
 `run_fingerprint`. Between-run comparison rejects missing or different

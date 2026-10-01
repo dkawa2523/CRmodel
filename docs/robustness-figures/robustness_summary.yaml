@@ -1,0 +1,100 @@
+kind: oescr_optimizer_robustness_results
+version: 2
+selection_policy: minimum training objective; held-out data and truth excluded
+cases:
+- benchmark: nf3_ar_ccp_clean_2023
+  overall_pass: false
+  initial_challenge_pass: true
+  seed_pass_fraction: 0.0
+  selected_seed: 43
+  selection_rule: minimum_training_objective
+  initial:
+    held_out_truth_nrmse: 0.5236168802709713
+    held_out_window_truth_nrmse:
+      N2(B-A) molecular band: 0.5422314438381819
+      F I 685.6 / 703.7 / 712.8 nm: 0.5050023167037608
+    parameter_median_error: 0.85
+    parameter_max_error: 4.0
+  runs:
+  - seed: 7
+    training_loss: 129.36344733990728
+    held_out_truth_nrmse: 0.08828765060774882
+    held_out_window_truth_nrmse:
+      N2(B-A) molecular band: 0.1232721447519678
+      F I 685.6 / 703.7 / 712.8 nm: 0.053303156463529844
+    parameter_median_abs_relative_error: 0.3694511863680545
+    parameter_max_abs_relative_error: 1.695922963316455
+    pass: false
+  - seed: 19
+    training_loss: 129.36464505084592
+    held_out_truth_nrmse: 0.08939011050542922
+    held_out_window_truth_nrmse:
+      N2(B-A) molecular band: 0.11323099416348383
+      F I 685.6 / 703.7 / 712.8 nm: 0.0655492268473746
+    parameter_median_abs_relative_error: 0.6976162024107879
+    parameter_max_abs_relative_error: 3.7617038202322384
+    pass: false
+  - seed: 43
+    training_loss: 129.3626898810846
+    held_out_truth_nrmse: 0.0840757197046332
+    held_out_window_truth_nrmse:
+      N2(B-A) molecular band: 0.12318873199859014
+      F I 685.6 / 703.7 / 712.8 nm: 0.04496270741067628
+    parameter_median_abs_relative_error: 0.8333246958841294
+    parameter_max_abs_relative_error: 3.7297816160300385
+    pass: false
+  acceptance:
+    min_initial_parameter_median_abs_relative_error: 0.4
+    min_initial_held_out_truth_nrmse: 0.15
+    max_optimized_held_out_truth_nrmse: 0.08
+    max_optimized_parameter_median_abs_relative_error: 0.2
+    max_optimized_parameter_max_abs_relative_error: 0.4
+    min_seed_pass_fraction: 0.6666666666666666
+- benchmark: cl2_ar_icp_fuller2001
+  overall_pass: false
+  initial_challenge_pass: true
+  seed_pass_fraction: 0.0
+  selected_seed: 43
+  selection_rule: minimum_training_objective
+  initial:
+    held_out_truth_nrmse: 0.2550198664061385
+    held_out_window_truth_nrmse:
+      Cl2 molecular band: 0.34922866904655586
+      Cl I / Xe I: 0.16081106376572113
+    parameter_median_error: 0.8095238095238095
+    parameter_max_error: 2.3333333333333335
+  runs:
+  - seed: 7
+    training_loss: 290.8462775326157
+    held_out_truth_nrmse: 0.2102656516125034
+    held_out_window_truth_nrmse:
+      Cl2 molecular band: 0.26855345060561414
+      Cl I / Xe I: 0.15197785261939267
+    parameter_median_abs_relative_error: 0.7590503815761585
+    parameter_max_abs_relative_error: 2.6922509231973923
+    pass: false
+  - seed: 19
+    training_loss: 290.67156285371397
+    held_out_truth_nrmse: 0.10811849912010257
+    held_out_window_truth_nrmse:
+      Cl2 molecular band: 0.14026271287556788
+      Cl I / Xe I: 0.07597428536463727
+    parameter_median_abs_relative_error: 0.2647319488066667
+    parameter_max_abs_relative_error: 0.41407773949748206
+    pass: false
+  - seed: 43
+    training_loss: 290.67146755535396
+    held_out_truth_nrmse: 0.15847091655532386
+    held_out_window_truth_nrmse:
+      Cl2 molecular band: 0.23437649960441528
+      Cl I / Xe I: 0.08256533350623241
+    parameter_median_abs_relative_error: 0.2431444473713157
+    parameter_max_abs_relative_error: 0.9430971670317736
+    pass: false
+  acceptance:
+    min_initial_parameter_median_abs_relative_error: 0.4
+    min_initial_held_out_truth_nrmse: 0.15
+    max_optimized_held_out_truth_nrmse: 0.08
+    max_optimized_parameter_median_abs_relative_error: 0.2
+    max_optimized_parameter_max_abs_relative_error: 0.4
+    min_seed_pass_fraction: 0.6666666666666666

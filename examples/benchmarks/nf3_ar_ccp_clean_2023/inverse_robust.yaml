@@ -1,0 +1,29 @@
+include: inverse.yaml
+
+# Chord 4 is excluded from fitting and reserved for predictive evaluation.
+measurements:
+  - instrument_id: nf3_benchmark_uvvis
+    files:
+      - measurements/chord_0.csv
+      - measurements/chord_1.csv
+      - measurements/chord_2.csv
+      - measurements/chord_3.csv
+
+fit:
+  global:
+    enabled: true
+    maxiter: 18
+    popsize: 10
+    seed: 7
+    tol: 1.0e-3
+  local:
+    enabled: true
+    max_nfev: 220
+  uncertainty:
+    laplace: false
+  identifiability:
+    enabled: false
+
+# Remove the truth-near priors used by the nominal workflow benchmark. The
+# existing second-order Te smoothness term remains as a physical regularizer.
+priors: []

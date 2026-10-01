@@ -1,6 +1,6 @@
 # OESCR Development Plan
 
-Updated: 2026-09-30
+Updated: 2026-10-01
 
 ## Purpose
 
@@ -108,7 +108,8 @@ External quantitative model qualification remains a separate evidence track.
 | Inverse objective responsibility | Complete | options, window, ratio, gain-prior, and regularization functions separated; residual_vector is no longer a complexity hotspot |
 | Benchmark-report responsibility | Complete | pure metrics, shared records, concrete CSV/SVG/HTML/Markdown writers, report assembly, and CLI are separated with an enforced inward dependency direction |
 | Independent scientific validation | v1 qualification decision complete; no external quantitative claim | analytic/grid checks, immutable evidence, versioned contracts, and eligibility audit are complete; the selection gate rejects both held-out candidates because required inputs or uncertainty are open |
-| Release readiness | Complete for v1 platform | all four quality tools, 113 tests, project/evidence/link checks, and wheel import/package-data smoke test pass |
+| Distant-initialization optimizer robustness | Diagnostic complete; both cases fail | truth-distant prior-free starts, three seeds, blind training-Loss selection, and held-out chord show non-identifiability; reduce only fitted profile dimensionality and rerun the unchanged protocol |
+| Release readiness | Complete for v1 platform | all four quality tools, 114 tests, project/evidence/link checks, and wheel import/package-data smoke test pass |
 
 ## Completed sequence to v1 platform completion
 
@@ -231,8 +232,8 @@ scientific evidence describe the same system.
 `docs/v1_readiness_review.md` now consolidates the architecture result,
 supported-use boundary, known scientific limits, and verification snapshot.
 Ruff, pytest, Import Linter, Radon, project validation, evidence audit, and
-documentation-link checks pass. Pyrefly 1.3.1 was run through WSL against the
-installed Windows type information and reports 0 errors and 17 warnings. A
+documentation-link checks pass. The 2026-10-01 native Pyrefly 1.3.1 refresh
+reports 0 errors and 20 warnings. A
 wheel build plus isolated import/package-data smoke test also passes. Remaining
 tag/version selection and clean-checkout repetition are release operations,
 not missing platform implementation.
@@ -258,7 +259,7 @@ not missing platform implementation.
 - Applied the external dataset-selection gate and closed the v1 qualification
   decision without expanding the model: neither candidate is eligible, so v1
   explicitly makes no external quantitative accuracy claim.
-- Completed release readiness with all four quality tools, 113 tests, project
+- Completed release readiness with all four quality tools, 114 tests, project
   and evidence audits, documentation-link checks, and a built-wheel import and
   package-data smoke test.
 - Removed the superseded initial design-review document after its resolved
@@ -386,6 +387,10 @@ not missing platform implementation.
 - Split strict-gate argument parsing, comparison loading, gate calculation, and
   reporting. Its Radon grade improved from D to C without changing gate
   semantics; both evidence declarations carry the new evaluator hash.
+- Added a prior-free distant-initialization benchmark with three seeds, blind
+  training-objective selection, and a held-out chord. Both NF3/Ar and Cl2/Ar
+  fail its versioned recovery criteria, so the next inverse change targets
+  observable profile dimensionality rather than search-budget tuning.
 
 ## Implementation history
 
@@ -541,6 +546,29 @@ A change is not complete when code passes alone; documentation and the public
 input/output contract must describe the same model.
 
 ## Plan decisions
+
+### 2026-10-01: treat distant-initialization failure as an identifiability result
+
+The nominal NF3/Ar and Cl2/Ar optimization figures began from relatively close
+states and included parameter priors near the generated truth, so they remain
+workflow regression baselines rather than optimizer-robustness evidence. A
+separate protocol now fixes distant non-monotonic starts, removes those
+parameter priors, fits chords 0--3, reserves chord 4, repeats three seeds, and
+selects the reported run only by training objective. Version 1 exposed an
+invalid noisy-point NRMSE floor and a fixed-species window in its aggregate;
+version 2 keeps the optimizer runs unchanged, scores only fitted-species
+windows against noise-free forward truth, and records that evaluator change
+with the fixed thresholds.
+
+Both gases fail the parameter-recovery and held-out-chord criteria even though
+their training objectives converge. The plan therefore changes the next
+inverse-model task from increasing search budget to reducing fitted spatial
+degrees of freedom to combinations supported by the measurement-only
+Jacobian. The initial states, seeds, split, selection rule, and tolerances stay
+fixed for the rerun. Truth-near priors, held-out leakage, threshold relaxation,
+or post-hoc seed selection are not accepted remedies. This result does not
+change v1 platform completion and does not constitute an external physical
+validation claim.
 
 ### 2026-09-30: separate negligible quenching from unresolved cascade transfer
 

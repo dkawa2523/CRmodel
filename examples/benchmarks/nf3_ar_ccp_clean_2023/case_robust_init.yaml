@@ -1,0 +1,10 @@
+include: case_truth.yaml
+
+# Deliberately distant, non-monotonic initialization for optimizer robustness.
+# Quantities that are not inferred remain at their known synthetic-truth values
+# so this benchmark isolates optimization rather than model misspecification.
+plasma_state:
+  te_shells_eV: [4.30, 1.30, 3.70]
+  radicals:
+    F: [1.2e18, 1.8e19, 2.0e18]
+    N2_emit: [4.5e18, 2.0e17, 3.5e18]

@@ -1,0 +1,32 @@
+kind: oescr_optimizer_robustness_benchmark
+version: 2
+case: case_robust_init.yaml
+inverse: inverse_robust.yaml
+truth: case_truth.yaml
+instrument_id: cl2_benchmark_scan
+seeds: [7, 19, 43]
+training_chords: [0, 1, 2, 3]
+held_out_chord: 4
+held_out_measurement: measurements/chord_4.csv
+best_run_selection: minimum_training_objective
+held_out_metric: noise_free_forward_truth_window_nrmse
+plot_windows:
+  - label: Cl2 molecular band
+    min_nm: 296.0
+    max_nm: 316.0
+    baseline_correct: true
+  - label: Cl I / Xe I
+    min_nm: 818.0
+    max_nm: 832.0
+    baseline_correct: true
+acceptance:
+  min_initial_parameter_median_abs_relative_error: 0.40
+  min_initial_held_out_truth_nrmse: 0.15
+  max_optimized_held_out_truth_nrmse: 0.08
+  max_optimized_parameter_median_abs_relative_error: 0.20
+  max_optimized_parameter_max_abs_relative_error: 0.40
+  min_seed_pass_fraction: 0.6666666666666666
+limitations:
+  - Synthetic truth is known and the same OESCR forward model generates and fits the observations.
+  - Fixed, non-inferred quantities are set to synthetic truth to isolate optimizer robustness.
+  - Passing does not establish external physical accuracy.

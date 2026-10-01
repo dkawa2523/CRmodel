@@ -2,6 +2,8 @@
 
 Reviewed: 2026-09-30
 
+Verification refreshed: 2026-10-01
+
 ## Decision
 
 The v1 platform implementation has passed its acceptance gates for the declared
@@ -10,9 +12,8 @@ diagnostics, and runnable use cases are in place without adding a global
 chemistry model. It is not externally qualified for quantitative plasma
 parameter accuracy, and it makes no such claim.
 
-Windows application control blocks the native Pyrefly executable directly, so
-the same pinned Pyrefly 1.3.1 was run under WSL against the Windows environment's
-installed type information. That check reported 0 errors and 17 warnings.
+The pinned native Pyrefly 1.3.1 check reports 0 errors and 20 warnings after
+adding the distant-initialization benchmark runner and figure generator.
 
 ## Architecture outcome
 
@@ -48,6 +49,9 @@ by permissive fallbacks.
 - Analytic CR and emission-conservation fixtures qualify the current kernels.
 - Generated NF3/Ar and Cl2/Ar packages qualify reproducible workflow
   self-consistency, not experimental accuracy.
+- Their separate distant-initialization test currently fails the versioned
+  parameter-recovery and held-out-chord criteria; this is retained as an
+  identifiability result, not tuned into a pass.
 - The Schuecke and Arellano held-out candidates fail the v1 dataset-selection
   gate because required model inputs or claim-level uncertainty remain open.
 - No candidate-specific chemistry or tolerance was invented to force a pass.
@@ -59,14 +63,14 @@ and the 2026-09-30 selection table.
 
 | Check | Result |
 |---|---|
-| pytest | 113 passed |
+| pytest | 114 passed |
 | Ruff | passed |
 | Import Linter | 3 contracts kept, 0 broken |
 | Radon CC | 480 blocks, average A (3.525), no D/E blocks |
-| Markdown local links | 16 files checked, 0 broken targets |
+| Markdown local links | 22 files checked, 0 broken targets |
 | benchmark evidence audit | generated declarations and hashes pass; external quantitative status correctly remains NOT READY |
 | NF3/Ar and Cl2/Ar project validation | passed |
-| Pyrefly 1.3.1 | 0 errors / 17 warnings |
+| Pyrefly 1.3.1 | 0 errors / 20 warnings |
 | wheel build and isolated import smoke test | passed; public workflow imports and packaged case schema available from `oescr-0.1.0-py3-none-any.whl` |
 
 ## Release operation

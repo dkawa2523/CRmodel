@@ -1,6 +1,6 @@
 # OESCR 最適化問題・推定結果・探索履歴
 
-`validation-figures` との役割の違い、各パネルの読み方、初期スペクトルが観測に近いことの妥当性評価は、[検証図・最適化図の読み方とベンチマーク妥当性](figure_interpretation_guide.md)にまとめている。
+`validation-figures` との役割の違い、各パネルの読み方、初期スペクトルが観測に近いことの妥当性評価は、[検証図・最適化図の読み方とベンチマーク妥当性](figure_interpretation_guide.md)にまとめている。遠方・非単調初期値、truth-near parameter prior なし、3 seed、held-out chord で再実行した結果は、[遠方初期値からの最適化頑健性ベンチマーク](optimization_robustness_benchmark.md)を参照すること。後者では NF3/Ar、Cl2/Ar とも version 2 の固定基準に不合格であり、本資料の旧ケースを頑健性の証拠として扱わない。
 
 ## 読み方と適用範囲
 

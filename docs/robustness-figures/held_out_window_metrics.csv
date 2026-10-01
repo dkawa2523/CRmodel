@@ -1,0 +1,17 @@
+benchmark,role,seed,selected,window,held_out_truth_nrmse
+nf3_ar_ccp_clean_2023,initial,,False,N2(B-A) molecular band,0.5422314438381819
+nf3_ar_ccp_clean_2023,initial,,False,F I 685.6 / 703.7 / 712.8 nm,0.5050023167037608
+nf3_ar_ccp_clean_2023,optimized,7,False,N2(B-A) molecular band,0.1232721447519678
+nf3_ar_ccp_clean_2023,optimized,7,False,F I 685.6 / 703.7 / 712.8 nm,0.053303156463529844
+nf3_ar_ccp_clean_2023,optimized,19,False,N2(B-A) molecular band,0.11323099416348383
+nf3_ar_ccp_clean_2023,optimized,19,False,F I 685.6 / 703.7 / 712.8 nm,0.0655492268473746
+nf3_ar_ccp_clean_2023,optimized,43,True,N2(B-A) molecular band,0.12318873199859014
+nf3_ar_ccp_clean_2023,optimized,43,True,F I 685.6 / 703.7 / 712.8 nm,0.04496270741067628
+cl2_ar_icp_fuller2001,initial,,False,Cl2 molecular band,0.34922866904655586
+cl2_ar_icp_fuller2001,initial,,False,Cl I / Xe I,0.16081106376572113
+cl2_ar_icp_fuller2001,optimized,7,False,Cl2 molecular band,0.26855345060561414
+cl2_ar_icp_fuller2001,optimized,7,False,Cl I / Xe I,0.15197785261939267
+cl2_ar_icp_fuller2001,optimized,19,False,Cl2 molecular band,0.14026271287556788
+cl2_ar_icp_fuller2001,optimized,19,False,Cl I / Xe I,0.07597428536463727
+cl2_ar_icp_fuller2001,optimized,43,True,Cl2 molecular band,0.23437649960441528
+cl2_ar_icp_fuller2001,optimized,43,True,Cl I / Xe I,0.08256533350623241
