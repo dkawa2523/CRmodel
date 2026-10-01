@@ -1,0 +1,4 @@
+energy_eV,sigma_2p1_m2,sigma_2p1_uncertainty_m2,sigma_2p6_m2,sigma_2p6_uncertainty_m2
+20,5.0e-22,0.7e-22,3.2e-22,1.2e-22
+40,3.1e-22,0.5e-22,1.9e-22,0.7e-22
+100,2.5e-22,0.5e-22,1.0e-22,0.4e-22

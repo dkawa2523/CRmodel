@@ -1,0 +1,46 @@
+include: case.yaml
+
+states:
+  - id: X_excited
+    species: X
+    energy_eV: 2.0
+    solve: true
+
+reactions:
+  - id: X_excitation
+    kind: electron_excitation
+    source_state: X
+    target_state: X_excited
+    coefficient_m3_s: 1.0e-15
+
+transitions:
+  - id: X_600
+    upper: X_excited
+    lower: X
+    wavelength_nm: 600.0
+    A_s-1: 1.0e7
+    profile:
+      kind: gaussian
+      fwhm_nm: 0.05
+
+instruments:
+  - id: combined_radiance
+    wavelength_min_nm: 490.0
+    wavelength_max_nm: 610.0
+    bin_nm: 0.05
+    throughput: 1.0
+    lsf:
+      kind: gaussian
+      fwhm_nm: 0.05
+    baseline:
+      kind: constant
+      offset: 0.0
+    nuisance:
+      gain: 1.0
+      wavelength_shift_nm: 0.0
+    calibration:
+      kind: spectral_radiance
+      absolute: true
+      input_basis: spectral_radiance
+      output_unit: W_m-2_sr-1_nm-1
+      reference: Analytic identity calibration for combined conservation benchmark

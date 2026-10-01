@@ -6,17 +6,19 @@ import numpy as np
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 from oescr.forward.model import OESCRModel
+from oescr.inverse.gain_model import fit_gain_offsets_for_instrument
+from oescr.inverse.measurements import Measurement
 from oescr.inverse.objectives import (
-    Measurement,
-    fit_gain_offsets_for_instrument,
     gain_prior_residual,
     gain_tilt_prior_residual,
-    window_ratio_pair_residuals,
-    window_features,
-    window_fit_residuals,
-    window_ratio_residuals,
 )
 from oescr.inverse.priors import prior_residuals
+from oescr.inverse.window_metrics import (
+    window_features,
+    window_fit_residuals,
+    window_ratio_pair_residuals,
+    window_ratio_residuals,
+)
 
 
 def test_curated_nf3_forward_runs():

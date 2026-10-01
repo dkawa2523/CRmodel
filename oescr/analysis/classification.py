@@ -120,8 +120,8 @@ def scenario_accuracy_vs_truth(
             if pred_label == truth_label:
                 hits += 1
             row["truth_label"] = truth_label
-            row["class_match_truth"] = bool(pred_label == truth_label)
-        out[scenario] = {"accuracy": float(hits / support) if support > 0 else 0.0, "support": int(support)}
+            row["class_match_truth"] = pred_label == truth_label
+        out[scenario] = {"accuracy": float(hits / support) if support > 0 else 0.0, "support": support}
     return out
 
 
@@ -144,7 +144,7 @@ def window_pass_rate_by_kind(window_class_rows: List[Dict[str, Any]]) -> Dict[st
                 {
                     "kind": kind,
                     "pass_rate": float(pass_count / support) if support > 0 else 0.0,
-                    "support": int(support),
+                    "support": support,
                 }
             )
         rows.sort(key=lambda x: (-x["support"], x["kind"]))

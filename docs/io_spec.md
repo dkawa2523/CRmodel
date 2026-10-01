@@ -14,18 +14,20 @@ Required sections:
 
 Common sections:
 
-- `plasma_mode`
+- `eedf` (public plugin selector) or `plasma_mode` (compatibility input)
 - `gas_mixture`
 - `energy_grid`
 - `geometry`
 - `plasma_state`
 - `transitions`
 - `bands`
-- `quenching`
-- `losses`
 - `wall`
 - `residuals`
 - `diagnostics`
+
+`reactions` is the canonical home for electron-impact, first-order, two-body,
+and three-body linear CR processes. Legacy `quenching` and `losses` input is
+accepted only as normalization syntax and is not retained in the compiled case.
 
 ### Inverse YAML
 
@@ -33,6 +35,8 @@ Describes measurements, objective, optimization, and fitted parameters.
 
 Supports:
 
+- `inference_mode`: `relative_shape`, `ratio_diagnostic`, `actinometry`, or
+  `calibrated_absolute`
 - `measurements` with `file`, `files`, or `files_glob`
 - `parameters`
 - `parameter_groups`
@@ -42,6 +46,10 @@ Supports:
 - `fit.local`
 - `fit.uncertainty`
 - `fit.regularization`
+
+`ratio_diagnostic` and `actinometry` require an active ratio objective. The
+meaning, dimensional basis, and unsupported interpretation of every mode are
+defined in `capability_matrix.md`.
 
 ### Project YAML
 
@@ -70,6 +78,14 @@ One CSV per instrument and chord:
 - `{instrument_id}_chord_0.csv`
 - `{instrument_id}_chord_1.csv`
 - ...
+
+Forward CLI workflows also write `diagnostics.yaml` containing:
+
+- overall pass/warning/error status and categorized events
+- optional energy/wavelength convergence results
+- per-zone EEDF and CR diagnostics
+- reaction/process records and state source/loss budgets
+- cross-section and species-pack provenance
 
 ## Inverse outputs
 

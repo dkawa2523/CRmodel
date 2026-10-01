@@ -2,15 +2,14 @@ from __future__ import annotations
 
 from abc import abstractmethod
 from pathlib import Path
-from typing import Any, Dict, Mapping
+from typing import Any, Mapping
 
 import numpy as np
 
 from ..io.yaml_loader import resolve_path
 from ..plugins import PluginBase, PluginRegistry
-from .axisym_shell import build_W_axisym_shell
 from .asym_lowrank import apply_lowrank_asymmetry
-
+from .axisym_shell import build_W_axisym_shell
 
 GEOMETRY_PLUGINS: PluginRegistry["GeometryPlugin"] = PluginRegistry("geometry")
 
@@ -131,9 +130,10 @@ GEOMETRY_PLUGINS.register(_AsymLowRankGeometry())
 GEOMETRY_PLUGINS.register(_UserFieldGeometry())
 
 
-def get_geometry_plugin(cfg: Mapping[str, Any]) -> GeometryPlugin:
+def get_geometry_plugin(cfg: Mapping[str, Any], *, validate: bool = True) -> GeometryPlugin:
     geom = cfg.get("geometry", cfg)
     kind = str(geom.get("mode", "axisym_shell"))
     plugin = GEOMETRY_PLUGINS.get(kind)
-    plugin.validate_config(geom)
+    if validate:
+        plugin.validate_config(geom)
     return plugin

@@ -1,0 +1,204 @@
+kind: oescr_external_dataset_candidate
+dataset_id: arellano_2023_ar_ccp_figure10
+status: dataset_prepared_model_closure_pending
+held_out: true
+measurement_basis: relative_intensity
+calibration: relative_response_corrected
+comparison:
+  model_input_closure: conditional
+  evaluation_data_use: held_out_only
+source:
+  citation: >-
+    F. J. Arellano, M. Gyulai, Z. Donko, P. Hartmann, T. V. Tsankov,
+    U. Czarnetzki, and S. Hamaguchi, Plasma Sources Science and Technology
+    32 (2023) 125007.
+  doi: 10.1088/1361-6595/ad0ede
+  article_url: https://doi.org/10.1088/1361-6595/ad0ede
+  source_pdf_url: https://plasma.szfki.kfki.hu/~zoli/pdfs/PSST_2023_Arellano_OES.pdf
+  source_pdf_sha256: 8895e5c61fa33fde1b5afcb59b28ca433173af5ec65b772ed8df74283ea91050
+  data_availability: Supporting data are available from the authors on reasonable request.
+atomic_reference:
+  citation: NIST Atomic Spectra Database, Standard Reference Database 78.
+  doi: 10.18434/T4W30F
+  url: https://physics.nist.gov/PhysRefData/ASD/lines_form.html
+  query_url: >-
+    https://physics.nist.gov/cgi-bin/ASD/lines1.pl?spectra=Ar%20I&low_w=650&upp_w=950&unit=1&format=3&line_out=0&en_unit=0&output=0&page_size=100&show_obs_wl=1&show_calc_wl=1&unc_out=1&order_out=0&show_av=2&A_out=1&intens_out=on&allowed_out=1&forbid_out=1&conf_out=on&term_out=on&enrg_out=on&J_out=on&g_out=on&bibrefs=1&submit=Retrieve%20Data
+  retrieved: 2026-09-29
+  wavelength_medium: air
+  species_pack: ../../data/species_packs/ar_2p1_2p6_nist.yaml
+  level_2p1:
+    energy_cm-1: 108722.6194
+    energy_eV: 13.479887
+    radiative_branches:
+      - {wavelength_nm: 667.7282, lower: 1s4, A_s-1: 2.36e5}
+      - {wavelength_nm: 750.3869, lower: 1s2, A_s-1: 4.5e7}
+  level_2p6:
+    energy_cm-1: 106237.5518
+    energy_eV: 13.171778
+    radiative_branches:
+      - {wavelength_nm: 763.5106, lower: 1s5, A_s-1: 2.44e7}
+      - {wavelength_nm: 800.6157, lower: 1s4, A_s-1: 4.8e6}
+      - {wavelength_nm: 922.4499, lower: 1s2, A_s-1: 5.0e6}
+  line_750p3869_nm:
+    upper_energy_cm-1: 108722.6194
+    upper_paschen_notation: 2p1
+    lower_paschen_notation: 1s2
+    upper_statistical_weight: 1
+    gA_s-1: 4.5e7
+    A_s-1: 4.5e7
+  line_763p5106_nm:
+    upper_energy_cm-1: 106237.5518
+    upper_paschen_notation: 2p6
+    lower_paschen_notation: 1s5
+    upper_statistical_weight: 5
+    gA_s-1: 1.22e8
+    A_s-1: 2.44e7
+cross_section_reference:
+  citation: >-
+    J. E. Chilton, J. B. Boffard, R. S. Schappe, and C. C. Lin,
+    Physical Review A 57 (1998) 267-277.
+  doi: 10.1103/PhysRevA.57.267
+  url: https://journals.aps.org/pra/abstract/10.1103/PhysRevA.57.267
+  quantity: direct ground-state electron-impact excitation after measured cascade subtraction
+  source_table: IV
+  original_units: 1.0e-19 cm2
+  si_conversion: 1.0e-23 m2 per tabulated unit
+  coverage: three absolute anchors at 20, 40, and 100 eV; not a replacement excitation curve
+  artifact:
+    file: chilton_1998_ground_2p1_2p6_table4.csv
+    sha256: 3d79766913bfecf20cc6451d8f933d6f0d7f94762f625fc1888c1267d888baf8
+cascade_anchor_reference:
+  citation: >-
+    J. E. Chilton, J. B. Boffard, R. S. Schappe, and C. C. Lin,
+    Physical Review A 57 (1998) 267-277.
+  doi: 10.1103/PhysRevA.57.267
+  url: https://journals.aps.org/pra/abstract/10.1103/PhysRevA.57.267
+  source_table: III
+  electron_energy_eV: 40.0
+  gas_pressure_mTorr: 1.0
+  original_units: 1.0e-19 cm2
+  scope: monoenergetic low-pressure anchor; not an EEDF-integrated or pressure-transferable correction
+  artifact:
+    file: chilton_1998_cascade_2p1_2p6_table3.csv
+    sha256: 83140f40733ceadf7c932041633c1427ace2e8a9a6ee68b97a7245b06b196c0c
+collisional_quenching_reference:
+  citation: >-
+    F. J. Arellano et al., Plasma Sources Science and Technology 32
+    (2023) 125007.
+  doi: 10.1088/1361-6595/ad0ede
+  source_table: 3
+  process: Ar(2p) + Ar(gs) -> Ar(gs) + Ar(gs)
+  rate_coefficients_m3_s: {2p1: 1.6e-17, 2p6: 1.3e-17}
+  scope: state-specific neutral-Ar loss in the optically thin corona balance
+lxcat_data_handling:
+  browse_url: https://us.lxcat.net/data/
+  policy_url: https://us.lxcat.net/instructions/redistribution.php
+  packaged_with_repository: false
+  curve_digest_format: SHA-256 of little-endian float64 [energy_eV, sigma_m2] rows
+cross_section_models:
+  - model_id: bsr_500
+    citation: >-
+      O. Zatsarinny, Y. Wang, and K. Bartschat, Electron-impact excitation
+      of argon at intermediate energies, Physical Review A 89 (2014) 022706.
+    doi: 10.1103/PhysRevA.89.022706
+    method: B-spline R-matrix with pseudostates
+    database: LXCat BSR
+    database_url: https://www.lxcat.net/BSR
+    source_set: BSR-500
+    data_group_updated: 2016-05-29
+    retrieved: 2026-09-29
+    input_option: --bsr-download
+    scope: close-coupling theoretical shape reference without source-provided curve uncertainty
+    transformation: production process tables are consumed in SI units without smoothing or amplitude tuning
+    artifacts:
+      - upper_level: 2p1
+        production_process_id: 62286
+        process_label: "Ar -> Ar(4p'[1/2]0)"
+        native_threshold_eV: 13.594
+        row_count: 196
+        curve_data_sha256: 19e01a7e7b97ff819de48de2e499e5103f4d17644a951f2e530709b058dee811
+      - upper_level: 2p6
+        production_process_id: 62281
+        process_label: Ar -> Ar(4p[3/2]2)
+        native_threshold_eV: 13.299
+        row_count: 218
+        curve_data_sha256: 8933a7de6b40ef12fe9117398c7bd4845752d19c2a95b4a23f0df62f4be1b89e
+  - model_id: ngfsrdw_1998
+    citation: >-
+      S. Kaur, R. Srivastava, R. P. McEachran, and A. D. Stauffer,
+      Electron impact excitation of the np5(n+1)p states of Ar (n=3),
+      Kr (n=4) and Xe (n=5) atoms, Journal of Physics B 31 (1998) 4833-4852.
+    doi: 10.1088/0953-4075/31/21/015
+    method: relativistic distorted wave
+    database: LXCat NGFSRDW
+    database_url: https://www.lxcat.net/NGFSRDW
+    source_set: Ar ground-state fine-structure excitation
+    data_group_updated: 2016-06-15
+    retrieved: 2026-09-29
+    input_option: --ngfsrdw-download
+    scope: independent sparse theoretical curve; model-discrepancy bound, not a near-threshold benchmark
+    transformation: production process tables are consumed in SI units without smoothing or amplitude tuning
+    artifacts:
+      - upper_level: 2p1
+        production_process_id: 2560
+        process_label: Ar(3p6 J = 0) <-> Ar(3p5 4p J = 0  2p1)
+        native_threshold_eV: 13.48
+        row_count: 17
+        curve_data_sha256: 124f52f146c92a81ec42cd5c6afd61d7a2c3e0cf6fb5aeee971dd2c5d8f8a147
+      - upper_level: 2p6
+        production_process_id: 2567
+        process_label: Ar(3p6 J = 0) <-> Ar(3p5 4p J = 2  2p6)
+        native_threshold_eV: 13.172
+        row_count: 17
+        curve_data_sha256: a9a02490576b72b391f9b476b9dec5275a04b891d0c26720095417faeffd90ad
+atomic_model_assessment:
+  evaluator: scripts/assess_arellano_atomic_model.py
+  purpose: diagnostic sensitivity only; no validation verdict
+  artifact:
+    file: atomic_model_assessment.json
+    sha256: ded0452fe27a053a34cc6469543a39f43659d8deff5b4d5c1a4b59d8575870fd
+  energy_grid: {min_eV: 0.0, max_eV: 300.0, n_points: 30001}
+  mean_energy_eV: [3.0, 4.5, 6.0, 7.5, 9.0, 12.0]
+  eedf_families: [maxwellian, druyvesteyn]
+  threshold_bases: [native_model, nist_level_energy]
+  assumptions:
+    - direct ground-state excitation only
+    - corona balance with all NIST radiative branches
+    - BSR-500 and NGFSRDW are treated as independent direct-excitation model families
+    - EEDF families compared at equal mean energy
+    - neutral-Ar quenching is evaluated as a separate state-specific loss sensitivity
+    - the monoenergetic cascade anchor is reported separately and is not applied to EEDF-integrated predictions
+    - no stepwise excitation or radiation trapping
+artifact:
+  file: figure_10_oes_ratio.csv
+  sha256: 31a4a7f1a91f076da1a2352602e1536e68a746eb2ddbe4ddd20f09fdb08b2fa8
+  origin: digitized_figure
+  article_pages: [13]
+  pdf_pages: [13]
+operating_condition:
+  gas: Ar
+  flow_sccm: 1.0
+  pressure_range_Pa: [2.0, 100.0]
+  gas_temperature_range_K: [304.0, 350.0]
+  rf_frequency_MHz: 13.56
+  rf_voltage_peak_to_peak_V: 300.0
+observable:
+  numerator_wavelength_nm: 763.5
+  denominator_wavelength_nm: 750.4
+  low_pressure_atomic_check_max_Pa: 10.0
+  metastable_sensitive_min_Pa: 20.0
+digitization_tolerance:
+  rule: half of one PDF coordinate point on each plotted axis
+  pressure_log10_decade: 0.0047
+  line_ratio: 0.0176
+reported_experimental_uncertainty:
+  line_ratio: unknown
+limitations:
+  - The plotted ratio has relative spectral-response correction but no absolute intensity calibration.
+  - The source does not report quantitative uncertainty for the plotted ratio.
+  - The source data are request-only; the packaged values are vector-digitized.
+  - General example Ar excitation cross sections remain effective seeds and are not validation-grade state-resolved data.
+  - The externally supplied BSR and NGFSRDW curves are independent theoretical references, but neither has source-provided uncertainty.
+  - The sparse NGFSRDW curve is a model-discrepancy bound and not an uncertainty-bearing near-threshold benchmark.
+  - EEDF and Ar 1s5 density are not independently closed for the full experimental pressure series.
+  - This candidate is not counted as validation until its comparator and tolerance are fixed.

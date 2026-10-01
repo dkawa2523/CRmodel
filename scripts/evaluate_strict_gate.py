@@ -8,8 +8,12 @@ from typing import Any, Dict, List
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
+from oescr.analysis.benchmark_contract import (
+    AnalysisContractError,
+    assert_compatible_analysis_contracts,
+    require_analysis_contract,
+)
 from oescr.io.yaml_loader import load_yaml
-
 
 BENCH_ROOT = Path(__file__).resolve().parents[1] / "examples" / "benchmarks"
 
@@ -45,21 +49,23 @@ def _bench_result(
     benchmark_id: str,
     baseline: Dict[str, Any],
     improved: Dict[str, Any],
+    baseline_scenario: str = "opt",
+    improved_scenario: str = "opt",
 ) -> Dict[str, Any]:
-    scen_base = _scenario_map(baseline).get("opt", {})
-    scen_imp = _scenario_map(improved).get("opt", {})
+    scen_base = _scenario_map(baseline).get(baseline_scenario, {})
+    scen_imp = _scenario_map(improved).get(improved_scenario, {})
     corr_base = float(scen_base.get("mean_correlation", 0.0))
     corr_imp = float(scen_imp.get("mean_correlation", 0.0))
     nrmse_base = float(scen_base.get("mean_nrmse_std", 0.0))
     nrmse_imp = float(scen_imp.get("mean_nrmse_std", 0.0))
 
-    pair_base = _accuracy(baseline, "pair_pattern_accuracy_vs_truth")
-    pair_imp = _accuracy(improved, "pair_pattern_accuracy_vs_truth")
-    win_base = _accuracy(baseline, "window_class_accuracy_vs_truth")
-    win_imp = _accuracy(improved, "window_class_accuracy_vs_truth")
+    pair_base = _accuracy(baseline, "pair_pattern_accuracy_vs_truth", baseline_scenario)
+    pair_imp = _accuracy(improved, "pair_pattern_accuracy_vs_truth", improved_scenario)
+    win_base = _accuracy(baseline, "window_class_accuracy_vs_truth", baseline_scenario)
+    win_imp = _accuracy(improved, "window_class_accuracy_vs_truth", improved_scenario)
 
-    line_base = _line_pass_map(baseline)
-    line_imp = _line_pass_map(improved)
+    line_base = _line_pass_map(baseline, baseline_scenario)
+    line_imp = _line_pass_map(improved, improved_scenario)
     line_deltas = {
         kind: float(line_imp.get(kind, line_base[kind]) - line_base[kind])
         for kind in line_base
@@ -90,48 +96,86 @@ def _load_summary(benchmark: str, run_name: str, out_name: str) -> Dict[str, Any
     return load_yaml(path)
 
 
-def main() -> None:
-    ap = argparse.ArgumentParser(description="Evaluate strict benchmark acceptance gate from analysis summaries.")
+def _argument_parser() -> argparse.ArgumentParser:
+    ap = argparse.ArgumentParser(
+        description="Evaluate the generated self-consistency acceptance gate from analysis summaries."
+    )
     ap.add_argument("--benchmarks", nargs="+", default=["nf3_ar_ccp_clean_2023", "cl2_ar_icp_fuller2001"])
-    ap.add_argument("--baseline-run", default="inverse_plan_baseline_20260329")
-    ap.add_argument("--baseline-out-name", default="analysis_plan_baseline")
-    ap.add_argument("--improved-run", default="inverse_plan_improved_20260329")
-    ap.add_argument("--improved-out-name", default="analysis_plan_improved")
+    ap.add_argument("--baseline-run", help="Baseline run directory for a between-run comparison.")
+    ap.add_argument("--baseline-out-name", help="Baseline analysis directory for a between-run comparison.")
+    ap.add_argument("--improved-run", required=True, help="Candidate run directory.")
+    ap.add_argument("--improved-out-name", required=True, help="Candidate analysis directory.")
+    ap.add_argument(
+        "--within-run",
+        action="store_true",
+        help="Compare init to opt in each improved summary instead of comparing two run directories.",
+    )
     ap.add_argument("--cl2-pair-threshold", type=float, default=0.80)
-    args = ap.parse_args()
+    return ap
+
+
+def _comparison_results(args: argparse.Namespace, ap: argparse.ArgumentParser) -> List[Dict[str, Any]]:
+    if not args.within_run and (not args.baseline_run or not args.baseline_out_name):
+        ap.error("Between-run comparison requires --baseline-run and --baseline-out-name.")
 
     results: List[Dict[str, Any]] = []
     for benchmark in args.benchmarks:
-        base_summary = _load_summary(benchmark, args.baseline_run, args.baseline_out_name)
         imp_summary = _load_summary(benchmark, args.improved_run, args.improved_out_name)
-        results.append(_bench_result(benchmark, base_summary, imp_summary))
+        try:
+            if args.within_run:
+                require_analysis_contract(imp_summary)
+                results.append(
+                    _bench_result(
+                        benchmark,
+                        imp_summary,
+                        imp_summary,
+                        baseline_scenario="init",
+                        improved_scenario="opt",
+                    )
+                )
+            else:
+                base_summary = _load_summary(benchmark, args.baseline_run, args.baseline_out_name)
+                assert_compatible_analysis_contracts(base_summary, imp_summary)
+                results.append(_bench_result(benchmark, base_summary, imp_summary))
+        except AnalysisContractError as exc:
+            ap.error(str(exc))
+    return results
 
+
+def _gate_flags(results: List[Dict[str, Any]], cl2_pair_threshold: float) -> Dict[str, bool]:
     pair_non_degrade = all(item["pair_acc_delta"] >= -1.0e-12 for item in results)
-    line_non_degrade = all(all(delta >= -1.0e-12 for delta in item["line_pass_delta"].values()) for item in results)
+    window_non_degrade = all(item["window_acc_delta"] >= -1.0e-12 for item in results)
+    line_non_degrade = all(
+        all(delta >= -1.0e-12 for delta in item["line_pass_delta"].values()) for item in results
+    )
     corr_guard = all((-item["mean_correlation_delta"]) <= 0.002 + 1.0e-12 for item in results)
     nrmse_guard = all(item["mean_nrmse_std_rel_delta"] <= 0.05 + 1.0e-12 for item in results)
-
-    any_class_improve = False
-    for item in results:
-        max_line_delta = max(item["line_pass_delta"].values(), default=0.0)
-        if max(item["pair_acc_delta"], item["window_acc_delta"], max_line_delta) >= 0.05 - 1.0e-12:
-            any_class_improve = True
-            break
-
+    any_class_improve = any(
+        max(
+            item["pair_acc_delta"],
+            item["window_acc_delta"],
+            max(item["line_pass_delta"].values(), default=0.0),
+        )
+        >= 0.05 - 1.0e-12
+        for item in results
+    )
     cl2_items = [item for item in results if item["benchmark_id"] == "cl2_ar_icp_fuller2001"]
-    cl2_pair_guard = bool(cl2_items) and cl2_items[0]["pair_acc_improved"] >= float(args.cl2_pair_threshold) - 1.0e-12
+    cl2_pair_guard = bool(cl2_items) and cl2_items[0]["pair_acc_improved"] >= cl2_pair_threshold - 1.0e-12
 
-    gate = {
+    return {
         "pair_non_degrade": pair_non_degrade,
+        "window_non_degrade": window_non_degrade,
         "line_non_degrade": line_non_degrade,
         "correlation_guard": corr_guard,
         "nrmse_guard": nrmse_guard,
         "classification_improvement_ge_5pt": any_class_improve,
         "cl2_pair_accuracy_guard": cl2_pair_guard,
     }
-    passed = all(gate.values())
 
-    print("Strict Gate Summary")
+
+def _print_summary(results: List[Dict[str, Any]], gate: Dict[str, bool], within_run: bool) -> None:
+    comparison = "init->opt within current run" if within_run else "baseline->improved runs"
+    print(f"Generated Self-Consistency Gate Summary ({comparison})")
     for item in results:
         print(
             f"- {item['benchmark_id']}: pair {item['pair_acc_base']:.3f}->{item['pair_acc_improved']:.3f}, "
@@ -140,7 +184,16 @@ def main() -> None:
             f"nrmse_rel_delta {item['mean_nrmse_std_rel_delta']:+.3%}"
         )
     print("Gate Flags:", gate)
-    print("Result:", "PASS" if passed else "FAIL")
+    print("Result:", "PASS" if all(gate.values()) else "FAIL")
+
+
+def main() -> None:
+    ap = _argument_parser()
+    args = ap.parse_args()
+    results = _comparison_results(args, ap)
+    gate = _gate_flags(results, float(args.cl2_pair_threshold))
+    _print_summary(results, gate, bool(args.within_run))
+    passed = all(gate.values())
     raise SystemExit(0 if passed else 1)
 
 

@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>OESCR ベンチマーク図版</title>
+  <style>
+    :root { color-scheme: light dark; font-family: system-ui, -apple-system, "Segoe UI", sans-serif; }
+    body { margin: 0; background: Canvas; color: CanvasText; }
+    main { max-width: 1320px; margin: 0 auto; padding: 24px; }
+    h1 { margin: 0 0 8px; font-size: 1.6rem; }
+    .lead { margin: 0 0 28px; color: GrayText; line-height: 1.6; }
+    figure { margin: 0 0 36px; }
+    img { display: block; width: 100%; height: auto; border: 1px solid color-mix(in srgb, CanvasText 20%, Canvas); }
+    figcaption { margin-top: 10px; line-height: 1.6; }
+    strong { display: block; margin-bottom: 3px; }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>OESCR ベンチマーク図版</h1>
+    <p class="lead">観測／解析目標、初期計算、最適化後計算、残差、既知真値を直接比較した静的図版です。NF₃/Ar と Cl₂/Ar は生成データ上の自己整合性であり、外部実験精度の証明ではありません。</p>
+
+    <figure>
+      <img src="validation-figures/01_analytic_forward_reproduction.png" alt="解析前向き計算のスペクトルと積分保存">
+      <figcaption><strong>図1　解析前向き計算</strong>計算スペクトルを波長積分した値が、独立な解析目標へ到達することを示します。</figcaption>
+    </figure>
+
+    <figure>
+      <img src="validation-figures/02_two_band_inverse_recovery.png" alt="二バンド逆解析のスペクトル再現と真値回収">
+      <figcaption><strong>図2　二バンド逆解析</strong>ratio／actinometry と calibrated absolute で、観測スペクトルおよび既知の対象種密度・電子密度を回収します。</figcaption>
+    </figure>
+
+    <figure>
+      <img src="validation-figures/03_nf3_spectral_fit_and_recovery.png" alt="NF3 Ar ベンチマークのスペクトル適合と推定プロファイル">
+      <figcaption><strong>図3　NF₃/Ar</strong>3本の chord における F I スペクトル、波長別残差、3 shell の推定値を示します。既知真値との差も残したまま表示しています。</figcaption>
+    </figure>
+
+    <figure>
+      <img src="validation-figures/04_cl2_spectral_fit_and_recovery.png" alt="Cl2 Ar ベンチマークのスペクトル適合と推定プロファイル">
+      <figcaption><strong>図4　Cl₂/Ar</strong>代表3波長域の局所ベースライン補正スペクトル、波長別残差、Cl／Cl₂発光プロキシの推定値を示します。</figcaption>
+    </figure>
+  </main>
+</body>
+</html>

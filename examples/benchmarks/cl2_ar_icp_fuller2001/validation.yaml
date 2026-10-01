@@ -1,0 +1,66 @@
+kind: oescr_validation_evidence
+validation_id: cl2_ar_icp_fuller2001_generated
+evidence_level: generated_self_consistency
+sources:
+  - citation: >-
+      Fuller, N.C.M.; Herman, I.P.; Donnelly, V.M., Optical actinometry of Cl2,
+      Cl, Cl+, and Ar+ densities in inductively coupled Cl2-Ar plasmas,
+      J. Appl. Phys. 90, 3182-3191 (2001).
+    doi: 10.1063/1.1391222
+    url: https://doi.org/10.1063/1.1391222
+    data_availability: >-
+      The article reports calibrated spectral procedures and derived density
+      curves; this package does not contain the article's raw measured spectra.
+dataset:
+  origin: generated
+  held_out: false
+  measurement_basis: synthetic_detector_counts
+  calibration: not_applicable
+  files:
+    - file: measurements/chord_0.csv
+      sha256: 7da3312991f6c2b14e981d24bbabe35e3446506e9c0719b75b443fdd038c7f18
+    - file: measurements/chord_1.csv
+      sha256: 4ea861a8853cdef41a8c1eb2555a1c8f4834a29205516996ab25972b7b763264
+    - file: measurements/chord_2.csv
+      sha256: acfdf30b6a2e497355ea07690fb4622fefae4cf8ea95df31d85c39dad1ef7778
+    - file: measurements/chord_3.csv
+      sha256: eea62f4dbba2357867ad81d19ec5b9e14573a3036ff56303e1a3849b7ca46ea8
+    - file: measurements/chord_4.csv
+      sha256: 56ec12f61f1bd2526b6a3ed3780a1c21c2dfe816608bc400da22287e279988aa
+  preprocessing:
+    - Forward spectrum generated from case_truth.yaml.
+    - Deterministic wavelength shift, gain, baseline, and seeded noise applied.
+    - One line-integrated literature view was represented by five synthetic chords.
+comparison:
+  model_input_closure: closed
+  evaluation_data_use: generated_truth
+acceptance:
+  evaluator: ../../../scripts/evaluate_strict_gate.py
+  evaluator_sha256: 1d9671536225fdda051e3fbac962c80ee78449912f84db6c1a0a0be26b864a1a
+  evaluator_version: gate-v1
+  result_contract: oescr.benchmark.analysis/v1
+  metrics:
+    - name: pair classification non-degradation
+      criterion: improved minus baseline accuracy is at least the threshold
+      threshold: 0.0
+      unit: fraction
+    - name: line-window pass non-degradation
+      criterion: improved minus baseline pass rate is at least the threshold
+      threshold: 0.0
+      unit: fraction
+    - name: window classification non-degradation
+      criterion: improved minus baseline accuracy is at least the threshold
+      threshold: 0.0
+      unit: fraction
+    - name: pair classification floor
+      criterion: improved pair classification accuracy is at least the threshold
+      threshold: 0.8
+      unit: fraction
+    - name: normalized-RMSE guard
+      criterion: maximum permitted relative increase in mean normalized RMSE
+      threshold: 0.05
+      unit: fraction
+limitations:
+  - This package validates workflow recovery from internally generated data only.
+  - Effective Cl2, Cl, Cl+, Ar+, and Xe emitters are empirical rather than absolute CR predictions.
+  - Published density and dissociation results are not yet mapped to independently predicted OESCR outputs.

@@ -1,0 +1,5 @@
+include: case_truth.yaml
+
+plasma_state:
+  radicals:
+    Target: [1.0e18]

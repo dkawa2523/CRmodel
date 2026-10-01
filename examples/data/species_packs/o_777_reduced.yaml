@@ -1,0 +1,31 @@
+kind: oescr_species_pack
+metadata:
+  source: Existing OESCR CF4/O2/Ar example seed
+  scope: O(3p5P) excitation, O2 quenching, and 777.417 nm emission
+  evidence: Illustrative reduced-model seed; not externally qualified
+states:
+  - id: O_3p5P
+    species: O
+    energy_eV: 10.74
+    mass_amu: 15.999
+    solve: true
+reactions:
+  - id: exc_O_to_3p5P
+    kind: electron_excitation
+    source_state: O
+    target_state: O_3p5P
+    cross_section_file: ../cross_sections/O_to_3p5P.csv
+  - id: quench_O_3p5P_by_O2
+    kind: two_body
+    source_state: O_3p5P
+    colliders: [O2]
+    coefficient_m3_s: 2.0e-16
+transitions:
+  - id: O777
+    upper: O_3p5P
+    lower: O_3s5S
+    wavelength_nm: 777.417
+    A_s-1: 3.2e7
+    profile:
+      kind: gaussian
+      fwhm_nm: 0.03

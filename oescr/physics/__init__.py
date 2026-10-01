@@ -1,5 +1,5 @@
 from .bands import BAND_EMISSION_PLUGINS, BAND_PROFILE_PLUGINS
-from .eedf import EEDF_PLUGINS
+from .eedf import EEDF_PLUGINS, EEDFPlugin
 from .rates import REACTION_RATE_PLUGINS
 from .trapping import TRAPPING_PLUGINS
 from .wall import WALL_LOSS_PLUGINS
@@ -8,6 +8,7 @@ __all__ = [
     "BAND_EMISSION_PLUGINS",
     "BAND_PROFILE_PLUGINS",
     "EEDF_PLUGINS",
+    "EEDFPlugin",
     "REACTION_RATE_PLUGINS",
     "TRAPPING_PLUGINS",
     "WALL_LOSS_PLUGINS",

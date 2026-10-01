@@ -1,0 +1,65 @@
+kind: oescr_validation_evidence
+validation_id: nf3_ar_ccp_clean_2023_generated
+evidence_level: generated_self_consistency
+sources:
+  - citation: >-
+      An, S.; Hong, S.J., Spectroscopic Analysis of NF3 Plasmas with Oxygen
+      Additive for PECVD Chamber Cleaning, Coatings 13(1), 91 (2023).
+    doi: 10.3390/coatings13010091
+    url: https://doi.org/10.3390/coatings13010091
+    data_availability: >-
+      The article states that study data are available on request and are not
+      publicly available because of equipment-supplier restrictions.
+dataset:
+  origin: generated
+  held_out: false
+  measurement_basis: synthetic_detector_counts
+  calibration: not_applicable
+  files:
+    - file: measurements/chord_0.csv
+      sha256: 8d642767ab6d43e0af7dc44e2e85377e2f7b802e9311553fc497430a025e4f35
+    - file: measurements/chord_1.csv
+      sha256: ae082f144be9e40715c63293199b0f124f2d7fb22544e0035fcdc76368e66142
+    - file: measurements/chord_2.csv
+      sha256: d8fb6b6b92f7139fdc6b4fce6622db82fe42d6a8360bc45a5bcfa7a141787b92
+    - file: measurements/chord_3.csv
+      sha256: ef13c01ae25adfe237976bb388e3e00dff3d3f4729f8e532187b104133bed04b
+    - file: measurements/chord_4.csv
+      sha256: 70d4b290db39421e451c549f0141dda51edd4e604cbea3b1c58c8cf94436a8a5
+  preprocessing:
+    - Forward spectrum generated from case_truth.yaml.
+    - Deterministic wavelength shift, gain, baseline, and seeded noise applied.
+    - One literature spectrum was represented by five synthetic chords.
+comparison:
+  model_input_closure: closed
+  evaluation_data_use: generated_truth
+acceptance:
+  evaluator: ../../../scripts/evaluate_strict_gate.py
+  evaluator_sha256: 1d9671536225fdda051e3fbac962c80ee78449912f84db6c1a0a0be26b864a1a
+  evaluator_version: gate-v1
+  result_contract: oescr.benchmark.analysis/v1
+  metrics:
+    - name: pair classification non-degradation
+      criterion: improved minus baseline accuracy is at least the threshold
+      threshold: 0.0
+      unit: fraction
+    - name: line-window pass non-degradation
+      criterion: improved minus baseline pass rate is at least the threshold
+      threshold: 0.0
+      unit: fraction
+    - name: window classification non-degradation
+      criterion: improved minus baseline accuracy is at least the threshold
+      threshold: 0.0
+      unit: fraction
+    - name: correlation guard
+      criterion: maximum permitted decrease in mean correlation
+      threshold: 0.002
+      unit: fraction
+    - name: normalized-RMSE guard
+      criterion: maximum permitted relative increase in mean normalized RMSE
+      threshold: 0.05
+      unit: fraction
+limitations:
+  - This package validates workflow recovery from internally generated data only.
+  - Empirical band amplitudes are not absolute photon-rate predictions.
+  - The literature source is an operating-condition and feature anchor, not a held-out dataset.

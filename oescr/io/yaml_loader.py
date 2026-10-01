@@ -1,5 +1,3 @@
-from __future__ import annotations
-
 """YAML loading helpers.
 
 This module now does more than plain ``yaml.safe_load``.
@@ -15,13 +13,14 @@ The goal is to keep user-facing YAML compact while keeping the internal model
 configuration fully explicit and reproducible.
 """
 
-from copy import deepcopy
-from pathlib import Path
-from typing import Any, Dict, Iterable
-
-import yaml
+from __future__ import annotations
 
 import re
+from copy import deepcopy
+from pathlib import Path
+from typing import Any, Dict, Iterable, Mapping, overload
+
+import yaml
 
 _NUMERIC_RE = re.compile(r"^[+-]?(?:\d+(?:\.\d*)?|\.\d+)(?:[eE][+-]?\d+)?$")
 
@@ -200,7 +199,17 @@ def save_yaml(data: Dict[str, Any], path: str | Path) -> None:
         yaml.safe_dump(clean, f, sort_keys=False)
 
 
-def resolve_path(config: Dict[str, Any], path_str: str | None) -> Path | None:
+@overload
+def resolve_path(config: Mapping[str, Any], path_str: str) -> Path:
+    ...
+
+
+@overload
+def resolve_path(config: Mapping[str, Any], path_str: None) -> None:
+    ...
+
+
+def resolve_path(config: Mapping[str, Any], path_str: str | None) -> Path | None:
     if path_str is None:
         return None
     p = Path(path_str)

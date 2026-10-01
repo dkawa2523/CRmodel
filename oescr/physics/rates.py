@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from abc import abstractmethod
-from dataclasses import dataclass
+from dataclasses import asdict, dataclass
 from typing import Any, Dict, Mapping, Tuple
 
 import numpy as np
@@ -10,8 +10,22 @@ from scipy import constants as const
 from ..data.cross_section_db import CrossSectionLibrary
 from ..plugins import PluginBase, PluginRegistry
 
-
 REACTION_RATE_PLUGINS: PluginRegistry["ReactionRatePlugin"] = PluginRegistry("reaction_rate")
+
+
+@dataclass(frozen=True)
+class CrossSectionCoverage:
+    path: str
+    sha256: str
+    data_min_eV: float
+    data_max_eV: float
+    covered_probability: float
+    probability_below_data: float
+    probability_above_data: float
+    metadata: Dict[str, str]
+
+    def as_dict(self) -> Dict[str, Any]:
+        return asdict(self)
 
 
 class ReactionRatePlugin(PluginBase):
@@ -110,6 +124,27 @@ class RateCalculator:
         integrand = sigma * self.electron_velocity_m_s * eedf_pdf
         return float(np.trapezoid(integrand, self.energy_eV))
 
+    def cross_section_coverage(self, path: str, eedf_pdf: np.ndarray) -> CrossSectionCoverage:
+        cs = self.cs_library.load(path)
+        data_min, data_max = cs.energy_range_eV
+        below = self.energy_eV < data_min
+        above = self.energy_eV > data_max
+        within = ~(below | above)
+
+        def probability(mask: np.ndarray) -> float:
+            return float(np.trapezoid(np.where(mask, eedf_pdf, 0.0), self.energy_eV))
+
+        return CrossSectionCoverage(
+            path=cs.path,
+            sha256=cs.sha256,
+            data_min_eV=data_min,
+            data_max_eV=data_max,
+            covered_probability=probability(within),
+            probability_below_data=probability(below),
+            probability_above_data=probability(above),
+            metadata=dict(cs.metadata),
+        )
+
     def rate_from_threshold_model(
         self,
         eedf_pdf: np.ndarray,
@@ -129,6 +164,17 @@ class RateCalculator:
 
 
 def resolve_reaction_rate_spec(rxn: Mapping[str, Any]) -> Dict[str, Any]:
+    rate_fields = [
+        name
+        for name in ("rate_model", "cross_section_file", "threshold_model", "coefficient_m3_s")
+        if name in rxn
+    ]
+    if len(rate_fields) != 1:
+        reaction_id = rxn.get("id", "<unknown>")
+        raise ValueError(
+            f"Reaction '{reaction_id}' must define exactly one rate source "
+            "(rate_model, cross_section_file, threshold_model, or coefficient_m3_s)."
+        )
     if "rate_model" in rxn:
         spec = dict(rxn["rate_model"])
         if "kind" not in spec:
@@ -140,15 +186,30 @@ def resolve_reaction_rate_spec(rxn: Mapping[str, Any]) -> Dict[str, Any]:
         tm = dict(rxn["threshold_model"])
         tm["kind"] = "threshold_model"
         return tm
-    return {"kind": "constant", "coefficient_m3_s": float(rxn.get("coefficient_m3_s", 0.0))}
+    return {"kind": "constant", "coefficient_m3_s": float(rxn["coefficient_m3_s"])}
 
 
 def reaction_rate_coefficient(
     rate_calc: RateCalculator,
     rxn: Mapping[str, Any],
     eedf_pdf: np.ndarray,
+    *,
+    validate: bool = True,
 ) -> float:
     spec = resolve_reaction_rate_spec(rxn)
+    return reaction_rate_from_spec(rate_calc, spec, eedf_pdf, validate=validate)
+
+
+def reaction_rate_from_spec(
+    rate_calc: RateCalculator,
+    spec: Mapping[str, Any],
+    eedf_pdf: np.ndarray,
+    *,
+    validate: bool = True,
+) -> float:
+    """Evaluate an already-normalized electron-impact rate specification."""
+
     plugin = REACTION_RATE_PLUGINS.get(str(spec["kind"]))
-    plugin.validate_config(spec)
+    if validate:
+        plugin.validate_config(spec)
     return plugin.rate(rate_calc, spec, eedf_pdf)

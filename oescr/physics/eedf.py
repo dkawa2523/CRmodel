@@ -1,14 +1,39 @@
 from __future__ import annotations
 
 from abc import abstractmethod
+from dataclasses import dataclass
 from typing import Any, Dict, Mapping
 
 import numpy as np
 
 from ..plugins import PluginBase, PluginRegistry
 
-
 EEDF_PLUGINS: PluginRegistry["EEDFPlugin"] = PluginRegistry("eedf")
+
+
+@dataclass(frozen=True)
+class EEDFDiagnostics:
+    normalization: float
+    mean_energy_eV: float
+    upper_decile_probability: float
+    upper_edge_relative_pdf: float
+
+
+def summarize_eedf(energy_eV: np.ndarray, pdf: np.ndarray) -> EEDFDiagnostics:
+    """Return grid-dependent EEDF checks without claiming an unobserved tail."""
+
+    normalization = float(np.trapezoid(pdf, energy_eV))
+    mean_energy = float(np.trapezoid(energy_eV * pdf, energy_eV))
+    cutoff = float(energy_eV[0] + 0.9 * (energy_eV[-1] - energy_eV[0]))
+    mask = energy_eV >= cutoff
+    upper_decile = float(np.trapezoid(pdf[mask], energy_eV[mask])) if np.count_nonzero(mask) >= 2 else 0.0
+    peak = max(float(np.max(pdf)), 1.0e-300)
+    return EEDFDiagnostics(
+        normalization=normalization,
+        mean_energy_eV=mean_energy,
+        upper_decile_probability=upper_decile,
+        upper_edge_relative_pdf=float(pdf[-1]) / peak,
+    )
 
 
 class EEDFPlugin(PluginBase):
@@ -170,7 +195,33 @@ def build_energy_grid(cfg: Dict[str, Any]) -> np.ndarray:
     return np.linspace(emin, emax, npts)
 
 
-def resolve_eedf_plugin_spec(cfg: Dict[str, Any], zone_idx: int) -> Dict[str, Any]:
+def eedf_model_kind(cfg: Mapping[str, Any]) -> str:
+    """Return the selected EEDF plugin kind for capability checks and reports."""
+
+    envelope = cfg.get("eedf")
+    if isinstance(envelope, Mapping):
+        return str(envelope["kind"])
+
+    mode = str(cfg.get("plasma_mode", "te"))
+    if mode == "te":
+        te_kind = str(cfg.get("plasma_state", {}).get("te_eedf_kind", "maxwell"))
+        return {
+            "maxwell": "te_maxwell",
+            "druyvesteyn": "te_druyvesteyn",
+            "bi_maxwell": "te_bimaxwell",
+        }.get(te_kind, te_kind)
+    return mode
+
+
+def resolve_eedf_plugin_spec(cfg: Mapping[str, Any], zone_idx: int) -> Dict[str, Any]:
+    envelope = cfg.get("eedf")
+    if isinstance(envelope, Mapping):
+        zones = envelope.get("zones", [])
+        zone = zones[zone_idx]
+        if not isinstance(zone, Mapping):
+            raise ValueError(f"eedf.zones[{zone_idx}] must be a mapping.")
+        return {"kind": str(envelope["kind"]), **dict(zone)}
+
     mode = cfg.get("plasma_mode", "te")
     plasma_state = cfg.get("plasma_state", {})
 
@@ -182,20 +233,13 @@ def resolve_eedf_plugin_spec(cfg: Dict[str, Any], zone_idx: int) -> Dict[str, An
         if te_kind == "druyvesteyn":
             return {"kind": "te_druyvesteyn", "te_eV": te}
         if te_kind == "bi_maxwell":
-            bm = plasma_state.get("te_bimaxwell_shells", [])
-            if bm:
-                z = bm[zone_idx]
-                return {
-                    "kind": "te_bimaxwell",
-                    "Tc_eV": float(z["Tc_eV"]),
-                    "Th_eV": float(z["Th_eV"]),
-                    "hot_fraction": float(z["hot_fraction"]),
-                }
+            bm = plasma_state["te_bimaxwell_shells"]
+            z = bm[zone_idx]
             return {
                 "kind": "te_bimaxwell",
-                "Tc_eV": te,
-                "Th_eV": max(2.0 * te, te + 1.0),
-                "hot_fraction": 0.1,
+                "Tc_eV": float(z["Tc_eV"]),
+                "Th_eV": float(z["Th_eV"]),
+                "hot_fraction": float(z["hot_fraction"]),
             }
         raise ValueError(f"Unsupported te_eedf_kind: {te_kind}")
 
@@ -219,7 +263,7 @@ def resolve_eedf_plugin_spec(cfg: Dict[str, Any], zone_idx: int) -> Dict[str, An
     raise ValueError(f"Unsupported plasma_mode: {mode}")
 
 
-def build_eedf_for_zone(cfg: Dict[str, Any], zone_idx: int, energy_eV: np.ndarray) -> np.ndarray:
+def build_eedf_for_zone(cfg: Mapping[str, Any], zone_idx: int, energy_eV: np.ndarray) -> np.ndarray:
     spec = resolve_eedf_plugin_spec(cfg, zone_idx)
     plugin = EEDF_PLUGINS.get(str(spec["kind"]))
     plugin.validate_config(spec)

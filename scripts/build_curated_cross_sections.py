@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 from pathlib import Path
+
 import numpy as np
 
 
@@ -34,13 +35,10 @@ def write_csv(path: Path, energy_eV, sigma_m2, comments):
     path.parent.mkdir(parents=True, exist_ok=True)
     with open(path, 'w', encoding='utf-8') as f:
         for c in comments:
-            f.write(f"# {c}
-")
-        f.write('energy_eV,sigma_m2
-')
-        for e, s in zip(energy_eV, sigma_m2):
-            f.write(f"{e:.6f},{s:.8e}
-")
+            f.write(f"# {c}\n")
+        f.write('energy_eV,sigma_m2\n')
+        for e, s in zip(energy_eV, sigma_m2, strict=True):
+            f.write(f"{e:.6f},{s:.8e}\n")
 
 
 def main() -> None:

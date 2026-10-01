@@ -63,7 +63,7 @@ class ParameterSet:
 
     def apply_to_case(self, case_cfg: Dict[str, Any], x: np.ndarray) -> Dict[str, Any]:
         out = case_cfg
-        for p, xv in zip(self.params, x):
+        for p, xv in zip(self.params, x, strict=True):
             set_path(out, p.path, p.from_opt(float(xv)))
         return out
 

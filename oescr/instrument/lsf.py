@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import math
 from abc import abstractmethod
 from typing import Any, Dict, Mapping
 
@@ -8,7 +9,6 @@ from scipy.signal import fftconvolve
 from scipy.special import wofz
 
 from ..plugins import PluginBase, PluginRegistry
-
 
 LSF_PLUGINS: PluginRegistry["LSFPlugin"] = PluginRegistry("lsf")
 
@@ -21,7 +21,7 @@ class LSFPlugin(PluginBase):
 
 def gaussian_kernel(dx_nm: float, fwhm_nm: float, half_width_sigma: float = 5.0) -> np.ndarray:
     sigma = max(fwhm_nm / 2.35482004503, 1.0e-12)
-    half = int(max(3, np.ceil(half_width_sigma * sigma / max(dx_nm, 1.0e-12))))
+    half = max(3, math.ceil(half_width_sigma * sigma / max(dx_nm, 1.0e-12)))
     x = np.arange(-half, half + 1, dtype=float) * dx_nm
     k = np.exp(-0.5 * (x / sigma) ** 2)
     return k / np.sum(k)
@@ -30,7 +30,7 @@ def gaussian_kernel(dx_nm: float, fwhm_nm: float, half_width_sigma: float = 5.0)
 def voigt_kernel(dx_nm: float, fwhm_g_nm: float, fwhm_l_nm: float, half_width_sigma: float = 10.0) -> np.ndarray:
     sigma = max(fwhm_g_nm / 2.35482004503, 1.0e-12)
     gamma = max(fwhm_l_nm / 2.0, 1.0e-12)
-    half = int(max(5, np.ceil(half_width_sigma * max(sigma, gamma) / max(dx_nm, 1.0e-12))))
+    half = max(5, math.ceil(half_width_sigma * max(sigma, gamma) / max(dx_nm, 1.0e-12)))
     x = np.arange(-half, half + 1, dtype=float) * dx_nm
     z = (x + 1j * gamma) / (sigma * np.sqrt(2.0))
     k = np.real(wofz(z)) / (sigma * np.sqrt(2.0 * np.pi))
@@ -85,10 +85,17 @@ def normalize_lsf_config(inst_cfg: Mapping[str, Any]) -> Dict[str, Any]:
     return lsf
 
 
-def apply_lsf(inst_cfg: Dict[str, Any], wavelength_nm: np.ndarray, intensity: np.ndarray) -> np.ndarray:
+def apply_lsf(
+    inst_cfg: Dict[str, Any],
+    wavelength_nm: np.ndarray,
+    intensity: np.ndarray,
+    *,
+    validate: bool = True,
+) -> np.ndarray:
     spec = normalize_lsf_config(inst_cfg)
     plugin = LSF_PLUGINS.get(str(spec["kind"]))
-    plugin.validate_config(spec)
+    if validate:
+        plugin.validate_config(spec)
     dx = float(np.mean(np.diff(wavelength_nm)))
     kern = plugin.kernel(spec, dx)
     return fftconvolve(intensity, kern, mode="same")

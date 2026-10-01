@@ -37,9 +37,6 @@ def build_external_densities(cfg: Dict[str, Any], zone_idx: int) -> Dict[str, fl
     for key, arr in plasma.get("metastables", {}).items():
         dens[key] = _zone_value(arr, zone_idx)
 
-    for key, arr in plasma.get("state_densities", {}).items():
-        dens[key] = _zone_value(arr, zone_idx)
-
     res = cfg.get("residuals", {})
     if res.get("mode", "off") != "off":
         for key, arr in res.get("species_density_m3", {}).items():

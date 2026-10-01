@@ -8,7 +8,6 @@ from scipy import constants as const
 
 from ..plugins import PluginBase, PluginRegistry
 
-
 WALL_LOSS_PLUGINS: PluginRegistry["WallLossPlugin"] = PluginRegistry("wall_loss")
 
 
@@ -34,7 +33,7 @@ def cylinder_characteristic_length(radius_m: float, height_m: float) -> float:
 
 def thermal_speed_m_s(mass_amu: float | None, gas_temperature_K: float) -> float:
     if mass_amu is None:
-        return 500.0
+        raise ValueError("Wall-loss thermal speed requires state mass_amu; no fallback speed is assumed.")
     m = mass_amu * const.atomic_mass
     T = max(gas_temperature_K, 1.0)
     return float(np.sqrt(8.0 * const.k * T / (np.pi * m)))
@@ -91,6 +90,7 @@ class _GammaThermalWallLossPlugin(WallLossPlugin):
             "gamma_default": {"type": "number", "minimum": 0, "maximum": 1},
             "gamma": {"type": "object"},
             "priors": {"type": "object"},
+            "thermal_flux_factor": {"type": "number", "exclusiveMinimum": 0, "maximum": 1},
         },
         "additionalProperties": True,
     }
@@ -120,7 +120,8 @@ class _GammaThermalWallLossPlugin(WallLossPlugin):
                 float(geometry_cfg.get("chamber_height_m", 0.08)),
             )
         vth = thermal_speed_m_s(mass_amu, gas_temperature_K)
-        return gamma * vth / L
+        flux_factor = float(wall_cfg.get("thermal_flux_factor", 1.0))
+        return gamma * flux_factor * vth / L
 
 
 WALL_LOSS_PLUGINS.register(_NoWallLossPlugin())
@@ -140,8 +141,11 @@ def effective_wall_loss_rate_s(
     state_id: str,
     species: str,
     mass_amu: float | None,
+    *,
+    validate: bool = True,
 ) -> float:
     kind = resolve_wall_model_kind(wall_cfg)
     plugin = WALL_LOSS_PLUGINS.get(kind)
-    plugin.validate_config(wall_cfg)
+    if validate:
+        plugin.validate_config(wall_cfg)
     return plugin.loss_rate(wall_cfg, geometry_cfg, gas_temperature_K, state_id, species, mass_amu)

@@ -9,10 +9,20 @@ version = "0.1.0"
 description = "Research scaffold for low-pressure semiconductor OESCR forward and inverse modeling"
 requires-python = ">=3.10"
 dependencies = [
-  "numpy>=1.24",
-  "scipy>=1.10",
+  "numpy>=2.0",
+  "scipy>=1.13",
   "PyYAML>=6.0",
   "jsonschema>=4.0"
+]
+
+[project.optional-dependencies]
+dev = [
+  "pytest>=8.0",
+  "import-linter>=2.15",
+  "matplotlib>=3.9",
+  "pyrefly>=1.3",
+  "radon>=6.0",
+  "ruff>=0.16"
 ]
 
 [tool.setuptools.packages.find]
@@ -22,3 +32,70 @@ include = ["oescr*"]
 
 [tool.setuptools.package-data]
 "oescr.schemas" = ["*.yaml"]
+
+[tool.ruff]
+target-version = "py310"
+line-length = 120
+src = ["oescr", "scripts", "tests"]
+
+[tool.ruff.lint]
+# Start with correctness, import hygiene, and high-signal bug patterns. Broader
+# modernization and style rules can be enabled later without mixing a mass
+# rewrite into the architecture review.
+select = ["E4", "E7", "E9", "F", "I", "B"]
+
+[tool.ruff.lint.isort]
+known-first-party = ["oescr"]
+
+[tool.ruff.lint.per-file-ignores]
+# PluginBase supplies shared registry/configuration behavior; concrete plugin
+# families add their own abstract execution method.
+"oescr/plugins/base.py" = ["B024"]
+
+[tool.pyrefly]
+project-includes = [
+  "oescr/**/*.py",
+  "scripts/**/*.py",
+  "tests/**/*.py"
+]
+python-version = "3.10"
+preset = "default"
+
+[tool.importlinter]
+root_package = "oescr"
+
+[[tool.importlinter.contracts]]
+name = "Workflows point inward and peer calculation units stay independent"
+type = "layers"
+layers = [
+  "oescr.analysis",
+  "oescr.inverse",
+  "oescr.forward",
+  "oescr.physics | oescr.geometry | oescr.instrument",
+  "oescr.data | oescr.plugins"
+]
+
+[[tool.importlinter.contracts]]
+name = "Configuration infrastructure does not depend on workflows"
+type = "forbidden"
+source_modules = ["oescr.io"]
+forbidden_modules = [
+  "oescr.forward",
+  "oescr.inverse",
+  "oescr.analysis"
+]
+
+[[tool.importlinter.contracts]]
+name = "Benchmark data and metrics do not depend on presentation"
+type = "forbidden"
+source_modules = [
+  "oescr.analysis.benchmark_metrics",
+  "oescr.analysis.benchmark_model",
+  "oescr.analysis.benchmark_contract",
+  "oescr.analysis.validation_evidence"
+]
+forbidden_modules = [
+  "oescr.analysis.benchmark_renderers",
+  "oescr.analysis.benchmark_results",
+  "oescr.analysis.benchmark_cli"
+]

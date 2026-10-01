@@ -1,3 +1,5 @@
+inference_mode: relative_shape
+
 measurements:
   - instrument_id: uvvis_lowres
     files_glob: measurements/uvvis_lowres_chord_*.csv
@@ -42,9 +44,3 @@ parameter_groups:
     path: plasma_state.te_shells_eV
     scale: linear
     bounds: [1.2, 4.0]
-
-priors:
-  - type: log_gaussian
-    path: plasma_state.metastables.Ar_1s5[0]
-    mean_log10: 14.7
-    sigma_log10: 0.5

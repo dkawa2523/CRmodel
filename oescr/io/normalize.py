@@ -1,5 +1,3 @@
-from __future__ import annotations
-
 """Configuration normalization.
 
 These helpers convert compact, user-friendly YAML into the canonical internal
@@ -7,15 +5,19 @@ format consumed by the forward and inverse solvers. The normalization layer is
 where we reduce input duplication and preserve backward compatibility.
 """
 
+from __future__ import annotations
+
 from copy import deepcopy
 from typing import Any, Dict, Iterable, List
 
 from .pathmap import get_path
-
+from .species_packs import compose_species_packs
 
 _CASE_DEFAULTS: Dict[str, Any] = {
     "plasma_mode": "te",
+    "emission_mode": "physical",
     "energy_grid": {"min_eV": 0.0, "max_eV": 50.0, "n_points": 800},
+    "numerics": {"wavelength_refinement_factor": 1.0},
     "geometry": {"mode": "axisym_shell", "n_shells": 1},
     "plasma_state": {"te_eedf_kind": "maxwell", "metastables": {}, "radicals": {}},
     "residuals": {"mode": "off", "species_density_m3": {}},
@@ -24,6 +26,7 @@ _CASE_DEFAULTS: Dict[str, Any] = {
 }
 
 _INVERSE_DEFAULTS: Dict[str, Any] = {
+    "inference_mode": "relative_shape",
     "fit": {
         "objective": {
             "spectrum_weight": 1.0,
@@ -49,6 +52,7 @@ _INVERSE_DEFAULTS: Dict[str, Any] = {
         "global": {"enabled": True, "maxiter": 20, "popsize": 8, "seed": 0, "tol": 1.0e-3},
         "local": {"enabled": True, "max_nfev": 200},
         "uncertainty": {"laplace": True},
+        "identifiability": {"enabled": True, "rank_rtol": 1.0e-8},
         "regularization": {"smooth_arrays": []},
     },
     "measurements": [],
@@ -70,19 +74,49 @@ def _deep_merge(base: Any, override: Any) -> Any:
     return deepcopy(override)
 
 
+def _migrate_legacy_cr_sections(case_cfg: Dict[str, Any]) -> None:
+    """Translate legacy loss lists into the canonical reaction process model."""
+
+    reactions = case_cfg.setdefault("reactions", [])
+    for index, quenching in enumerate(case_cfg.pop("quenching", [])):
+        state = str(quenching["state"])
+        collider = str(quenching["collider"])
+        reactions.append(
+            {
+                "id": f"legacy_quenching_{index}_{state}_{collider}",
+                "kind": "two_body",
+                "source_state": state,
+                "colliders": [collider],
+                "coefficient_m3_s": float(quenching["rate_coefficient_m3_s"]),
+            }
+        )
+    for index, loss in enumerate(case_cfg.pop("losses", [])):
+        state = str(loss["state"])
+        reactions.append(
+            {
+                "id": f"legacy_loss_{index}_{state}",
+                "kind": "first_order",
+                "source_state": state,
+                "coefficient_s-1": float(loss["rate_coefficient_s-1"]),
+            }
+        )
+
+
 def normalize_case_config(cfg: Dict[str, Any]) -> Dict[str, Any]:
+    cfg, _ = compose_species_packs(cfg)
     out = _deep_merge(_CASE_DEFAULTS, cfg)
+    if "eedf" in cfg and "plasma_mode" not in cfg:
+        out.pop("plasma_mode", None)
     out.setdefault("states", [])
     out.setdefault("reactions", [])
     out.setdefault("transitions", [])
-    out.setdefault("quenching", [])
-    out.setdefault("losses", [])
     out.setdefault("bands", [])
     out.setdefault("instruments", [])
     out.setdefault("gas_mixture", {})
     out["plasma_state"].setdefault("metastables", {})
     out["plasma_state"].setdefault("radicals", {})
     out["residuals"].setdefault("species_density_m3", {})
+    _migrate_legacy_cr_sections(out)
     return out
 
 
@@ -129,22 +163,6 @@ def expand_parameter_groups(case_cfg: Dict[str, Any], inv_cfg: Dict[str, Any]) -
     return out
 
 
-def _expand_measurement_groups(inv_cfg: Dict[str, Any]) -> List[Dict[str, Any]]:
-    measurements = list(inv_cfg.get("measurements", []))
-    out: List[Dict[str, Any]] = []
-    for item in measurements:
-        if "files_glob" in item:
-            out.append(
-                {
-                    "instrument_id": item["instrument_id"],
-                    "files_glob": item["files_glob"],
-                }
-            )
-        else:
-            out.append(item)
-    return out
-
-
 def _normalize_regularization(inv_cfg: Dict[str, Any]) -> None:
     regs = inv_cfg.setdefault("fit", {}).setdefault("regularization", {}).setdefault("smooth_arrays", [])
     for reg in regs:
@@ -154,7 +172,7 @@ def _normalize_regularization(inv_cfg: Dict[str, Any]) -> None:
 
 def normalize_inverse_config(case_cfg: Dict[str, Any], inv_cfg: Dict[str, Any]) -> Dict[str, Any]:
     out = _deep_merge(_INVERSE_DEFAULTS, inv_cfg)
-    out["measurements"] = _expand_measurement_groups(out)
+    out["measurements"] = [dict(item) for item in out.get("measurements", [])]
     out["parameters"] = expand_parameter_groups(case_cfg, out)
     _normalize_regularization(out)
     return out

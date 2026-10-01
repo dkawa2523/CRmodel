@@ -1,0 +1,30 @@
+inference_mode: calibrated_absolute
+
+measurements:
+  - instrument_id: two_band_radiance
+    file: measurement.csv
+
+fit:
+  objective:
+    spectrum_weight: 1.0
+    window_fit_weight: 0.0
+    area_weight: 0.0
+    peak_weight: 0.0
+    auto_gain_fit: false
+    auto_offset_fit: false
+    window_ratio_weight: 0.0
+  global:
+    enabled: false
+  local:
+    enabled: true
+    max_nfev: 40
+  uncertainty:
+    laplace: true
+  identifiability:
+    enabled: true
+
+parameters:
+  - name: electron_density_m3
+    path: plasma_state.ne_shells_m3[0]
+    scale: log
+    bounds: [5.0e15, 6.0e16]

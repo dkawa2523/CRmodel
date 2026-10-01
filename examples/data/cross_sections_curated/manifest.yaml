@@ -6,17 +6,17 @@ files:
   family: Ar
   file: ar/Ar_ground_to_4p_2p1_curated.csv
   curve_class: literature_anchored_effective_seed
-- id: Ar_ground_to_4p_2p2_curated
+- id: Ar_ground_to_4p_2p6_curated
   family: Ar
-  file: ar/Ar_ground_to_4p_2p2_curated.csv
+  file: ar/Ar_ground_to_4p_2p6_curated.csv
   curve_class: literature_anchored_effective_seed
 - id: Ar_1s5_to_4p_2p1_curated
   family: Ar
   file: ar/Ar_1s5_to_4p_2p1_curated.csv
   curve_class: literature_anchored_effective_seed
-- id: Ar_1s5_to_4p_2p2_curated
+- id: Ar_1s5_to_4p_2p6_curated
   family: Ar
-  file: ar/Ar_1s5_to_4p_2p2_curated.csv
+  file: ar/Ar_1s5_to_4p_2p6_curated.csv
   curve_class: literature_anchored_effective_seed
 - id: NF3_total_ionization_curated
   family: NF3

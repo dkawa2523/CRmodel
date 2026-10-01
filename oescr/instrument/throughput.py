@@ -7,7 +7,6 @@ import numpy as np
 
 from ..plugins import PluginBase, PluginRegistry
 
-
 THROUGHPUT_PLUGINS: PluginRegistry["ThroughputPlugin"] = PluginRegistry("throughput")
 
 
@@ -82,8 +81,14 @@ def normalize_throughput_config(inst_cfg: Mapping[str, Any]) -> Dict[str, Any]:
     raise ValueError("Unsupported throughput format. Use a scalar or a mapping with kind/wavelength_nm/values.")
 
 
-def evaluate_throughput(inst_cfg: Dict[str, Any], wavelength_nm: np.ndarray) -> np.ndarray:
+def evaluate_throughput(
+    inst_cfg: Dict[str, Any],
+    wavelength_nm: np.ndarray,
+    *,
+    validate: bool = True,
+) -> np.ndarray:
     spec = normalize_throughput_config(inst_cfg)
     plugin = THROUGHPUT_PLUGINS.get(str(spec["kind"]))
-    plugin.validate_config(spec)
+    if validate:
+        plugin.validate_config(spec)
     return plugin.evaluate(spec, wavelength_nm)

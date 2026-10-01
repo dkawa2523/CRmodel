@@ -49,6 +49,12 @@ fit:
 
 Both now point at the curated CSVs and activate only their relevant window families.
 
+These root-level skeletons are forward-model starting points only. Use the
+corresponding directories under `examples/benchmarks/` for inverse examples;
+those packages own their measurement files, identifiable parameter sets, and
+validation contracts. The former root-level curated inverse files were removed
+to avoid maintaining a second, less explicit inverse workflow.
+
 
 ## Explicit benchmark additions
 

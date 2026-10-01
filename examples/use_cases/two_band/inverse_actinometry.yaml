@@ -1,0 +1,37 @@
+inference_mode: actinometry
+
+measurements:
+  - instrument_id: two_band_radiance
+    file: measurement.csv
+
+fit:
+  objective:
+    spectrum_weight: 0.0
+    window_fit_weight: 0.0
+    area_weight: 0.0
+    peak_weight: 0.0
+    auto_gain_fit: false
+    auto_offset_fit: false
+    window_ratio_weight: 0.0
+    window_ratio_pairs:
+      - name: target_over_actinometer
+        numerator: target_500
+        denominator: actinometer_510
+        metric: area
+        min_relative_signal: 0.01
+        weight: 1.0
+  global:
+    enabled: false
+  local:
+    enabled: true
+    max_nfev: 40
+  uncertainty:
+    laplace: true
+  identifiability:
+    enabled: true
+
+parameters:
+  - name: target_density_m3
+    path: plasma_state.radicals.Target[0]
+    scale: log
+    bounds: [5.0e17, 4.0e18]

@@ -1,3 +1,5 @@
+inference_mode: relative_shape
+
 measurements:
   - instrument_id: nf3_benchmark_uvvis
     files_glob: measurements/chord_*.csv
@@ -51,19 +53,11 @@ fit:
     laplace: true
   regularization:
     smooth_arrays:
-      - path: plasma_state.ne_shells_m3
-        order: 2
-        weight: 0.05
       - path: plasma_state.te_shells_eV
         order: 2
         weight: 0.05
 
 parameter_groups:
-  - template: shell_array
-    name_prefix: ne
-    path: plasma_state.ne_shells_m3
-    scale: log
-    bounds: [4.0e15, 3.0e16]
   - template: shell_array
     name_prefix: te
     path: plasma_state.te_shells_eV
@@ -81,14 +75,6 @@ parameter_groups:
     bounds: [1.0e17, 5.0e18]
 
 priors:
-  - type: log_gaussian
-    path: plasma_state.metastables.Ar_1s5[0]
-    mean_log10: 14.4
-    sigma_log10: 0.6
-  - type: log_gaussian
-    path: plasma_state.ne_shells_m3
-    mean_log10: [15.924279286061882, 15.832508912706237, 15.740362689494244]
-    sigma_log10: 0.18
   - type: gaussian
     path: plasma_state.te_shells_eV
     mean: [2.35, 2.05, 1.85]

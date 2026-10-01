@@ -1,7 +1,9 @@
 #!/usr/bin/env python
 from __future__ import annotations
+
 import sys
 from pathlib import Path
+
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 import argparse
@@ -23,7 +25,7 @@ def main() -> None:
     print(f"Case YAML: {project.case_yaml}")
     print(f"Default output: {project.default_output_dir}")
     print(f"Capabilities: {pformat(model.capabilities())}")
-    print(f"Instruments: {[cfg['id'] for cfg in model.instrument_cfgs]}")
+    print(f"Instruments: {[cfg['id'] for cfg in model.instrument_configs_for()]}")
     if project.inverse_yaml is not None:
         solver = InverseSolver.from_yaml(project.case_yaml, project.inverse_yaml)
         print(f"Inverse YAML: {project.inverse_yaml}")

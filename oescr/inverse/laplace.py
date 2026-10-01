@@ -19,6 +19,11 @@ def summarize_covariance(cov: np.ndarray, param_names: list[str]) -> Dict[str, A
     std = np.sqrt(np.clip(np.diag(cov), 0.0, None))
     corr = cov / np.outer(np.maximum(std, 1.0e-30), np.maximum(std, 1.0e-30))
     return {
-        "std_opt_space": {name: float(s) for name, s in zip(param_names, std)},
+        "std_opt_space": {name: float(s) for name, s in zip(param_names, std, strict=True)},
         "correlation_matrix": corr.tolist(),
+        "interpretation": (
+            "Local conditional curvature of the full objective, including configured priors and "
+            "regularization, with measurement and calibration covariance fixed; "
+            "excludes model discrepancy, cross-section uncertainty, and covariance hyperparameter uncertainty."
+        ),
     }

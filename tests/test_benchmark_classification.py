@@ -19,7 +19,6 @@ from oescr.analysis.classification import (
 from oescr.inverse.objectives import residual_vector
 from oescr.inverse.optimize import InverseSolver
 
-
 ROOT = Path(__file__).resolve().parents[1]
 NF3_BENCH = ROOT / "examples" / "benchmarks" / "nf3_ar_ccp_clean_2023"
 

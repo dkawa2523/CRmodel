@@ -22,6 +22,9 @@ def atomic_line_spectrum_zone(
     registry: StateRegistry,
     populations_m3: Dict[str, float],
     wavelength_nm: np.ndarray,
+    zone_context: Dict[str, float] | None = None,
+    *,
+    validate_plugins: bool = True,
 ) -> Dict[str, Any]:
     spec = np.zeros_like(wavelength_nm, dtype=float)
     line_info: List[Dict[str, float]] = []
@@ -30,7 +33,7 @@ def atomic_line_spectrum_zone(
         if upper not in populations_m3:
             continue
         n_upper = populations_m3[upper]
-        Aeff = effective_A(tr)
+        Aeff = effective_A(tr, zone_context=zone_context, validate=validate_plugins)
         lam_nm = float(tr["wavelength_nm"])
         lam_m = lam_nm * 1.0e-9
         intrinsic = tr.get("profile", {})
@@ -47,7 +50,7 @@ def atomic_line_spectrum_zone(
                 "wavelength_nm": lam_nm,
                 "upper_population_m3": n_upper,
                 "Aeff_s-1": Aeff,
-                "integrated_emissivity_arb": amp,
+                "integrated_emissivity_W_m3_sr": amp,
             }
         )
     return {"spectrum": spec, "lines": line_info}

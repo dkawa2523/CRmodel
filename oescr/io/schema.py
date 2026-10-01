@@ -1,5 +1,3 @@
-from __future__ import annotations
-
 """JSON Schema validation for user-facing YAML documents.
 
 The package now performs two validation passes:
@@ -11,13 +9,14 @@ The goal is to keep YAML authoring ergonomic while providing strict, machine-che
 contracts for configuration layout.
 """
 
+from __future__ import annotations
+
 from functools import lru_cache
 from pathlib import Path
-from typing import Any, Dict, Iterable
+from typing import Any, Dict
 
 import yaml
 from jsonschema import Draft202012Validator
-
 
 SCHEMA_DIR = Path(__file__).resolve().parents[1] / "schemas"
 AVAILABLE_SCHEMAS = {
@@ -26,6 +25,7 @@ AVAILABLE_SCHEMAS = {
     "project": "project.schema.yaml",
     "instrument": "instrument.schema.yaml",
     "windows": "windows.schema.yaml",
+    "validation": "validation.schema.yaml",
 }
 
 
@@ -77,8 +77,3 @@ def validate_document(doc: Dict[str, Any], schema_name: str) -> None:
     raise ConfigSchemaError(
         f"{schema_name} YAML failed schema validation with {len(errors)} violation(s):\n  - {detail}{more}"
     )
-
-
-def validate_many(docs: Iterable[tuple[str, Dict[str, Any]]]) -> None:
-    for schema_name, doc in docs:
-        validate_document(doc, schema_name)

@@ -2,6 +2,9 @@ $schema: https://json-schema.org/draft/2020-12/schema
 $title: OESCR inverse configuration
 $type: object
 properties:
+  inference_mode:
+    type: string
+    enum: [relative_shape, calibrated_absolute, ratio_diagnostic, actinometry]
   kind:
     type: string
     enum: [oescr_inverse]
@@ -19,6 +22,28 @@ properties:
           items: {type: string}
           minItems: 1
         files_glob: {type: string}
+        covariance_file: {type: string}
+        covariance_files:
+          type: array
+          items: {type: string}
+          minItems: 1
+        feature_covariance:
+          type: object
+          required: [names, matrix]
+          properties:
+            names:
+              type: array
+              minItems: 1
+              uniqueItems: true
+              items: {type: string, minLength: 1}
+            matrix:
+              type: array
+              minItems: 1
+              items:
+                type: array
+                minItems: 1
+                items: {type: number}
+          additionalProperties: false
       additionalProperties: false
       anyOf:
         - required: [file]
@@ -33,7 +58,7 @@ properties:
           spectrum_weight: {type: number, minimum: 0}
           window_fit_weight: {type: number, minimum: 0}
           window_fit_normalization: {type: string, enum: [none, area, peak, l2]}
-          window_baseline_mode: {type: string, enum: [none, off, disabled, flat, constant, local_linear]}
+          window_baseline_mode: {type: string, enum: [none, 'off', disabled, flat, constant, local_linear]}
           area_weight: {type: number, minimum: 0}
           peak_weight: {type: number, minimum: 0}
           auto_gain_fit: {type: boolean}
@@ -84,6 +109,12 @@ properties:
         type: object
         properties:
           laplace: {type: boolean}
+        additionalProperties: false
+      identifiability:
+        type: object
+        properties:
+          enabled: {type: boolean}
+          rank_rtol: {type: number, exclusiveMinimum: 0}
         additionalProperties: false
       regularization:
         type: object

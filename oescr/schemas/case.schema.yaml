@@ -2,20 +2,51 @@ $schema: https://json-schema.org/draft/2020-12/schema
 $title: OESCR case configuration
 $type: object
 required:
-  - plasma_mode
   - gas_mixture
   - geometry
   - plasma_state
   - states
   - reactions
   - instruments
+anyOf:
+  - required: [plasma_mode]
+  - required: [eedf]
 properties:
   kind:
     type: string
     enum: [oescr_case]
+  emission_mode:
+    type: string
+    enum: [physical, empirical]
+  species_packs:
+    type: array
+    items:
+      type: object
+      properties:
+        kind: {type: string, enum: [oescr_species_pack]}
+        yaml_file: {type: string}
+        namespace: {type: string}
+        states: {type: array}
+        reactions: {type: array}
+        transitions: {type: array}
+        quenching: {type: array}
+        losses: {type: array}
+        bands: {type: array}
+        metadata: {type: object}
+      additionalProperties: false
   plasma_mode:
     type: string
     enum: [te, eedf_bimaxwell, eedf_tabulated]
+  eedf:
+    type: object
+    required: [kind, zones]
+    properties:
+      kind: {type: string, minLength: 1}
+      zones:
+        type: array
+        minItems: 1
+        items: {type: object}
+    additionalProperties: false
   gas_mixture:
     type: object
     required: [total_pressure_Pa, gas_temperature_K, fractions]
@@ -34,13 +65,17 @@ properties:
       max_eV: {type: number, exclusiveMinimum: 0}
       n_points: {type: integer, minimum: 8}
     additionalProperties: false
+  numerics:
+    type: object
+    properties:
+      wavelength_refinement_factor: {type: number, minimum: 1}
+    additionalProperties: false
   geometry:
     type: object
     required: [mode]
     properties:
       mode:
         type: string
-        enum: [chordavg, axisym_shell, asym_lowrank, user_field]
       chamber_radius_m: {type: number, exclusiveMinimum: 0}
       chamber_height_m: {type: number, exclusiveMinimum: 0}
       z_m: {type: number}
@@ -60,7 +95,7 @@ properties:
         items:
           type: array
           items: {type: number}
-    additionalProperties: false
+    additionalProperties: true
   plasma_state:
     type: object
     properties:
@@ -122,17 +157,22 @@ properties:
   residuals:
     type: object
     properties:
-      mode: {type: string, enum: [off, custom, typical_high_vacuum]}
+      mode: {type: string, enum: ['off', custom, typical_high_vacuum]}
       species_density_m3:
         type: object
-        additionalProperties: {type: number, minimum: 0}
+        additionalProperties:
+          oneOf:
+            - {type: number, minimum: 0}
+            - type: array
+              items: {type: number, minimum: 0}
     additionalProperties: false
   wall:
     type: object
     properties:
-      model: {type: string, enum: [none, gamma_thermal]}
+      model: {type: string}
       characteristic_length_m: {type: number, exclusiveMinimum: 0}
       gamma_default: {type: number, minimum: 0, maximum: 1}
+      thermal_flux_factor: {type: number, exclusiveMinimum: 0, maximum: 1}
       gamma:
         type: object
         additionalProperties: {type: number, minimum: 0, maximum: 1}
@@ -146,10 +186,9 @@ properties:
             min: {type: number, exclusiveMinimum: 0}
             max: {type: number, exclusiveMinimum: 0}
           additionalProperties: true
-    additionalProperties: false
+    additionalProperties: true
   states:
     type: array
-    minItems: 1
     items:
       type: object
       required: [id, energy_eV]
@@ -163,13 +202,12 @@ properties:
       additionalProperties: false
   reactions:
     type: array
-    minItems: 1
     items:
       type: object
-      required: [id, kind, source_state, target_state]
+      required: [id, kind, source_state]
       properties:
         id: {type: string, minLength: 1}
-        kind: {type: string}
+        kind: {type: string, enum: [electron_excitation, first_order, two_body, three_body]}
         source_state: {type: string}
         target_state: {type: string}
         colliders:
@@ -177,6 +215,8 @@ properties:
           items: {type: string}
         cross_section_file: {type: string}
         coefficient_m3_s: {type: number, minimum: 0}
+        coefficient_m6_s: {type: number, minimum: 0}
+        coefficient_s-1: {type: number, minimum: 0}
         threshold_model:
           type: object
           required: [threshold_eV, sigma_peak_m2, epeak_eV]
@@ -185,6 +225,12 @@ properties:
             sigma_peak_m2: {type: number, minimum: 0}
             epeak_eV: {type: number, minimum: 0}
           additionalProperties: false
+        rate_model:
+          type: object
+          required: [kind]
+          properties:
+            kind: {type: string, minLength: 1}
+          additionalProperties: true
       additionalProperties: false
   transitions:
     type: array
@@ -206,12 +252,12 @@ properties:
         trapping:
           type: object
           properties:
-            kind: {type: string, enum: [none, beta_override, escape_factor]}
-            model: {type: string, enum: [slab, cylinder]}
-            shape: {type: string, enum: [slab, cylinder]}
+            kind: {type: string}
+            model: {type: string}
+            shape: {type: string}
             tau0: {type: number, minimum: 0}
-            beta_override: {type: number, minimum: 0}
-          additionalProperties: false
+            beta_override: {type: number, minimum: 0, maximum: 1}
+          additionalProperties: true
       additionalProperties: false
   quenching:
     type: array
@@ -236,20 +282,34 @@ properties:
     type: array
     items:
       type: object
-      required: [id, kind, source_density_key]
+      required: [id, kind]
       properties:
         id: {type: string}
-        kind: {type: string, enum: [effective_excitation_band, effective_density_band]}
+        kind: {type: string}
         source_density_key: {type: string}
         cross_section_file: {type: string}
         coefficient_m3_s: {type: number, minimum: 0}
+        threshold_model:
+          type: object
+          required: [threshold_eV, sigma_peak_m2, epeak_eV]
+          properties:
+            threshold_eV: {type: number, minimum: 0}
+            sigma_peak_m2: {type: number, minimum: 0}
+            epeak_eV: {type: number, minimum: 0}
+          additionalProperties: false
+        rate_model:
+          type: object
+          required: [kind]
+          additionalProperties: true
         coefficient: {type: number, minimum: 0}
         amplitude_scale: {type: number, minimum: 0}
+        photon_yield: {type: number, minimum: 0}
+        branching_ratio: {type: number, minimum: 0, maximum: 1}
         center_nm: {type: number}
         fwhm_nm: {type: number, exclusiveMinimum: 0}
-        profile_kind: {type: string, enum: [gaussian, tabulated]}
+        profile_kind: {type: string}
         profile_file: {type: string}
-      additionalProperties: false
+      additionalProperties: true
   diagnostics:
     type: object
     properties:
@@ -264,6 +324,37 @@ properties:
         type: array
         items: {type: string}
       include_disabled_windows: {type: boolean}
+      quality:
+        type: object
+        properties:
+          enabled: {type: boolean}
+          on_error: {type: string, enum: [raise, report]}
+          thresholds:
+            type: object
+            properties:
+              cr_condition_warn_above: {type: number, minimum: 0}
+              cr_condition_error_above: {type: number, minimum: 0}
+              cr_residual_warn_above: {type: number, minimum: 0}
+              cr_residual_error_above: {type: number, minimum: 0}
+              negative_population_fraction_warn_above: {type: number, minimum: 0}
+              negative_population_fraction_error_above: {type: number, minimum: 0}
+              eedf_upper_decile_warn_above: {type: number, minimum: 0, maximum: 1}
+              eedf_upper_decile_error_above: {type: number, minimum: 0, maximum: 1}
+              eedf_edge_relative_warn_above: {type: number, minimum: 0, maximum: 1}
+              eedf_edge_relative_error_above: {type: number, minimum: 0, maximum: 1}
+              cross_section_coverage_warn_below: {type: number, minimum: 0, maximum: 1}
+              cross_section_coverage_error_below: {type: number, minimum: 0, maximum: 1}
+            additionalProperties: false
+        additionalProperties: false
+      convergence:
+        type: object
+        properties:
+          enabled: {type: boolean}
+          energy_grid_factor: {type: integer, minimum: 2}
+          wavelength_grid_factor: {type: integer, minimum: 2}
+          warn_relative_above: {type: number, minimum: 0}
+          error_relative_above: {type: number, minimum: 0}
+        additionalProperties: false
     additionalProperties: false
   benchmark_anchor:
     type: object
@@ -301,7 +392,7 @@ properties:
                   minimum: 0
                 - type: object
                   properties:
-                    kind: {type: string, enum: [constant, tabulated]}
+                    kind: {type: string}
                     value: {type: number, minimum: 0}
                     wavelength_nm:
                       type: array
@@ -319,26 +410,46 @@ properties:
             lsf:
               type: object
               properties:
-                kind: {type: string, enum: [gaussian, voigt]}
+                kind: {type: string}
                 fwhm_nm: {type: number, exclusiveMinimum: 0}
                 fwhm_g_nm: {type: number, exclusiveMinimum: 0}
                 fwhm_l_nm: {type: number, exclusiveMinimum: 0}
-              additionalProperties: false
+              additionalProperties: true
             baseline:
               type: object
               properties:
-                kind: {type: string, enum: [constant, polynomial]}
+                kind: {type: string}
                 offset: {type: number}
                 coefficients:
                   type: array
                   items: {type: number}
                   minItems: 1
-              additionalProperties: false
+              additionalProperties: true
             nuisance:
               type: object
               properties:
                 gain: {type: number, exclusiveMinimum: 0}
                 wavelength_shift_nm: {type: number}
+              additionalProperties: false
+            calibration:
+              type: object
+              required: [kind, absolute, input_basis, output_unit]
+              properties:
+                kind:
+                  type: string
+                  enum: [spectral_radiance, collected_spectral_power, photoelectron_spectrum]
+                absolute: {type: boolean}
+                input_basis: {type: string, enum: [spectral_radiance]}
+                output_unit:
+                  type: string
+                  enum: [W_m-2_sr-1_nm-1, W_nm-1, photoelectron_nm-1]
+                reference: {type: string}
+                collection_area_m2: {type: number, exclusiveMinimum: 0}
+                collection_solid_angle_sr: {type: number, exclusiveMinimum: 0}
+                viewing_factor: {type: number, exclusiveMinimum: 0, maximum: 1}
+                integration_time_s: {type: number, exclusiveMinimum: 0}
+                quantum_efficiency: {type: number, minimum: 0, maximum: 1}
+                relative_standard_uncertainty: {type: number, minimum: 0}
               additionalProperties: false
           additionalProperties: false
           anyOf:

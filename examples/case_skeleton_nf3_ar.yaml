@@ -1,4 +1,5 @@
 plasma_mode: te
+emission_mode: empirical
 gas_mixture:
   total_pressure_Pa: 5.0
   gas_temperature_K: 400.0
@@ -75,53 +76,29 @@ wall:
   gamma:
     O: 0.001
     Ar: 0.005
-states:
-- id: Ar_2p1
-  species: Ar
-  energy_eV: 13.48
-  solve: true
-- id: Ar_2p2
-  species: Ar
-  energy_eV: 13.33
-  solve: true
+species_packs:
+- yaml_file: data/species_packs/ar_2p1_2p6_nist.yaml
 reactions:
 - id: exc_Ar_to_2p1
   kind: electron_excitation
   source_state: Ar
   target_state: Ar_2p1
   cross_section_file: data/cross_sections_curated/ar/Ar_ground_to_4p_2p1_curated.csv
-- id: exc_Ar_to_2p2
+- id: exc_Ar_to_2p6
   kind: electron_excitation
   source_state: Ar
-  target_state: Ar_2p2
-  cross_section_file: data/cross_sections_curated/ar/Ar_ground_to_4p_2p2_curated.csv
+  target_state: Ar_2p6
+  cross_section_file: data/cross_sections_curated/ar/Ar_ground_to_4p_2p6_curated.csv
 - id: exc_Ar1s5_to_2p1
   kind: electron_excitation
   source_state: Ar_1s5
   target_state: Ar_2p1
   cross_section_file: data/cross_sections_curated/ar/Ar_1s5_to_4p_2p1_curated.csv
-- id: exc_Ar1s5_to_2p2
+- id: exc_Ar1s5_to_2p6
   kind: electron_excitation
   source_state: Ar_1s5
-  target_state: Ar_2p2
-  cross_section_file: data/cross_sections_curated/ar/Ar_1s5_to_4p_2p2_curated.csv
-transitions:
-- id: Ar750
-  upper: Ar_2p1
-  lower: Ar_1s2
-  wavelength_nm: 750.386
-  A_s-1: 4.5e7
-  profile:
-    kind: gaussian
-    fwhm_nm: 0.03
-- id: Ar763
-  upper: Ar_2p2
-  lower: Ar_1s5
-  wavelength_nm: 763.511
-  A_s-1: 2.45e7
-  profile:
-    kind: gaussian
-    fwhm_nm: 0.03
+  target_state: Ar_2p6
+  cross_section_file: data/cross_sections_curated/ar/Ar_1s5_to_4p_2p6_curated.csv
 bands:
 - id: F685
   kind: effective_excitation_band

@@ -5,7 +5,6 @@ from typing import Any, Dict, Mapping
 
 from ..plugins import PluginBase, PluginRegistry
 
-
 TRAPPING_PLUGINS: PluginRegistry["TrappingPlugin"] = PluginRegistry("trapping")
 
 
@@ -16,6 +15,10 @@ class TrappingPlugin(PluginBase):
 
 
 def escape_factor(tau0: float, model: str = "slab") -> float:
+    if model != "slab":
+        raise ValueError(
+            f"Escape-factor geometry '{model}' is not implemented; use 'slab' or provide a dedicated plugin."
+        )
     tau = max(float(tau0), 0.0)
     if tau <= 1.0e-12:
         return 1.0
@@ -44,7 +47,7 @@ class _BetaOverridePlugin(TrappingPlugin):
         "required": ["kind", "beta_override"],
         "properties": {
             "kind": {"const": "beta_override"},
-            "beta_override": {"type": "number", "minimum": 0},
+            "beta_override": {"type": "number", "minimum": 0, "maximum": 1},
         },
         "additionalProperties": False,
     }
@@ -61,7 +64,7 @@ class _EscapeFactorPlugin(TrappingPlugin):
         "properties": {
             "kind": {"const": "escape_factor"},
             "tau0": {"type": "number", "minimum": 0},
-            "shape": {"type": "string", "enum": ["slab", "cylinder"]},
+            "shape": {"type": "string", "enum": ["slab"]},
         },
         "additionalProperties": False,
     }
@@ -89,9 +92,15 @@ def resolve_trapping_spec(transition: Mapping[str, Any]) -> Dict[str, Any]:
     return {"kind": "escape_factor", "tau0": float(trap.get("tau0", 0.0)), "shape": str(shape)}
 
 
-def effective_A(transition: Dict[str, Any], zone_context: Dict[str, Any] | None = None) -> float:
+def effective_A(
+    transition: Dict[str, Any],
+    zone_context: Dict[str, Any] | None = None,
+    *,
+    validate: bool = True,
+) -> float:
     A = float(transition["A_s-1"])
     spec = resolve_trapping_spec(transition)
     plugin = TRAPPING_PLUGINS.get(str(spec["kind"]))
-    plugin.validate_config(spec)
+    if validate:
+        plugin.validate_config(spec)
     return plugin.effective_A(A, spec, zone_context)

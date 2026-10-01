@@ -11,6 +11,8 @@ A third party should be able to answer three questions quickly.
 3. **What method must I implement?**
 
 To support that, the code now exposes explicit plugin registries and plugin contracts.
+For the prior decision between a data-only addition and a plugin, and for the
+exact supported edit points, see `docs/extension_workflow.md`.
 
 ## Built-in registries
 
@@ -44,6 +46,11 @@ Registries use `PluginRegistry` to:
 - validate plugin-local config before runtime use
 - expose a machine-readable catalog
 
+Outer case/instrument schemas validate common envelope fields. Registered
+geometry, EEDF, reaction-rate, band, trapping, wall, throughput, LSF, and
+baseline plugins then validate their own local configuration. Geometry,
+reaction-rate, and EEDF plugins are covered by end-to-end YAML tests.
+
 ## Built-in plugin groups
 
 ### EEDF plugins
@@ -63,6 +70,49 @@ Built-ins:
 - `te_bimaxwell`
 - `eedf_bimaxwell`
 - `eedf_tabulated`
+
+The public case envelope is independent of the legacy `plasma_mode` selector:
+
+```yaml
+eedf:
+  kind: my_eedf
+  zones:
+    - scale_eV: 2.4
+    - scale_eV: 2.1
+    - scale_eV: 1.8
+```
+
+`zones` must match `geometry.n_shells`. For each zone, OESCR combines the
+envelope `kind` with that zone mapping, validates the resulting object against
+the selected plugin schema, and passes it to `build_pdf`. A case must use either
+`eedf` or the compatibility `plasma_mode` input, never both.
+
+```python
+import numpy as np
+
+from oescr.api import EEDF_PLUGINS, EEDFPlugin
+
+
+class MyEEDF(EEDFPlugin):
+    kind = "my_eedf"
+    description = "Example normalized energy-space EEDF."
+    config_schema = {
+        "type": "object",
+        "required": ["kind", "scale_eV"],
+        "properties": {
+            "kind": {"const": "my_eedf"},
+            "scale_eV": {"type": "number", "exclusiveMinimum": 0},
+        },
+        "additionalProperties": False,
+    }
+
+    def build_pdf(self, spec, energy_eV):
+        pdf = np.sqrt(energy_eV) * np.exp(-energy_eV / spec["scale_eV"])
+        return pdf / np.trapezoid(pdf, energy_eV)
+
+
+EEDF_PLUGINS.register(MyEEDF())
+```
 
 ### Reaction-rate plugins
 
@@ -134,6 +184,10 @@ Located in `oescr.instrument.*`.
 - throughput
 - LSF
 - baseline
+
+Plugin schema validator objects are cached. Static geometry and instrument
+preparation occurs during case compilation; runtime EEDF values remain
+validated because fitted values change between evaluations.
 
 ## Example: register a custom wall-loss model
 

@@ -8,8 +8,8 @@ templates:
       - NIST ASD / handbook for level and line verification
     notes: Populate before quantitative forward modeling.
 
-  - id: Ar_ground_to_4p_2p2
-    file: ar/Ar_ground_to_4p_2p2_template.csv
+  - id: Ar_ground_to_4p_2p6
+    file: ar/Ar_ground_to_4p_2p6_template.csv
     template_class: structure_only
     intended_window: ArI_763_511
     source_priority:
@@ -24,8 +24,8 @@ templates:
       - Piech et al. metastable-excitation measurements
       - digitized literature dataset
 
-  - id: Ar_1s5_to_4p_2p2
-    file: ar/Ar_1s5_to_4p_2p2_template.csv
+  - id: Ar_1s5_to_4p_2p6
+    file: ar/Ar_1s5_to_4p_2p6_template.csv
     template_class: structure_only
     intended_window: ArI_763_511
     source_priority:

@@ -7,7 +7,6 @@ import numpy as np
 
 from ..plugins import PluginBase, PluginRegistry
 
-
 BASELINE_PLUGINS: PluginRegistry["BaselinePlugin"] = PluginRegistry("baseline")
 
 
@@ -73,8 +72,14 @@ def normalize_baseline_config(inst_cfg: Mapping[str, Any]) -> Dict[str, Any]:
     return base
 
 
-def evaluate_baseline(inst_cfg: Dict[str, Any], wavelength_nm: np.ndarray) -> np.ndarray:
+def evaluate_baseline(
+    inst_cfg: Dict[str, Any],
+    wavelength_nm: np.ndarray,
+    *,
+    validate: bool = True,
+) -> np.ndarray:
     spec = normalize_baseline_config(inst_cfg)
     plugin = BASELINE_PLUGINS.get(str(spec["kind"]))
-    plugin.validate_config(spec)
+    if validate:
+        plugin.validate_config(spec)
     return plugin.evaluate(spec, wavelength_nm)

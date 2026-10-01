@@ -1,0 +1,9 @@
+kind: oescr_analytic_benchmark
+case: combined_case.yaml
+description: Independent atomic-line and electron-impact-band sources summed through one observation path.
+expected:
+  atomic_line_emissivity_W_m3_sr: 1.9082371005089456e2
+  band_emissivity_W_m3_sr: 1.3739307123664407e3
+  combined_emissivity_W_m3_sr: 1.5647544224173353e3
+  central_chord_combined_radiance_W_m2_sr: 3.1295088448346706e2
+  relative_tolerance: 2.0e-4

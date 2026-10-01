@@ -1,0 +1,60 @@
+kind: oescr_species_pack
+metadata:
+  source: NIST Atomic Spectra Database, Standard Reference Database 78
+  doi: 10.18434/T4W30F
+  url: https://physics.nist.gov/PhysRefData/ASD/lines_form.html
+  retrieved: 2026-09-29
+  wavelength_medium: air
+  scope: Ar 2p1 and 2p6 levels with every listed radiative branch to the 1s manifold
+states:
+- id: Ar_2p1
+  species: Ar
+  energy_eV: 13.479887
+  mass_amu: 39.948
+  solve: true
+- id: Ar_2p6
+  species: Ar
+  energy_eV: 13.171778
+  mass_amu: 39.948
+  solve: true
+transitions:
+- id: Ar667
+  upper: Ar_2p1
+  lower: Ar_1s4
+  wavelength_nm: 667.7282
+  A_s-1: 2.36e5
+  profile:
+    kind: gaussian
+    fwhm_nm: 0.03
+- id: Ar750
+  upper: Ar_2p1
+  lower: Ar_1s2
+  wavelength_nm: 750.3869
+  A_s-1: 4.5e7
+  profile:
+    kind: gaussian
+    fwhm_nm: 0.03
+- id: Ar763
+  upper: Ar_2p6
+  lower: Ar_1s5
+  wavelength_nm: 763.5106
+  A_s-1: 2.44e7
+  profile:
+    kind: gaussian
+    fwhm_nm: 0.03
+- id: Ar800
+  upper: Ar_2p6
+  lower: Ar_1s4
+  wavelength_nm: 800.6157
+  A_s-1: 4.8e6
+  profile:
+    kind: gaussian
+    fwhm_nm: 0.03
+- id: Ar922
+  upper: Ar_2p6
+  lower: Ar_1s2
+  wavelength_nm: 922.4499
+  A_s-1: 5.0e6
+  profile:
+    kind: gaussian
+    fwhm_nm: 0.03

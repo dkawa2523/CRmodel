@@ -1,0 +1,57 @@
+kind: oescr_external_dataset_candidate
+dataset_id: schuecke_2025_no_uv_10pa
+status: dataset_prepared_comparator_pending
+held_out: true
+measurement_basis: volumetric_photon_rate
+calibration: absolute
+comparison:
+  model_input_closure: open
+  evaluation_data_use: held_out_only
+source:
+  citation: >-
+    L. Schuecke, A. N. Torres Segura, I. Korolov, N. Bibinov,
+    P. Awakowicz, and A. R. Gibson, Plasma Sources Science and
+    Technology 34 (2025) 045015.
+  doi: 10.1088/1361-6595/adcbd3
+  article_url: https://doi.org/10.1088/1361-6595/adcbd3
+  dataset_url: https://rdpcidat.rub.de/node/1155
+  source_pdf_url: >-
+    https://oa.tib.eu/renate/server/api/core/bitstreams/0d1f36e1-3b2f-4200-a289-25d42ec85121/content
+  source_pdf_sha256: dc06cd95edac96efa70785890acc4464457b6f57fde2d2b0b2239a05442a5ee0
+  license: CC BY 4.0
+artifact:
+  file: figure_2_3_10pa.csv
+  sha256: 95632f180a2976e340c3c578a8e79495563f1b4197eff9cd1778b95450bfd095
+  origin: digitized_figure
+  article_pages: [8, 9]
+  pdf_pages: [9, 10]
+operating_condition:
+  pressure_Pa: 10.0
+  n2_flow_sccm: 16.0
+  o2_flow_sccm: 4.0
+  rf_frequency_MHz: 13.56
+selection:
+  series: dark-square 10 Pa power scan
+  e_mode_max_power_W: 180.0
+  transition_power_W: 200.0
+  h_mode_min_power_W: 220.0
+reported_relative_uncertainty:
+  uv_photon_rate: 0.089
+  no_density: 0.20
+  gas_temperature: 0.03
+  electron_density: unknown
+  electron_temperature: unknown
+digitization_tolerance:
+  rule: half of one PDF coordinate point on each plotted axis
+  rf_power_W: 2.1
+  uv_photon_rate_m3_s: 1.8e18
+  no_density_m3: 1.6e17
+  gas_temperature_K: 6.2
+  electron_density_log10_decade: 0.028
+  electron_temperature_eV: 0.028
+limitations:
+  - The methods state 200-380 nm integration while figure 2 says 200-400 nm.
+  - The integrated UV rate is not specific to the NO(A-X) 236 nm band.
+  - N2(A) metastable density is not independently measured.
+  - MRP electron-density and electron-temperature uncertainty is not quantified.
+  - This candidate is not counted as validation until its comparator is fixed.

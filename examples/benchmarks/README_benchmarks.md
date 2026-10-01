@@ -13,13 +13,44 @@ Each benchmark directory now includes:
 - `measurements/`
 - `forward_truth/`
 - `benchmark_meta.yaml`
+- `validation.yaml`
+
+`measurements/` and `forward_truth/` are fixed, versioned fixtures because
+their hashes participate in the evidence contract. Optimizer results, report
+directories, and regenerated forward runs are local artifacts and are ignored;
+write them under `.local_outputs/` or another disposable output directory.
 
 Recommended commands:
 
 ```bash
 python scripts/validate_project.py examples/benchmarks/nf3_ar_ccp_clean_2023/project.yaml
 python scripts/run_project.py examples/benchmarks/nf3_ar_ccp_clean_2023/project.yaml --task inverse
+python scripts/audit_validation_evidence.py
+python scripts/summarize_identifiability.py \
+  examples/benchmarks/nf3_ar_ccp_clean_2023/case_init.yaml \
+  examples/benchmarks/nf3_ar_ccp_clean_2023/inverse.yaml
+python scripts/evaluate_strict_gate.py \
+  --within-run \
+  --improved-run inverse_observable_20260929 \
+  --improved-out-name analysis_contract_v1
 ```
+
+`validation.yaml` fixes the generated measurement files and evaluator by
+SHA-256 and records their evidence level, preprocessing, evaluator version,
+result contract, generated-truth data use, and limitations.
+These literature-anchored spectra are generated self-consistency fixtures, not
+redistributed or held-out experimental spectra.
+
+Every new analysis summary separates `analysis_contract` from
+`run_fingerprint`. Between-run comparison rejects missing or different
+contracts; rerun the analyzer instead of comparing legacy summary values.
+
+The benchmark inverse files fit only variables supported by their current
+measurement-only Jacobians. Electron density is fixed in both relative-shape
+benchmarks because automatic gain and source-density scale make its absolute
+value unobservable here. NF3/Ar remains strongly ill-conditioned even after
+that reduction, so its weakest Te/F combinations are diagnostic rather than a
+claim of robust experimental retrieval.
 
 You can still use the lower-level entry points directly:
 

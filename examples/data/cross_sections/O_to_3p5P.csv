@@ -1,3 +1,7 @@
+# source: OESCR illustrative seed curve; original external source not established
+# process: O + e -> O(3p5P) + e
+# threshold_eV: 10.74
+# evidence: example initialization only; not external model qualification
 energy_eV,sigma_m2
 0.000000,0.000000000000e+00
 0.050000,0.000000000000e+00

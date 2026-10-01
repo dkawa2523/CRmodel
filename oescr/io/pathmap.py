@@ -2,9 +2,7 @@
 from __future__ import annotations
 
 import re
-from copy import deepcopy
 from typing import Any, List
-
 
 _TOKEN_RE = re.compile(r"([^.\[]+)(?:\[(\d+)\])?")
 
@@ -36,10 +34,3 @@ def set_path(data: Any, path: str, value: Any) -> Any:
         obj = obj[tok]
     obj[tokens[-1]] = value
     return data
-
-
-def clone_with_updates(data: Any, updates: dict[str, Any]) -> Any:
-    out = deepcopy(data)
-    for path, value in updates.items():
-        set_path(out, path, value)
-    return out

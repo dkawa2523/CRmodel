@@ -1,0 +1,124 @@
+$schema: https://json-schema.org/draft/2020-12/schema
+$title: OESCR scientific-validation evidence declaration
+type: object
+required:
+  - kind
+  - validation_id
+  - evidence_level
+  - sources
+  - dataset
+  - comparison
+  - acceptance
+  - limitations
+properties:
+  kind:
+    type: string
+    enum: [oescr_validation_evidence]
+  validation_id:
+    type: string
+    minLength: 1
+  evidence_level:
+    type: string
+    enum:
+      - analytic_kernel
+      - numerical_qualification
+      - generated_self_consistency
+      - external_qualitative
+      - external_quantitative
+  sources:
+    type: array
+    minItems: 1
+    items:
+      type: object
+      required: [citation]
+      properties:
+        citation: {type: string, minLength: 1}
+        doi: {type: string, minLength: 1}
+        url: {type: string, minLength: 1}
+        data_availability: {type: string, minLength: 1}
+      additionalProperties: false
+  dataset:
+    type: object
+    required:
+      - origin
+      - held_out
+      - measurement_basis
+      - calibration
+      - files
+      - preprocessing
+    properties:
+      origin:
+        type: string
+        enum: [generated, digitized_figure, published_table, calibrated_measurement]
+      held_out: {type: boolean}
+      measurement_basis:
+        type: string
+        enum:
+          - synthetic_detector_counts
+          - relative_intensity
+          - spectral_radiance
+          - collected_power
+          - photoelectrons
+          - volumetric_photon_rate
+      calibration:
+        type: string
+        enum: [not_applicable, none, relative_response_corrected, absolute]
+      files:
+        type: array
+        minItems: 1
+        items:
+          type: object
+          required: [file, sha256]
+          properties:
+            file: {type: string, minLength: 1}
+            sha256: {type: string, pattern: '^[0-9a-f]{64}$'}
+          additionalProperties: false
+      preprocessing:
+        type: array
+        minItems: 1
+        items: {type: string, minLength: 1}
+    additionalProperties: false
+  comparison:
+    type: object
+    required:
+      - model_input_closure
+      - evaluation_data_use
+    properties:
+      model_input_closure:
+        type: string
+        enum: [closed, conditional, open]
+      evaluation_data_use:
+        type: string
+        enum: [generated_truth, held_out_only, tuning_and_evaluation]
+    additionalProperties: false
+  acceptance:
+    type: object
+    required:
+      - evaluator
+      - evaluator_sha256
+      - evaluator_version
+      - result_contract
+      - metrics
+    properties:
+      evaluator: {type: string, minLength: 1}
+      evaluator_sha256: {type: string, pattern: '^[0-9a-f]{64}$'}
+      evaluator_version: {type: string, minLength: 1}
+      result_contract: {type: string, minLength: 1}
+      metrics:
+        type: array
+        minItems: 1
+        items:
+          type: object
+          required: [name, criterion, threshold, unit]
+          properties:
+            name: {type: string, minLength: 1}
+            criterion: {type: string, minLength: 1}
+            threshold: {type: number}
+            unit: {type: string, minLength: 1}
+          additionalProperties: false
+    additionalProperties: false
+  limitations:
+    type: array
+    minItems: 1
+    items: {type: string, minLength: 1}
+additionalProperties: false

@@ -1,0 +1,26 @@
+kind: oescr_window_registry
+windows:
+  - name: target_500
+    family: analytic two-band example
+    species: Target
+    kind: photon_band
+    center_nm: 500.0
+    half_width_nm: 1.0
+    max_bin_nm: 0.5
+    use_area: true
+    use_peak: false
+    use_window_fit: false
+    baseline_mode: none
+    reference: Generated analytic use-case fixture
+  - name: actinometer_510
+    family: analytic two-band example
+    species: Actinometer
+    kind: photon_band
+    center_nm: 510.0
+    half_width_nm: 1.0
+    max_bin_nm: 0.5
+    use_area: true
+    use_peak: false
+    use_window_fit: false
+    baseline_mode: none
+    reference: Generated analytic use-case fixture

@@ -1,13 +1,15 @@
 #!/usr/bin/env python
 from __future__ import annotations
+
 import sys
 from pathlib import Path
+
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 import argparse
-from pprint import pprint
 
 from oescr.io.schema import AVAILABLE_SCHEMAS, validate_document
+from oescr.io.species_packs import compose_species_packs
 from oescr.io.yaml_loader import load_yaml
 
 
@@ -18,6 +20,8 @@ def main() -> None:
     args = ap.parse_args()
 
     cfg = load_yaml(args.yaml_path)
+    if args.schema == "case":
+        cfg, _ = compose_species_packs(cfg)
     validate_document(cfg, args.schema)
     print(f"Schema validation OK: {args.yaml_path} [{args.schema}]")
 

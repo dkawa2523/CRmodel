@@ -1,0 +1,64 @@
+plasma_mode: te
+emission_mode: physical
+
+gas_mixture:
+  total_pressure_Pa: 1.0
+  gas_temperature_K: 300.0
+  fractions:
+    X: 1.0
+
+energy_grid:
+  min_eV: 0.0
+  max_eV: 20.0
+  n_points: 201
+
+geometry:
+  mode: axisym_shell
+  chamber_radius_m: 0.1
+  chamber_height_m: 0.1
+  chord_r_m: [0.0]
+  n_shells: 1
+
+plasma_state:
+  te_eedf_kind: maxwell
+  ne_shells_m3: [3.0e16]
+  te_shells_eV: [3.0]
+  radicals: {}
+  metastables: {}
+
+states: []
+reactions: []
+transitions: []
+
+bands:
+  - id: X_physical_band
+    kind: electron_impact_photon_band
+    source_density_key: X
+    coefficient_m3_s: 2.0e-14
+    photon_yield: 0.6
+    branching_ratio: 0.5
+    profile_kind: gaussian
+    center_nm: 500.0
+    fwhm_nm: 1.0
+
+instruments:
+  - id: analytic_radiance
+    wavelength_min_nm: 495.0
+    wavelength_max_nm: 505.0
+    bin_nm: 0.05
+    throughput: 1.0
+    lsf:
+      kind: gaussian
+      fwhm_nm: 0.05
+    baseline:
+      kind: constant
+      offset: 0.0
+    nuisance:
+      gain: 1.0
+      wavelength_shift_nm: 0.0
+    calibration:
+      kind: spectral_radiance
+      absolute: true
+      input_basis: spectral_radiance
+      output_unit: W_m-2_sr-1_nm-1
+      reference: Analytic identity calibration for conservation benchmark

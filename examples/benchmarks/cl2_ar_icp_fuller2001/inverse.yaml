@@ -1,3 +1,5 @@
+inference_mode: relative_shape
+
 measurements:
   - instrument_id: cl2_benchmark_scan
     files_glob: measurements/chord_*.csv
@@ -60,27 +62,11 @@ fit:
     laplace: true
   regularization:
     smooth_arrays:
-      - path: plasma_state.ne_shells_m3
-        order: 2
-        weight: 0.05
-      - path: plasma_state.te_shells_eV
-        order: 2
-        weight: 0.05
       - path: plasma_state.radicals.Cl
         order: 2
         weight: 0.03
 
 parameter_groups:
-  - template: shell_array
-    name_prefix: ne
-    path: plasma_state.ne_shells_m3
-    scale: log
-    bounds: [6.0e15, 5.0e16]
-  - template: shell_array
-    name_prefix: te
-    path: plasma_state.te_shells_eV
-    scale: linear
-    bounds: [1.5, 6.0]
   - template: shell_array
     name_prefix: Cl
     path: plasma_state.radicals.Cl
@@ -93,18 +79,6 @@ parameter_groups:
     bounds: [1.0e18, 2.0e19]
 
 priors:
-  - type: log_gaussian
-    path: plasma_state.metastables.Ar_1s5[0]
-    mean_log10: 14.8
-    sigma_log10: 0.6
-  - type: log_gaussian
-    path: plasma_state.ne_shells_m3
-    mean_log10: [16.243038048686294, 16.161368002234976, 16.021189299069938]
-    sigma_log10: 0.16
-  - type: gaussian
-    path: plasma_state.te_shells_eV
-    mean: [3.75, 3.2, 2.75]
-    sigma: 0.45
   - type: log_gaussian
     path: plasma_state.radicals.Cl
     mean_log10: [19.146128035678238, 19.041392685158225, 18.89209460269048]

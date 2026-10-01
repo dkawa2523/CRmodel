@@ -2,7 +2,6 @@
 from __future__ import annotations
 
 import argparse
-import csv
 import sys
 from pathlib import Path
 from typing import Iterable
@@ -12,8 +11,8 @@ import numpy as np
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 from oescr.forward.model import OESCRModel
+from oescr.io.spectrum_csv import write_spectrum_csv
 from oescr.io.yaml_loader import load_yaml, save_yaml
-
 
 BENCH_ROOT = Path(__file__).resolve().parents[1] / "examples" / "benchmarks"
 
@@ -56,14 +55,8 @@ def apply_measurement_model(wl: np.ndarray, y: np.ndarray, cfg: dict, rng: np.ra
 
 
 def write_measurement_csv(path: Path, wl: np.ndarray, y: np.ndarray, comments: list[str]) -> None:
-    path.parent.mkdir(parents=True, exist_ok=True)
-    with path.open("w", encoding="utf-8", newline="") as f:
-        for line in comments:
-            f.write(f"# {line}\n")
-        writer = csv.writer(f)
-        writer.writerow(["wavelength_nm", "intensity"])
-        for xi, yi in zip(wl, y):
-            writer.writerow([f"{xi:.6f}", f"{yi:.12e}"])
+    metadata = dict(line.split(": ", 1) for line in comments)
+    write_spectrum_csv(path, wl, y, metadata=metadata, wavelength_digits=6)
 
 
 
@@ -99,9 +92,21 @@ def build_one(bench_dir: Path) -> None:
                 f"kind: {meta.get('benchmark_kind')}",
                 f"chord: {chord_key}",
                 "note: literature-anchored measurement-like spectrum, not redistributed raw experimental data",
+                f"output_basis: {spec['output_basis']}",
+                f"output_unit: {spec['output_unit']}",
             ]
             write_measurement_csv(meas_dir / f"{chord_key}.csv", wl, y_meas, comments)
-            write_measurement_csv(truth_dir / f"{inst_id}_{chord_key}.csv", wl, y, comments[:4] + ["kind: noise-free forward truth"])
+            write_measurement_csv(
+                truth_dir / f"{inst_id}_{chord_key}.csv",
+                wl,
+                y,
+                comments[:4]
+                + [
+                    "kind: noise-free forward truth",
+                    f"output_basis: {spec['output_basis']}",
+                    f"output_unit: {spec['output_unit']}",
+                ],
+            )
             inst_summary[chord_key] = {
                 "max_truth": float(np.max(y)),
                 "max_measurement": float(np.max(y_meas)),

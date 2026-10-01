@@ -8,9 +8,14 @@ oescr.egg-info/
 
 # generated runtime artifacts
 analysisv1/
+.local_outputs/
+forward_output/
+inverse_output/
+tmp/
 examples/runs/
 examples/forward_output/
 examples/inverse_output/
 examples/forward_*_curated/
 examples/inverse_*_curated_out/
 examples/benchmarks/**/runs/
+examples/benchmarks/**/inverse_out/

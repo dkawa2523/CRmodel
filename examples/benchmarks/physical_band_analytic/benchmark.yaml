@@ -1,0 +1,9 @@
+kind: oescr_analytic_benchmark
+case: case.yaml
+description: Constant-rate electron-impact photon band with an analytic volume-emission integral.
+expected:
+  neutral_density_m3: 2.41432350534664e20
+  photon_rate_m3_s: 4.345782309623952e22
+  integrated_emissivity_W_m3_sr: 1.3739307123664407e3
+  central_chord_integrated_radiance_W_m2_sr: 2.7478614247328814e2
+  relative_tolerance: 2.0e-4

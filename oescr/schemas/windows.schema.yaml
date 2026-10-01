@@ -28,10 +28,11 @@ properties:
         window_fit_local_gain: {type: boolean}
         area_weight: {type: number, minimum: 0}
         peak_weight: {type: number, minimum: 0}
-        baseline_mode: {type: string, enum: [none, off, disabled, flat, constant, local_linear]}
+        baseline_mode: {type: string, enum: [none, 'off', disabled, flat, constant, local_linear]}
         requires_high_res: {type: boolean}
         enabled: {type: boolean}
         default_enabled: {type: boolean}
+        notes: {type: string}
         reference: {type: string}
       additionalProperties: false
 additionalProperties: false

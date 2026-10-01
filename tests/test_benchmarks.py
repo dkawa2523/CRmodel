@@ -6,7 +6,6 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from oescr.forward.model import OESCRModel
 from oescr.inverse.optimize import InverseSolver
 
-
 BENCH_ROOT = Path('examples/benchmarks')
 
 

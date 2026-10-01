@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from abc import ABC
 from dataclasses import dataclass
+from functools import cached_property
 from typing import Any, Dict, Generic, Mapping, MutableMapping, TypeVar
 
 from jsonschema import Draft202012Validator
@@ -23,10 +24,15 @@ class PluginBase(ABC):
     description: str = ""
     config_schema: Mapping[str, Any] | None = None
 
+    @cached_property
+    def _config_validator(self) -> Draft202012Validator | None:
+        if self.config_schema is None:
+            return None
+        return Draft202012Validator(self.config_schema)
+
     def validate_config(self, cfg: Mapping[str, Any]) -> None:
-        schema = self.config_schema
-        if schema is not None:
-            validator = Draft202012Validator(schema)
+        validator = self._config_validator
+        if validator is not None:
             errors = sorted(validator.iter_errors(dict(cfg)), key=lambda e: list(e.absolute_path))
             if errors:
                 top = errors[0]
@@ -52,7 +58,7 @@ class PluginRegistry(Generic[P]):
         self._plugins: MutableMapping[str, P] = {}
 
     def register(self, plugin: P, *, replace: bool = False) -> P:
-        kind = str(plugin.kind)
+        kind = plugin.kind
         if not kind:
             raise ValueError(f"Cannot register unnamed plugin in registry '{self.name}'.")
         if kind in self._plugins and not replace:
@@ -62,7 +68,7 @@ class PluginRegistry(Generic[P]):
 
     def get(self, kind: str) -> P:
         try:
-            return self._plugins[str(kind)]
+            return self._plugins[kind]
         except KeyError as exc:
             known = ", ".join(sorted(self._plugins))
             raise KeyError(f"Unknown plugin kind '{kind}' for registry '{self.name}'. Known: {known}") from exc

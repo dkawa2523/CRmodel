@@ -1,0 +1,1136 @@
+{
+  "anchor_comparison": [
+    {
+      "2p1": {
+        "chilton_sigma_m2": 5e-22,
+        "model_over_chilton": {
+          "bsr_500": 0.37216895680000006,
+          "ngfsrdw_1998": 11.280000000000001
+        },
+        "model_sigma_m2": {
+          "bsr_500": 1.860844784e-22,
+          "ngfsrdw_1998": 5.64e-21
+        }
+      },
+      "2p6": {
+        "chilton_sigma_m2": 3.2e-22,
+        "model_over_chilton": {
+          "bsr_500": 0.42136398208333337,
+          "ngfsrdw_1998": 1.778125
+        },
+        "model_sigma_m2": {
+          "bsr_500": 1.3483647426666667e-22,
+          "ngfsrdw_1998": 5.69e-22
+        }
+      },
+      "energy_eV": 20.0
+    },
+    {
+      "2p1": {
+        "chilton_sigma_m2": 3.1e-22,
+        "model_over_chilton": {
+          "bsr_500": 0.5692991634838709,
+          "ngfsrdw_1998": 6.032258064516128
+        },
+        "model_sigma_m2": {
+          "bsr_500": 1.7648274068e-22,
+          "ngfsrdw_1998": 1.87e-21
+        }
+      },
+      "2p6": {
+        "chilton_sigma_m2": 1.9e-22,
+        "model_over_chilton": {
+          "bsr_500": 0.7213319968421052,
+          "ngfsrdw_1998": 0.8315789473684211
+        },
+        "model_sigma_m2": {
+          "bsr_500": 1.370530794e-22,
+          "ngfsrdw_1998": 1.58e-22
+        }
+      },
+      "energy_eV": 40.0
+    },
+    {
+      "2p1": {
+        "chilton_sigma_m2": 2.5e-22,
+        "model_over_chilton": {
+          "bsr_500": 0.6247680000000001,
+          "ngfsrdw_1998": 2.7600000000000002
+        },
+        "model_sigma_m2": {
+          "bsr_500": 1.56192e-22,
+          "ngfsrdw_1998": 6.9e-22
+        }
+      },
+      "2p6": {
+        "chilton_sigma_m2": 1e-22,
+        "model_over_chilton": {
+          "bsr_500": 0.816919,
+          "ngfsrdw_1998": 0.831
+        },
+        "model_sigma_m2": {
+          "bsr_500": 8.16919e-23,
+          "ngfsrdw_1998": 8.31e-23
+        }
+      },
+      "energy_eV": 100.0
+    }
+  ],
+  "branch_fractions": {
+    "2p1_to_750p4": 0.9947829162613847,
+    "2p6_to_763p5": 0.7134502923976608
+  },
+  "cascade_anchor_sensitivity": {
+    "applied_to_eedf_predictions": false,
+    "line_ratio_multiplier_nominal": 1.5866439190835975,
+    "reason": "The monoenergetic 1 mTorr cascade fractions are pressure dependent and do not define an EEDF-integrated cascade source for the 2-100 Pa discharge.",
+    "reported_uncertainty_corner_envelope": {
+      "maximum": 2.3529411764705888,
+      "minimum": 1.1671087533156497,
+      "probability_interpretation": false
+    },
+    "source_condition": {
+      "electron_energy_eV": 40.0,
+      "gas_pressure_mTorr": 1.0
+    },
+    "source_population_multiplier_by_level": {
+      "2p1": 1.2032258064516128,
+      "2p6": 1.9090909090909092
+    }
+  },
+  "cross_section_inputs": {
+    "bsr_500": {
+      "2p1": {
+        "curve_data_sha256": "19e01a7e7b97ff819de48de2e499e5103f4d17644a951f2e530709b058dee811",
+        "production_process_id": 62286,
+        "row_count": 196
+      },
+      "2p6": {
+        "curve_data_sha256": "8933a7de6b40ef12fe9117398c7bd4845752d19c2a95b4a23f0df62f4be1b89e",
+        "production_process_id": 62281,
+        "row_count": 218
+      }
+    },
+    "ngfsrdw_1998": {
+      "2p1": {
+        "curve_data_sha256": "124f52f146c92a81ec42cd5c6afd61d7a2c3e0cf6fb5aeee971dd2c5d8f8a147",
+        "production_process_id": 2560,
+        "row_count": 17
+      },
+      "2p6": {
+        "curve_data_sha256": "a9a02490576b72b391f9b476b9dec5275a04b891d0c26720095417faeffd90ad",
+        "production_process_id": 2567,
+        "row_count": 17
+      }
+    }
+  },
+  "limitations": [
+    "Neither LXCat model source supplies curve uncertainty.",
+    "The sparse NGFSRDW curve requires linear interpolation and is not a near-threshold benchmark.",
+    "The experiment does not independently supply the EEDF used in this sensitivity sweep.",
+    "Maxwellian and Druyvesteyn families bound shape sensitivity only within the declared family set.",
+    "The cascade anchor is monoenergetic and pressure specific, so it is not applied to the EEDF-integrated predictions.",
+    "Quenching is isolated as a post-source corona loss; coupled stepwise excitation and radiation trapping are omitted.",
+    "No pass/fail tolerance is declared because experimental and model-discrepancy uncertainty are open."
+  ],
+  "model": {
+    "amplitude_tuned_to_observation": false,
+    "cross_section_interpolation": "linear in energy, zero outside support and below declared threshold",
+    "cross_sections": "independent LXCat BSR-500 and NGFSRDW curves verified by numeric digest",
+    "eedf": "mean-energy-matched Maxwellian and Druyvesteyn families",
+    "population_limit": "direct_ground_state_corona",
+    "radiative_branching": "NIST all-branch fractions"
+  },
+  "model_discrepancy_summary": {
+    "condition_count": 24,
+    "maximum_maximum_over_minimum_ratio": 5.09033647869887,
+    "minimum_maximum_over_minimum_ratio": 3.677898278190413
+  },
+  "observed_low_pressure_ratio_range": {
+    "max_pressure_Pa": 10.0,
+    "maximum": 0.6967,
+    "minimum": 0.5836
+  },
+  "prediction_sensitivity": [
+    {
+      "I_763p5_over_I_750p4": 0.718728562385975,
+      "cross_section_model": "bsr_500",
+      "eedf_family": "maxwellian",
+      "energy_shift_eV": {
+        "2p1": 0.0,
+        "2p6": 0.0
+      },
+      "mean_energy_eV": 2.9999999999999987,
+      "rate_2p1_m3_s": 9.926349632019419e-19,
+      "rate_2p6_m3_s": 9.947617331992687e-19,
+      "shape_scale_eV": 1.9998342798522435,
+      "threshold_basis": "native_model"
+    },
+    {
+      "I_763p5_over_I_750p4": 0.18885724976822255,
+      "cross_section_model": "ngfsrdw_1998",
+      "eedf_family": "maxwellian",
+      "energy_shift_eV": {
+        "2p1": 0.0,
+        "2p6": 0.0
+      },
+      "mean_energy_eV": 2.9999999999999987,
+      "rate_2p1_m3_s": 6.326116145249196e-17,
+      "rate_2p6_m3_s": 1.6658481859241183e-17,
+      "shape_scale_eV": 1.9998342798522435,
+      "threshold_basis": "native_model"
+    },
+    {
+      "I_763p5_over_I_750p4": 0.7228212774929877,
+      "cross_section_model": "bsr_500",
+      "eedf_family": "maxwellian",
+      "energy_shift_eV": {
+        "2p1": -0.11411299999999969,
+        "2p6": -0.12722199999999972
+      },
+      "mean_energy_eV": 2.9999999999999987,
+      "rate_2p1_m3_s": 1.0434359505064505e-18,
+      "rate_2p6_m3_s": 1.0516260176621387e-18,
+      "shape_scale_eV": 1.9998342798522435,
+      "threshold_basis": "nist_level_energy"
+    },
+    {
+      "I_763p5_over_I_750p4": 0.18885032802118892,
+      "cross_section_model": "ngfsrdw_1998",
+      "eedf_family": "maxwellian",
+      "energy_shift_eV": {
+        "2p1": -0.00011300000000069588,
+        "2p6": -0.00022200000000083264
+      },
+      "mean_energy_eV": 2.9999999999999987,
+      "rate_2p1_m3_s": 6.326068436803575e-17,
+      "rate_2p6_m3_s": 1.6657745689073685e-17,
+      "shape_scale_eV": 1.9998342798522435,
+      "threshold_basis": "nist_level_energy"
+    },
+    {
+      "I_763p5_over_I_750p4": 1.180269894226352,
+      "cross_section_model": "bsr_500",
+      "eedf_family": "druyvesteyn",
+      "energy_shift_eV": {
+        "2p1": 0.0,
+        "2p6": 0.0
+      },
+      "mean_energy_eV": 2.999999999999999,
+      "rate_2p1_m3_s": 1.0326226796031525e-21,
+      "rate_2p6_m3_s": 1.6993685902810113e-21,
+      "shape_scale_eV": 4.055701025864167,
+      "threshold_basis": "native_model"
+    },
+    {
+      "I_763p5_over_I_750p4": 0.3209087921830901,
+      "cross_section_model": "ngfsrdw_1998",
+      "eedf_family": "druyvesteyn",
+      "energy_shift_eV": {
+        "2p1": 0.0,
+        "2p6": 0.0
+      },
+      "mean_energy_eV": 2.999999999999999,
+      "rate_2p1_m3_s": 1.2481595922472851e-19,
+      "rate_2p6_m3_s": 5.584911978024488e-20,
+      "shape_scale_eV": 4.055701025864167,
+      "threshold_basis": "native_model"
+    },
+    {
+      "I_763p5_over_I_750p4": 1.2019686235072078,
+      "cross_section_model": "bsr_500",
+      "eedf_family": "druyvesteyn",
+      "energy_shift_eV": {
+        "2p1": -0.11411299999999969,
+        "2p6": -0.12722199999999972
+      },
+      "mean_energy_eV": 2.999999999999999,
+      "rate_2p1_m3_s": 1.2475458281302774e-21,
+      "rate_2p6_m3_s": 2.0908084046563636e-21,
+      "shape_scale_eV": 4.055701025864167,
+      "threshold_basis": "nist_level_energy"
+    },
+    {
+      "I_763p5_over_I_750p4": 0.32089828394942893,
+      "cross_section_model": "ngfsrdw_1998",
+      "eedf_family": "druyvesteyn",
+      "energy_shift_eV": {
+        "2p1": -0.00011300000000069588,
+        "2p6": -0.00022200000000083264
+      },
+      "mean_energy_eV": 2.999999999999999,
+      "rate_2p1_m3_s": 1.2481468433541715e-19,
+      "rate_2p6_m3_s": 5.584672055494176e-20,
+      "shape_scale_eV": 4.055701025864167,
+      "threshold_basis": "nist_level_energy"
+    },
+    {
+      "I_763p5_over_I_750p4": 0.6489281051851563,
+      "cross_section_model": "bsr_500",
+      "eedf_family": "maxwellian",
+      "energy_shift_eV": {
+        "2p1": 0.0,
+        "2p6": 0.0
+      },
+      "mean_energy_eV": 4.499999999999999,
+      "rate_2p1_m3_s": 9.516423103404608e-18,
+      "rate_2p6_m3_s": 8.610629935900436e-18,
+      "shape_scale_eV": 2.9998646515106113,
+      "threshold_basis": "native_model"
+    },
+    {
+      "I_763p5_over_I_750p4": 0.16262808642019153,
+      "cross_section_model": "ngfsrdw_1998",
+      "eedf_family": "maxwellian",
+      "energy_shift_eV": {
+        "2p1": 0.0,
+        "2p6": 0.0
+      },
+      "mean_energy_eV": 4.499999999999999,
+      "rate_2p1_m3_s": 4.880882152635079e-16,
+      "rate_2p6_m3_s": 1.1067727858241051e-16,
+      "shape_scale_eV": 2.9998646515106113,
+      "threshold_basis": "native_model"
+    },
+    {
+      "I_763p5_over_I_750p4": 0.6511900332798631,
+      "cross_section_model": "bsr_500",
+      "eedf_family": "maxwellian",
+      "energy_shift_eV": {
+        "2p1": -0.11411299999999969,
+        "2p6": -0.12722199999999972
+      },
+      "mean_energy_eV": 4.499999999999999,
+      "rate_2p1_m3_s": 9.820209734248118e-18,
+      "rate_2p6_m3_s": 8.916473152941035e-18,
+      "shape_scale_eV": 2.9998646515106113,
+      "threshold_basis": "nist_level_energy"
+    },
+    {
+      "I_763p5_over_I_750p4": 0.16262212200733928,
+      "cross_section_model": "ngfsrdw_1998",
+      "eedf_family": "maxwellian",
+      "energy_shift_eV": {
+        "2p1": -0.00011300000000069588,
+        "2p6": -0.00022200000000083264
+      },
+      "mean_energy_eV": 4.499999999999999,
+      "rate_2p1_m3_s": 4.880847245864933e-16,
+      "rate_2p6_m3_s": 1.1067242796889995e-16,
+      "shape_scale_eV": 2.9998646515106113,
+      "threshold_basis": "nist_level_energy"
+    },
+    {
+      "I_763p5_over_I_750p4": 0.85840823325315,
+      "cross_section_model": "bsr_500",
+      "eedf_family": "druyvesteyn",
+      "energy_shift_eV": {
+        "2p1": 0.0,
+        "2p6": 0.0
+      },
+      "mean_energy_eV": 4.499999999999999,
+      "rate_2p1_m3_s": 8.047663781491093e-19,
+      "rate_2p6_m3_s": 9.63226221047887e-19,
+      "shape_scale_eV": 6.083666635893344,
+      "threshold_basis": "native_model"
+    },
+    {
+      "I_763p5_over_I_750p4": 0.22630556041341232,
+      "cross_section_model": "ngfsrdw_1998",
+      "eedf_family": "druyvesteyn",
+      "energy_shift_eV": {
+        "2p1": 0.0,
+        "2p6": 0.0
+      },
+      "mean_energy_eV": 4.499999999999999,
+      "rate_2p1_m3_s": 6.745070142849128e-17,
+      "rate_2p6_m3_s": 2.1283659053714793e-17,
+      "shape_scale_eV": 6.083666635893344,
+      "threshold_basis": "native_model"
+    },
+    {
+      "I_763p5_over_I_750p4": 0.8645601658876916,
+      "cross_section_model": "bsr_500",
+      "eedf_family": "druyvesteyn",
+      "energy_shift_eV": {
+        "2p1": -0.11411299999999969,
+        "2p6": -0.12722199999999972
+      },
+      "mean_energy_eV": 4.499999999999999,
+      "rate_2p1_m3_s": 8.767562407326998e-19,
+      "rate_2p6_m3_s": 1.0569116517824044e-18,
+      "shape_scale_eV": 6.083666635893344,
+      "threshold_basis": "nist_level_energy"
+    },
+    {
+      "I_763p5_over_I_750p4": 0.2262974687918464,
+      "cross_section_model": "ngfsrdw_1998",
+      "eedf_family": "druyvesteyn",
+      "energy_shift_eV": {
+        "2p1": -0.00011300000000069588,
+        "2p6": -0.00022200000000083264
+      },
+      "mean_energy_eV": 4.499999999999999,
+      "rate_2p1_m3_s": 6.74501167336734e-17,
+      "rate_2p6_m3_s": 2.1282713559953454e-17,
+      "shape_scale_eV": 6.083666635893344,
+      "threshold_basis": "nist_level_energy"
+    },
+    {
+      "I_763p5_over_I_750p4": 0.6191965903856373,
+      "cross_section_model": "bsr_500",
+      "eedf_family": "maxwellian",
+      "energy_shift_eV": {
+        "2p1": 0.0,
+        "2p6": 0.0
+      },
+      "mean_energy_eV": 6.0,
+      "rate_2p1_m3_s": 2.926980025902202e-17,
+      "rate_2p6_m3_s": 2.5270446361112336e-17,
+      "shape_scale_eV": 3.9998827675499786,
+      "threshold_basis": "native_model"
+    },
+    {
+      "I_763p5_over_I_750p4": 0.146444288827066,
+      "cross_section_model": "ngfsrdw_1998",
+      "eedf_family": "maxwellian",
+      "energy_shift_eV": {
+        "2p1": 0.0,
+        "2p6": 0.0
+      },
+      "mean_energy_eV": 6.0,
+      "rate_2p1_m3_s": 1.2882826044620004e-15,
+      "rate_2p6_m3_s": 2.6305598063036895e-16,
+      "shape_scale_eV": 3.9998827675499786,
+      "threshold_basis": "native_model"
+    },
+    {
+      "I_763p5_over_I_750p4": 0.6207053705421566,
+      "cross_section_model": "bsr_500",
+      "eedf_family": "maxwellian",
+      "energy_shift_eV": {
+        "2p1": -0.11411299999999969,
+        "2p6": -0.12722199999999972
+      },
+      "mean_energy_eV": 6.0,
+      "rate_2p1_m3_s": 2.993032249763512e-17,
+      "rate_2p6_m3_s": 2.590368185578345e-17,
+      "shape_scale_eV": 3.9998827675499786,
+      "threshold_basis": "nist_level_energy"
+    },
+    {
+      "I_763p5_over_I_750p4": 0.14643898351216283,
+      "cross_section_model": "ngfsrdw_1998",
+      "eedf_family": "maxwellian",
+      "energy_shift_eV": {
+        "2p1": -0.00011300000000069588,
+        "2p6": -0.00022200000000083264
+      },
+      "mean_energy_eV": 6.0,
+      "rate_2p1_m3_s": 1.2882734696809561e-15,
+      "rate_2p6_m3_s": 2.6304458558747496e-16,
+      "shape_scale_eV": 3.9998827675499786,
+      "threshold_basis": "nist_level_energy"
+    },
+    {
+      "I_763p5_over_I_750p4": 0.7178975255737627,
+      "cross_section_model": "bsr_500",
+      "eedf_family": "druyvesteyn",
+      "energy_shift_eV": {
+        "2p1": 0.0,
+        "2p6": 0.0
+      },
+      "mean_energy_eV": 6.000000000000001,
+      "rate_2p1_m3_s": 9.943177682177211e-18,
+      "rate_2p6_m3_s": 9.952959909599382e-18,
+      "shape_scale_eV": 8.111619774220383,
+      "threshold_basis": "native_model"
+    },
+    {
+      "I_763p5_over_I_750p4": 0.18666601621181458,
+      "cross_section_model": "ngfsrdw_1998",
+      "eedf_family": "druyvesteyn",
+      "energy_shift_eV": {
+        "2p1": 0.0,
+        "2p6": 0.0
+      },
+      "mean_energy_eV": 6.000000000000001,
+      "rate_2p1_m3_s": 6.399807957841933e-16,
+      "rate_2p6_m3_s": 1.66570005138893e-16,
+      "shape_scale_eV": 8.111619774220383,
+      "threshold_basis": "native_model"
+    },
+    {
+      "I_763p5_over_I_750p4": 0.7204044988364147,
+      "cross_section_model": "bsr_500",
+      "eedf_family": "druyvesteyn",
+      "energy_shift_eV": {
+        "2p1": -0.11411299999999969,
+        "2p6": -0.12722199999999972
+      },
+      "mean_energy_eV": 6.000000000000001,
+      "rate_2p1_m3_s": 1.0446098893371729e-17,
+      "rate_2p6_m3_s": 1.0492890659765358e-17,
+      "shape_scale_eV": 8.111619774220383,
+      "threshold_basis": "nist_level_energy"
+    },
+    {
+      "I_763p5_over_I_750p4": 0.1866591348867739,
+      "cross_section_model": "ngfsrdw_1998",
+      "eedf_family": "druyvesteyn",
+      "energy_shift_eV": {
+        "2p1": -0.00011300000000069588,
+        "2p6": -0.00022200000000083264
+      },
+      "mean_energy_eV": 6.000000000000001,
+      "rate_2p1_m3_s": 6.399760943154141e-16,
+      "rate_2p6_m3_s": 1.665626410182786e-16,
+      "shape_scale_eV": 8.111619774220383,
+      "threshold_basis": "nist_level_energy"
+    },
+    {
+      "I_763p5_over_I_750p4": 0.6044471950616629,
+      "cross_section_model": "bsr_500",
+      "eedf_family": "maxwellian",
+      "energy_shift_eV": {
+        "2p1": 0.0,
+        "2p6": 0.0
+      },
+      "mean_energy_eV": 7.499999999999999,
+      "rate_2p1_m3_s": 5.713582972580148e-17,
+      "rate_2p6_m3_s": 4.815390407132413e-17,
+      "shape_scale_eV": 4.999895134690922,
+      "threshold_basis": "native_model"
+    },
+    {
+      "I_763p5_over_I_750p4": 0.13515672934464368,
+      "cross_section_model": "ngfsrdw_1998",
+      "eedf_family": "maxwellian",
+      "energy_shift_eV": {
+        "2p1": 0.0,
+        "2p6": 0.0
+      },
+      "mean_energy_eV": 7.499999999999999,
+      "rate_2p1_m3_s": 2.231770152899439e-15,
+      "rate_2p6_m3_s": 4.20583021790281e-16,
+      "shape_scale_eV": 4.999895134690922,
+      "threshold_basis": "native_model"
+    },
+    {
+      "I_763p5_over_I_750p4": 0.6055553646975099,
+      "cross_section_model": "bsr_500",
+      "eedf_family": "maxwellian",
+      "energy_shift_eV": {
+        "2p1": -0.11411299999999969,
+        "2p6": -0.12722199999999972
+      },
+      "mean_energy_eV": 7.499999999999999,
+      "rate_2p1_m3_s": 5.811215434602167e-17,
+      "rate_2p6_m3_s": 4.9066539537511894e-17,
+      "shape_scale_eV": 4.999895134690922,
+      "threshold_basis": "nist_level_energy"
+    },
+    {
+      "I_763p5_over_I_750p4": 0.13515191838707985,
+      "cross_section_model": "ngfsrdw_1998",
+      "eedf_family": "maxwellian",
+      "energy_shift_eV": {
+        "2p1": -0.00011300000000069588,
+        "2p6": -0.00022200000000083264
+      },
+      "mean_energy_eV": 7.499999999999999,
+      "rate_2p1_m3_s": 2.2317543437013007e-15,
+      "rate_2p6_m3_s": 4.205650717908657e-16,
+      "shape_scale_eV": 4.999895134690922,
+      "threshold_basis": "nist_level_energy"
+    },
+    {
+      "I_763p5_over_I_750p4": 0.6480464650834907,
+      "cross_section_model": "bsr_500",
+      "eedf_family": "druyvesteyn",
+      "energy_shift_eV": {
+        "2p1": 0.0,
+        "2p6": 0.0
+      },
+      "mean_energy_eV": 7.5,
+      "rate_2p1_m3_s": 3.492207135447051e-17,
+      "rate_2p6_m3_s": 3.1555185639247444e-17,
+      "shape_scale_eV": 10.139567065154779,
+      "threshold_basis": "native_model"
+    },
+    {
+      "I_763p5_over_I_750p4": 0.16224099457116808,
+      "cross_section_model": "ngfsrdw_1998",
+      "eedf_family": "druyvesteyn",
+      "energy_shift_eV": {
+        "2p1": 0.0,
+        "2p6": 0.0
+      },
+      "mean_energy_eV": 7.5,
+      "rate_2p1_m3_s": 1.8389121300335015e-15,
+      "rate_2p6_m3_s": 4.1599314645464975e-16,
+      "shape_scale_eV": 10.139567065154779,
+      "threshold_basis": "native_model"
+    },
+    {
+      "I_763p5_over_I_750p4": 0.6494470191834409,
+      "cross_section_model": "bsr_500",
+      "eedf_family": "druyvesteyn",
+      "energy_shift_eV": {
+        "2p1": -0.11411299999999969,
+        "2p6": -0.12722199999999972
+      },
+      "mean_energy_eV": 7.5,
+      "rate_2p1_m3_s": 3.606034209641398e-17,
+      "rate_2p6_m3_s": 3.2654133833637516e-17,
+      "shape_scale_eV": 10.139567065154779,
+      "threshold_basis": "nist_level_energy"
+    },
+    {
+      "I_763p5_over_I_750p4": 0.16223500081495226,
+      "cross_section_model": "ngfsrdw_1998",
+      "eedf_family": "druyvesteyn",
+      "energy_shift_eV": {
+        "2p1": -0.00011300000000069588,
+        "2p6": -0.00022200000000083264
+      },
+      "mean_energy_eV": 7.5,
+      "rate_2p1_m3_s": 1.8388993002937482e-15,
+      "rate_2p6_m3_s": 4.1597487599862996e-16,
+      "shape_scale_eV": 10.139567065154779,
+      "threshold_basis": "nist_level_energy"
+    },
+    {
+      "I_763p5_over_I_750p4": 0.5957853679164068,
+      "cross_section_model": "bsr_500",
+      "eedf_family": "maxwellian",
+      "energy_shift_eV": {
+        "2p1": 0.0,
+        "2p6": 0.0
+      },
+      "mean_energy_eV": 8.999999999999998,
+      "rate_2p1_m3_s": 8.900038559197827e-17,
+      "rate_2p6_m3_s": 7.393436025804052e-17,
+      "shape_scale_eV": 5.999904265700186,
+      "threshold_basis": "native_model"
+    },
+    {
+      "I_763p5_over_I_750p4": 0.12674123932198747,
+      "cross_section_model": "ngfsrdw_1998",
+      "eedf_family": "maxwellian",
+      "energy_shift_eV": {
+        "2p1": 0.0,
+        "2p6": 0.0
+      },
+      "mean_energy_eV": 8.999999999999998,
+      "rate_2p1_m3_s": 3.1468976878879523e-15,
+      "rate_2p6_m3_s": 5.561157190558533e-16,
+      "shape_scale_eV": 5.999904265700186,
+      "threshold_basis": "native_model"
+    },
+    {
+      "I_763p5_over_I_750p4": 0.5966442510766542,
+      "cross_section_model": "bsr_500",
+      "eedf_family": "maxwellian",
+      "energy_shift_eV": {
+        "2p1": -0.11411299999999969,
+        "2p6": -0.12722199999999972
+      },
+      "mean_energy_eV": 8.999999999999998,
+      "rate_2p1_m3_s": 9.02036919592102e-17,
+      "rate_2p6_m3_s": 7.504199506443531e-17,
+      "shape_scale_eV": 5.999904265700186,
+      "threshold_basis": "nist_level_energy"
+    },
+    {
+      "I_763p5_over_I_750p4": 0.12673681885292426,
+      "cross_section_model": "ngfsrdw_1998",
+      "eedf_family": "maxwellian",
+      "energy_shift_eV": {
+        "2p1": -0.00011300000000069588,
+        "2p6": -0.00022200000000083264
+      },
+      "mean_energy_eV": 8.999999999999998,
+      "rate_2p1_m3_s": 3.1468754478988548e-15,
+      "rate_2p6_m3_s": 5.560923928186983e-16,
+      "shape_scale_eV": 5.999904265700186,
+      "threshold_basis": "nist_level_energy"
+    },
+    {
+      "I_763p5_over_I_750p4": 0.6141540424264927,
+      "cross_section_model": "bsr_500",
+      "eedf_family": "druyvesteyn",
+      "energy_shift_eV": {
+        "2p1": 0.0,
+        "2p6": 0.0
+      },
+      "mean_energy_eV": 9.0,
+      "rate_2p1_m3_s": 7.220721428863661e-17,
+      "rate_2p6_m3_s": 6.183331114032241e-17,
+      "shape_scale_eV": 12.167511065444682,
+      "threshold_basis": "native_model"
+    },
+    {
+      "I_763p5_over_I_750p4": 0.14519943881227695,
+      "cross_section_model": "ngfsrdw_1998",
+      "eedf_family": "druyvesteyn",
+      "energy_shift_eV": {
+        "2p1": 0.0,
+        "2p6": 0.0
+      },
+      "mean_energy_eV": 9.0,
+      "rate_2p1_m3_s": 3.2546056771147328e-15,
+      "rate_2p6_m3_s": 6.589127535568335e-16,
+      "shape_scale_eV": 12.167511065444682,
+      "threshold_basis": "native_model"
+    },
+    {
+      "I_763p5_over_I_750p4": 0.6151456227736741,
+      "cross_section_model": "bsr_500",
+      "eedf_family": "druyvesteyn",
+      "energy_shift_eV": {
+        "2p1": -0.11411299999999969,
+        "2p6": -0.12722199999999972
+      },
+      "mean_energy_eV": 9.0,
+      "rate_2p1_m3_s": 7.384445086368865e-17,
+      "rate_2p6_m3_s": 6.333742475732699e-17,
+      "shape_scale_eV": 12.167511065444682,
+      "threshold_basis": "nist_level_energy"
+    },
+    {
+      "I_763p5_over_I_750p4": 0.14519413407375678,
+      "cross_section_model": "ngfsrdw_1998",
+      "eedf_family": "druyvesteyn",
+      "energy_shift_eV": {
+        "2p1": -0.00011300000000069588,
+        "2p6": -0.00022200000000083264
+      },
+      "mean_energy_eV": 9.0,
+      "rate_2p1_m3_s": 3.25458290671e-15,
+      "rate_2p6_m3_s": 6.588840709126585e-16,
+      "shape_scale_eV": 12.167511065444682,
+      "threshold_basis": "nist_level_energy"
+    },
+    {
+      "I_763p5_over_I_750p4": 0.5845214816096591,
+      "cross_section_model": "bsr_500",
+      "eedf_family": "maxwellian",
+      "energy_shift_eV": {
+        "2p1": 0.0,
+        "2p6": 0.0
+      },
+      "mean_energy_eV": 11.999999999999995,
+      "rate_2p1_m3_s": 1.5461770573680847e-16,
+      "rate_2p6_m3_s": 1.2601559644549263e-16,
+      "shape_scale_eV": 7.999917085294216,
+      "threshold_basis": "native_model"
+    },
+    {
+      "I_763p5_over_I_750p4": 0.11494342776867676,
+      "cross_section_model": "ngfsrdw_1998",
+      "eedf_family": "maxwellian",
+      "energy_shift_eV": {
+        "2p1": 0.0,
+        "2p6": 0.0
+      },
+      "mean_energy_eV": 11.999999999999995,
+      "rate_2p1_m3_s": 4.639947976665954e-15,
+      "rate_2p6_m3_s": 7.436384784375167e-16,
+      "shape_scale_eV": 7.999917085294216,
+      "threshold_basis": "native_model"
+    },
+    {
+      "I_763p5_over_I_750p4": 0.5850812141458721,
+      "cross_section_model": "bsr_500",
+      "eedf_family": "maxwellian",
+      "energy_shift_eV": {
+        "2p1": -0.11411299999999969,
+        "2p6": -0.12722199999999972
+      },
+      "mean_energy_eV": 11.999999999999995,
+      "rate_2p1_m3_s": 1.5604170631229e-16,
+      "rate_2p6_m3_s": 1.272979596335206e-16,
+      "shape_scale_eV": 7.999917085294216,
+      "threshold_basis": "nist_level_energy"
+    },
+    {
+      "I_763p5_over_I_750p4": 0.11493959517100989,
+      "cross_section_model": "ngfsrdw_1998",
+      "eedf_family": "maxwellian",
+      "energy_shift_eV": {
+        "2p1": -0.00011300000000069588,
+        "2p6": -0.00022200000000083264
+      },
+      "mean_energy_eV": 11.999999999999995,
+      "rate_2p1_m3_s": 4.6399156191514096e-15,
+      "rate_2p6_m3_s": 7.436084973234964e-16,
+      "shape_scale_eV": 7.999917085294216,
+      "threshold_basis": "nist_level_energy"
+    },
+    {
+      "I_763p5_over_I_750p4": 0.5909340106093822,
+      "cross_section_model": "bsr_500",
+      "eedf_family": "druyvesteyn",
+      "energy_shift_eV": {
+        "2p1": 0.0,
+        "2p6": 0.0
+      },
+      "mean_energy_eV": 12.0,
+      "rate_2p1_m3_s": 1.568849253588982e-16,
+      "rate_2p6_m3_s": 1.2926614565963342e-16,
+      "shape_scale_eV": 16.2233935331368,
+      "threshold_basis": "native_model"
+    },
+    {
+      "I_763p5_over_I_750p4": 0.12291542969145847,
+      "cross_section_model": "ngfsrdw_1998",
+      "eedf_family": "druyvesteyn",
+      "energy_shift_eV": {
+        "2p1": 0.0,
+        "2p6": 0.0
+      },
+      "mean_energy_eV": 12.0,
+      "rate_2p1_m3_s": 5.6127142125660735e-15,
+      "rate_2p6_m3_s": 9.619310229005878e-16,
+      "shape_scale_eV": 16.2233935331368,
+      "threshold_basis": "native_model"
+    },
+    {
+      "I_763p5_over_I_750p4": 0.5915872913373186,
+      "cross_section_model": "bsr_500",
+      "eedf_family": "druyvesteyn",
+      "energy_shift_eV": {
+        "2p1": -0.11411299999999969,
+        "2p6": -0.12722199999999972
+      },
+      "mean_energy_eV": 12.0,
+      "rate_2p1_m3_s": 1.5887139549667403e-16,
+      "rate_2p6_m3_s": 1.310476218727462e-16,
+      "shape_scale_eV": 16.2233935331368,
+      "threshold_basis": "nist_level_energy"
+    },
+    {
+      "I_763p5_over_I_750p4": 0.12291112586734713,
+      "cross_section_model": "ngfsrdw_1998",
+      "eedf_family": "druyvesteyn",
+      "energy_shift_eV": {
+        "2p1": -0.00011300000000069588,
+        "2p6": -0.00022200000000083264
+      },
+      "mean_energy_eV": 12.0,
+      "rate_2p1_m3_s": 5.612674125462699e-15,
+      "rate_2p6_m3_s": 9.618904712936465e-16,
+      "shape_scale_eV": 16.2233935331368,
+      "threshold_basis": "nist_level_energy"
+    }
+  ],
+  "quenching_sensitivity": {
+    "coupled_cr_feedback_included": false,
+    "full_pressure_maximum_absolute_ratio_shift": 0.0006237358878553589,
+    "low_pressure_maximum_absolute_ratio_shift": 6.288152652444978e-05,
+    "model": "state-specific neutral-Ar loss added to optically thin radiative loss",
+    "pressure_temperature_sweep": [
+      {
+        "pressure_Pa": 2.0,
+        "temperature_endpoints": [
+          {
+            "gas_density_m3": 4.7651121816052105e+20,
+            "gas_temperature_K": 304.0,
+            "line_ratio_multiplier": 0.9999874145845608,
+            "radiative_survival": {
+              "2p1": 0.9998314861015484,
+              "2p6": 0.9998189028069265
+            }
+          },
+          {
+            "gas_density_m3": 4.138840294879954e+20,
+            "gas_temperature_K": 350.0,
+            "line_ratio_multiplier": 0.9999890684075462,
+            "radiative_survival": {
+              "2p1": 0.9998536304007609,
+              "2p6": 0.9998427004083599
+            }
+          }
+        ]
+      },
+      {
+        "pressure_Pa": 4.0,
+        "temperature_endpoints": [
+          {
+            "gas_density_m3": 9.530224363210421e+20,
+            "gas_temperature_K": 304.0,
+            "line_ratio_multiplier": 0.9999748337266632,
+            "radiative_survival": {
+              "2p1": 0.9996630289873956,
+              "2p6": 0.9996378711943633
+            }
+          },
+          {
+            "gas_density_m3": 8.277680589759908e+20,
+            "gas_temperature_K": 350.0,
+            "line_ratio_multiplier": 0.9999781402536216,
+            "radiative_survival": {
+              "2p1": 0.9997073036433703,
+              "2p6": 0.9996854502952601
+            }
+          }
+        ]
+      },
+      {
+        "pressure_Pa": 7.0,
+        "temperature_endpoints": [
+          {
+            "gas_density_m3": 1.6677892635618236e+21,
+            "gas_temperature_K": 304.0,
+            "line_ratio_multiplier": 0.9999559709797925,
+            "radiative_survival": {
+              "2p1": 0.9994104497239575,
+              "2p6": 0.9993664466610711
+            }
+          },
+          {
+            "gas_density_m3": 1.4485941032079838e+21,
+            "gas_temperature_K": 350.0,
+            "line_ratio_multiplier": 0.9999617544664285,
+            "radiative_survival": {
+              "2p1": 0.9994878937946137,
+              "2p6": 0.9994496678468173
+            }
+          }
+        ]
+      },
+      {
+        "pressure_Pa": 10.0,
+        "temperature_endpoints": [
+          {
+            "gas_density_m3": 2.3825560908026054e+21,
+            "gas_temperature_K": 304.0,
+            "line_ratio_multiplier": 0.9999371184734756,
+            "radiative_survival": {
+              "2p1": 0.9991579980638567,
+              "2p6": 0.9990951694836994
+            }
+          },
+          {
+            "gas_density_m3": 2.0694201474399768e+21,
+            "gas_temperature_K": 350.0,
+            "line_ratio_multiplier": 0.9999453764068064,
+            "radiative_survival": {
+              "2p1": 0.9992685802342769,
+              "2p6": 0.999213996593859
+            }
+          }
+        ]
+      },
+      {
+        "pressure_Pa": 15.0,
+        "temperature_endpoints": [
+          {
+            "gas_density_m3": 3.573834136203908e+21,
+            "gas_temperature_K": 304.0,
+            "line_ratio_multiplier": 0.9999057203637592,
+            "radiative_survival": {
+              "2p1": 0.9987375285974677,
+              "2p6": 0.9986433679865715
+            }
+          },
+          {
+            "gas_density_m3": 3.104130221159965e+21,
+            "gas_temperature_K": 350.0,
+            "line_ratio_multiplier": 0.9999180967983075,
+            "radiative_survival": {
+              "2p1": 0.9989032714358901,
+              "2p6": 0.9988214580597783
+            }
+          }
+        ]
+      },
+      {
+        "pressure_Pa": 20.0,
+        "temperature_endpoints": [
+          {
+            "gas_density_m3": 4.765112181605211e+21,
+            "gas_temperature_K": 304.0,
+            "line_ratio_multiplier": 0.9998743506383281,
+            "radiative_survival": {
+              "2p1": 0.9983174128693351,
+              "2p6": 0.9981919749236621
+            }
+          },
+          {
+            "gas_density_m3": 4.1388402948799537e+21,
+            "gas_temperature_K": 350.0,
+            "line_ratio_multiplier": 0.9998908386148334,
+            "radiative_survival": {
+              "2p1": 0.9985382296362909,
+              "2p6": 0.998429227820002
+            }
+          }
+        ]
+      },
+      {
+        "pressure_Pa": 30.0,
+        "temperature_endpoints": [
+          {
+            "gas_density_m3": 7.147668272407816e+21,
+            "gas_temperature_K": 304.0,
+            "line_ratio_multiplier": 0.9998116961865003,
+            "radiative_survival": {
+              "2p1": 0.9974782408437541,
+              "2p6": 0.9972904118871203
+            }
+          },
+          {
+            "gas_density_m3": 6.20826044231993e+21,
+            "gas_temperature_K": 350.0,
+            "line_ratio_multiplier": 0.9998363864220782,
+            "radiative_survival": {
+              "2p1": 0.9978089458634374,
+              "2p6": 0.9976456907717223
+            }
+          }
+        ]
+      },
+      {
+        "pressure_Pa": 40.0,
+        "temperature_endpoints": [
+          {
+            "gas_density_m3": 9.530224363210422e+21,
+            "gas_temperature_K": 304.0,
+            "line_ratio_multiplier": 0.9997491548110476,
+            "radiative_survival": {
+              "2p1": 0.9966404784264351,
+              "2p6": 0.9963904759573067
+            }
+          },
+          {
+            "gas_density_m3": 8.277680589759907e+21,
+            "gas_temperature_K": 350.0,
+            "line_ratio_multiplier": 0.9997820196271721,
+            "radiative_survival": {
+              "2p1": 0.9970807265799507,
+              "2p6": 0.9968633825514313
+            }
+          }
+        ]
+      },
+      {
+        "pressure_Pa": 50.0,
+        "temperature_endpoints": [
+          {
+            "gas_density_m3": 1.1912780454013027e+22,
+            "gas_temperature_K": 304.0,
+            "line_ratio_multiplier": 0.9996867262061322,
+            "radiative_survival": {
+              "2p1": 0.9958041220686515,
+              "2p6": 0.9954921627333819
+            }
+          },
+          {
+            "gas_density_m3": 1.0347100737199885e+22,
+            "gas_temperature_K": 350.0,
+            "line_ratio_multiplier": 0.9997277380293773,
+            "radiative_survival": {
+              "2p1": 0.9963535694568788,
+              "2p6": 0.9960823002706215
+            }
+          }
+        ]
+      },
+      {
+        "pressure_Pa": 60.0,
+        "temperature_endpoints": [
+          {
+            "gas_density_m3": 1.4295336544815632e+22,
+            "gas_temperature_K": 304.0,
+            "line_ratio_multiplier": 0.9996244100670182,
+            "radiative_survival": {
+              "2p1": 0.9949691682335788,
+              "2p6": 0.994595467830363
+            }
+          },
+          {
+            "gas_density_m3": 1.241652088463986e+22,
+            "gas_temperature_K": 350.0,
+            "line_ratio_multiplier": 0.999673541428584,
+            "radiative_survival": {
+              "2p1": 0.9956274721720592,
+              "2p6": 0.9953024410498313
+            }
+          }
+        ]
+      },
+      {
+        "pressure_Pa": 80.0,
+        "temperature_endpoints": [
+          {
+            "gas_density_m3": 1.9060448726420843e+22,
+            "gas_temperature_K": 304.0,
+            "line_ratio_multiplier": 0.9995001139727295,
+            "radiative_survival": {
+              "2p1": 0.9933034540434795,
+              "2p6": 0.9928069155259637
+            }
+          },
+          {
+            "gas_density_m3": 1.6555361179519815e+22,
+            "gas_temperature_K": 350.0,
+            "line_ratio_multiplier": 0.9995654024206947,
+            "radiative_survival": {
+              "2p1": 0.9941784478623202,
+              "2p6": 0.9937463803154818
+            }
+          }
+        ]
+      },
+      {
+        "pressure_Pa": 100.0,
+        "temperature_endpoints": [
+          {
+            "gas_density_m3": 2.3825560908026054e+22,
+            "gas_temperature_K": 304.0,
+            "line_ratio_multiplier": 0.9993762641121446,
+            "radiative_survival": {
+              "2p1": 0.9916433077976937,
+              "2p6": 0.9910247842786687
+            }
+          },
+          {
+            "gas_density_m3": 2.069420147439977e+22,
+            "gas_temperature_K": 350.0,
+            "line_ratio_multiplier": 0.9994576010151107,
+            "radiative_survival": {
+              "2p1": 0.9927336352082718,
+              "2p6": 0.9921951774922695
+            }
+          }
+        ]
+      }
+    ],
+    "radiative_rates_s-1": {
+      "2p1": 45236000.0,
+      "2p6": 34200000.0
+    },
+    "rate_coefficients_m3_s": {
+      "2p1": 1.6e-17,
+      "2p6": 1.3e-17
+    }
+  },
+  "sensitivity_envelope": {
+    "by_cross_section_model": {
+      "bsr_500": {
+        "maximum_ratio": 1.2019686235072078,
+        "minimum_ratio": 0.5845214816096591
+      },
+      "ngfsrdw_1998": {
+        "maximum_ratio": 0.3209087921830901,
+        "minimum_ratio": 0.11493959517100989
+      }
+    },
+    "maximum_ratio": 1.2019686235072078,
+    "minimum_ratio": 0.11493959517100989,
+    "overlaps_observed_low_pressure_range": true
+  },
+  "status": "diagnostic_only_not_validation"
+}

@@ -19,7 +19,7 @@ properties:
         minimum: 0
       - type: object
         properties:
-          kind: {type: string, enum: [constant, tabulated]}
+          kind: {type: string}
           value: {type: number, minimum: 0}
           wavelength_nm:
             type: array
@@ -49,26 +49,46 @@ properties:
   lsf:
     type: object
     properties:
-      kind: {type: string, enum: [gaussian, voigt]}
+      kind: {type: string}
       fwhm_nm: {type: number, exclusiveMinimum: 0}
       fwhm_g_nm: {type: number, exclusiveMinimum: 0}
       fwhm_l_nm: {type: number, exclusiveMinimum: 0}
-    additionalProperties: false
+    additionalProperties: true
   baseline:
     type: object
     properties:
-      kind: {type: string, enum: [constant, polynomial]}
+      kind: {type: string}
       offset: {type: number}
       coefficients:
         type: array
         items: {type: number}
         minItems: 1
-    additionalProperties: false
+    additionalProperties: true
   nuisance:
     type: object
     properties:
       gain: {type: number, exclusiveMinimum: 0}
       wavelength_shift_nm: {type: number}
+    additionalProperties: false
+  calibration:
+    type: object
+    required: [kind, absolute, input_basis, output_unit]
+    properties:
+      kind:
+        type: string
+        enum: [spectral_radiance, collected_spectral_power, photoelectron_spectrum]
+      absolute: {type: boolean}
+      input_basis: {type: string, enum: [spectral_radiance]}
+      output_unit:
+        type: string
+        enum: [W_m-2_sr-1_nm-1, W_nm-1, photoelectron_nm-1]
+      reference: {type: string}
+      collection_area_m2: {type: number, exclusiveMinimum: 0}
+      collection_solid_angle_sr: {type: number, exclusiveMinimum: 0}
+      viewing_factor: {type: number, exclusiveMinimum: 0, maximum: 1}
+      integration_time_s: {type: number, exclusiveMinimum: 0}
+      quantum_efficiency: {type: number, minimum: 0, maximum: 1}
+      relative_standard_uncertainty: {type: number, minimum: 0}
     additionalProperties: false
 additionalProperties: false
 anyOf:
