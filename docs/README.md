@@ -14,6 +14,7 @@
 - `scientific_validation.md` — analytic, generated, and external evidence boundaries
 - `physical_validation_report.md` — detailed problem statements, datasets, methods, results, and discussion for every scientific validation study
 - `model_methods_and_validation.md` — equation-level description of every OESCR model, inverse method, evaluation-critical function, evidence boundary, and literature source
+- `figure_interpretation_guide.md` — distinction between validation and optimization figures, panel-by-panel interpretation, and the limits of the current initialization benchmark
 - `validation_figures.html` — responsive interactive figures for the scientific validation report
 - `validation-figures/*.png` — static report-ready validation figures with axes, ticks, legends, and annotations
 - `development_plan.md` — authoritative priorities and completed decisions

@@ -1,5 +1,7 @@
 # OESCR 科学的検証報告書
 
+図版ごとの読み方、`validation-figures` と `optimization-figures` の違い、初期スペクトルが観測に近いケースのベンチマーク妥当性は、[検証図・最適化図の読み方とベンチマーク妥当性](figure_interpretation_guide.md)を参照すること。
+
 静的図版は `validation-figures/`、再生成スクリプトは `scripts/generate_validation_figures.py` に置いている。図はスコアだけでなく、観測スペクトル、初期予測、最適化後予測、波長ごとの残差、および既知真値に対する推定プロファイルを直接比較する。生成データ上の一致は外部実験に対する精度を意味しない。
 
 **版:** 2026-09-30
@@ -368,7 +370,7 @@ Cl2 molecular band、Cl/Cl+/Ar+/Xe 線、Cl I への干渉を含む広帯域ス�
 
 ### 12.2 データセット
 
-[source.yaml](../examples/validation/schuecke_2025_no_uv/source.yaml) と [figure_2_3_10pa.csv](../examples/validation/schuecke_2025_no_uv/figure_2_3_10pa.csv) に、10 Pa、N2 16 sccm、O2 4 sccm、13.56 MHz、RF power 10–800 W の 14 点を格納した。PDF vector 図から、絶対 UV 光子生成率、LIF NO 密度、OES gas temperature、probe electron density、electron temperature を同じ power 点へ変換した。データ SHA-256 は `95632f...bfd095`、source PDF SHA-256 は `dc06cd...a5ee0` である。報告相対不確かさは UV 8.9%、NO 密度 20%、gas temperature 3% であり、電子密度・温度の不確かさは不明である。digitization tolerance は測定不確かさと分離した。
+[source.yaml](../examples/validation/schuecke_2025_no_uv/source.yaml) と [figure_2_3_10pa.csv](../examples/validation/schuecke_2025_no_uv/figure_2_3_10pa.csv) に、10 Pa、N2 16 sccm、O2 4 sccm、13.56 MHz、RF power 10–800 W の 14 点を格納した。PDF vector 図から、絶対 UV 光子生成率、LIF NO 密度、OES gas temperature、probe electron density、electron temperature を同じ power 点へ変換した。データ SHA-256 は `265f2e...ca80d6`、source PDF SHA-256 は `dc06cd...a5ee0` である。報告相対不確かさは UV 8.9%、NO 密度 20%、gas temperature 3% であり、電子密度・温度の不確かさは不明である。digitization tolerance は測定不確かさと分離した。
 
 ### 12.3 検証方法
 

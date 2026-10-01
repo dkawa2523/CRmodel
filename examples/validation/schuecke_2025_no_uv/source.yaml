@@ -21,7 +21,7 @@ source:
   license: CC BY 4.0
 artifact:
   file: figure_2_3_10pa.csv
-  sha256: 95632f180a2976e340c3c578a8e79495563f1b4197eff9cd1778b95450bfd095
+  sha256: 265f2eccde4a764c80522b8bbce8111e5719da81e1e038cd77740f4912ca80d6
   origin: digitized_figure
   article_pages: [8, 9]
   pdf_pages: [9, 10]
