@@ -12,6 +12,8 @@
 - `developer_guide.md` — extension and maintenance guidance
 - `extension_workflow.md` — exact edit points for species data and plugins
 - `scientific_validation.md` — analytic, generated, and external evidence boundaries
+- `multi_spectrum_benchmark_plan.md` — literature-backed, prioritized expansion from single-condition fixtures to multi-gas, multi-condition spectra and external-tool physics benchmarks
+- `common_state_benchmark.md` — executed Ar/O2 and Ar/Cl2 multi-spectrum recovery of one shared `Te`, `ne`, and Maxwellian EEDF, with DE+LSQ/CMA-ES agreement and explicit same-model limits
 - `physical_validation_report.md` — detailed problem statements, datasets, methods, results, and discussion for every scientific validation study
 - `model_methods_and_validation.md` — equation-level description of every OESCR model, inverse method, evaluation-critical function, evidence boundary, and literature source
 - `figure_interpretation_guide.md` — distinction between validation and optimization figures, panel-by-panel interpretation, and the limits of the current initialization benchmark

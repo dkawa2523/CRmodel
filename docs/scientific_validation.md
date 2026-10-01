@@ -53,6 +53,59 @@ is the completed outcome of the selection phase, not a failed platform test.
 The candidates remain mechanism and sensitivity evidence at the boundaries
 below; no missing chemistry is added merely to force a comparator to pass.
 
+## Multi-spectrum qualification expansion
+
+The current generated NF3/Ar and Cl2/Ar packages each represent one physical
+operating condition observed along five chords. They are not five independent
+power, pressure, or mixture conditions. The Ar candidate contains a pressure
+series but its packaged observable is a two-line ratio rather than a full
+spectrum. This is insufficient for a gas-general or operating-range claim.
+
+The post-v1 evidence track is therefore specified in
+[`multi_spectrum_benchmark_plan.md`](multi_spectrum_benchmark_plan.md) and
+[`benchmark_portfolio.yaml`](../examples/validation/benchmark_portfolio.yaml).
+It separates:
+
+- external numerical qualification of tabulated EEDF and rate integration
+  using user-downloaded LXCat inputs and BOLSIG+ outputs;
+- multi-condition measured-spectrum qualification using condition-, day-, or
+  session-level hold-outs;
+- quantitative plasma-state qualification only where Langmuir probe, TDLAS,
+  absorption, or mass spectrometry provides an independent reference.
+
+The first execution item now has an immutable input contract and a tested
+OESCR-side comparator in `examples/validation/external_eedf_rate_template` and
+`scripts/compare_external_eedf_rates.py`. It produces condition-wise EEDF
+overlays plus mean-energy and process-rate-ratio summaries from the same
+hash-checked report. It is not yet an external result:
+official BOLSIG+ output and complete gas collision sets still need to be fixed
+and run. The two downloaded BSR/NGFSRDW files have now been
+identified exactly and remain valid for the existing Ar 2p1/2p6 diagnostic,
+but they are excitation-only subsets and cannot close a Boltzmann EEDF solve.
+A separately available LXCat Biagi/Magboltz 8.97 Ar set has now been
+inventoried with the shared data adapter and supplies 1 elastic, 44 excitation,
+and 1 ionization process. The official 07/2024 console instruction and immutable
+pre-run manifest for the six pure-Ar fields can now be generated without
+importing OESCR. Pure-Ar collision input and execution instructions are
+therefore ready; official BOLSIG+ execution/output is not.
+The remaining execution order is BOLSIG+/LXCat, the Fuller Cl2/Ar
+power-mixture series, the An/Hong NF3/O2 and N2/O2 series, and a deterministic
+pilot from the Daly industrial ICP dataset. Large spectral datasets without
+independent Te/ne measurements remain spectral evidence and cannot be promoted
+to state-retrieval validation. No global chemistry model is introduced by this
+portfolio.
+
+The Daly access path has now been tested rather than assumed. Zenodo exposes a
+single 48,824,112,520-byte `tar.xz` stream split into ten equal files, with no
+per-spectrum selective download. The released author model provides a useful
+but lower evidence tier while that archive is pending: an independent producer
+has run the published tool encoder and spectrum decoder for 30 deterministic
+setpoints in each of Ar, O2, Ar/O2, CF4/O2, and SF6/O2, yielding 150 complete
+3072-bin spectra. These outputs can expose wavelength and species-coverage
+gaps before the large download, but they are model-generated and therefore do
+not count as held-out measured spectra or validate Te, ne, or EEDF. TensorFlow
+remains confined to the external execution environment.
+
 ### Schuecke et al. 2025 N2/O2 ICP
 
 `examples/validation/schuecke_2025_no_uv` contains a held-out 10 Pa N2/O2

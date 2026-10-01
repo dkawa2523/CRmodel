@@ -12,6 +12,7 @@ the calculation itself changes.
 | Species/emitter pack | a YAML file such as `examples/data/species_packs/o_777_reduced.yaml` | `kind: oescr_species_pack`; provenance `metadata`; one or more of `states`, `reactions`, `transitions`, `bands` | none |
 | Pack selection | case `species_packs` | `yaml_file`; optional `namespace` | none |
 | Electron-impact cross section | CSV beside the owning data pack | columns `energy_eV,sigma_m2`; comment metadata should identify source, process, and evidence status | none |
+| Native LXCat import | external native text plus `scripts/prepare_lxcat_cross_sections.py` | immutable raw-file hash, database, exact process label, row count, energy range, numeric digest | none |
 | Cross-section use | one `reactions` or physical `bands` entry | `cross_section_file` as the exclusive rate source; reaction/band identifiers and physical fields | none |
 | Atomic state | pack or case `states` | `id`, `species`, `energy_eV`, `solve`; `mass_amu` when wall loss requires it | none |
 | Radiative branch | pack or case `transitions` | `id`, `upper`, `lower`, `wavelength_nm`, `A_s-1`; optional `profile` and trapping data | none |
@@ -25,6 +26,13 @@ file, not the case. Each rate-bearing reaction or band must have exactly one
 rate source. A state pack should include every radiative branch needed for its
 population balance; omitting unobserved branches changes predicted photon
 yields.
+
+Native LXCat downloads are not copied into the repository. Inventory the whole
+file first, then export only explicitly selected process labels. The shared
+`oescr.data.lxcat` adapter owns native parsing; validation scripts must not
+implement private LXCat parsers. The public read API is also available through
+`oescr.api`. Export does not smooth, rescale, fit, or invent missing collision
+channels.
 
 The checked-in multi-gas example composes two independent packs:
 

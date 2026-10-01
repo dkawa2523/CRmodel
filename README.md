@@ -149,6 +149,41 @@ calibration status, model-input closure, and evaluation-data use separately:
 python scripts/audit_validation_evidence.py
 ```
 
+For an independently produced BOLSIG+/LXCat EEDF and rate package, start from
+`examples/validation/external_eedf_rate_template` and run:
+
+```bash
+python scripts/prepare_bolsig_reference_run.py path/to/Ar_Biagi.txt --output-dir .local_outputs/bolsig_ar_reference --expected-collision-sha256 43cefbee063bb43df5a1a593c40e6370dc745bf9460300ad3ade5886a71363b1
+python scripts/compare_external_eedf_rates.py path/to/reference.yaml --output-dir .local_outputs/external_eedf_rate
+```
+
+The first command writes the official `bolsigminus` instruction format without
+importing OESCR physics; add `--execute --executable path/to/bolsigminus` only
+after obtaining the official binary. The second command verifies immutable
+outputs and OESCR's tabulated-EEDF/rate integration. It
+also writes per-mixture EEDF overlays and mean-energy/rate-ratio figures with
+the declared acceptance band. It does not turn a synthetic fixture or an
+unproven external file into physical validation.
+
+Native LXCat downloads can be inventoried and selected processes converted to
+the standard OESCR cross-section CSV format without embedding them in the
+repository:
+
+```bash
+python scripts/prepare_lxcat_cross_sections.py "path/to/Cross section.txt" --inventory .local_outputs/lxcat/inventory.json
+```
+
+The released Daly five-gas surrogate can likewise be run outside OESCR to
+prepare a deterministic 150-spectrum coverage preflight:
+
+```bash
+python scripts/prepare_daly_surrogate_pilot.py --output-dir .local_outputs/daly_surrogate_pilot --source-revision <commit> --tool-encoder-dir path/to/tool_encoder_l4 --spectra-decoder-dir path/to/spectra_decoder_l4 --execute
+```
+
+This producer imports no OESCR code and TensorFlow is not a package dependency.
+Its model-generated spectra are useful for multi-gas coverage checks, but do
+not count as held-out measurements or as Te, ne, or EEDF validation.
+
 The current NF3/Ar and Cl2/Ar packages pass their declared
 `generated_self_consistency` checks and intentionally report
 `external_quantitative=NOT READY`. Use
@@ -168,6 +203,26 @@ matches existing OESCR pathways. Candidate-specific BSR state-resolved curves
 now support an untuned corona-limit sensitivity check, but the comparison
 remains conditional on cross-section/model-discrepancy uncertainty and
 independently closed EEDF, cascade, and metastable inputs.
+
+The prioritized expansion from one-condition NF3/Ar and Cl2/Ar fixtures to
+multi-gas, multi-condition measured spectra and external-tool EEDF/rate
+benchmarks is specified in
+[`docs/multi_spectrum_benchmark_plan.md`](docs/multi_spectrum_benchmark_plan.md)
+and [`examples/validation/benchmark_portfolio.yaml`](examples/validation/benchmark_portfolio.yaml).
+The portfolio is a plan, not a validation verdict.
+
+The focused shared-state inverse gate is already executable for Ar/O2 and
+Ar/Cl2. It fits one common `Te` and `ne` to gas-specific sets of line-resolved
+spectra, cross-checks the built-in DE+LSQ result with CMA-ES, and reports
+Maxwellian EEDF recovery without claiming arbitrary-EEDF or external physical
+qualification:
+
+```bash
+python scripts/run_common_state_benchmarks.py
+```
+
+See [`docs/common_state_benchmark.md`](docs/common_state_benchmark.md) for the
+spectral overlays, numerical results, and interpretation limits.
 
 Inspect whether the configured spectra actually constrain each fitted
 parameter before interpreting an inverse result:
@@ -246,6 +301,7 @@ Detailed markdown documents live under `docs/`:
 - `docs/schema_reference.md`
 - `docs/plugin_interfaces.md`
 - `docs/scientific_validation.md`
+- `docs/multi_spectrum_benchmark_plan.md`
 - `docs/v1_readiness_review.md`
 
 ## Decoupled use of submodels

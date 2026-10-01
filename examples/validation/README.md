@@ -29,3 +29,35 @@ The 2026-09-30 v1 selection gate rejected both candidates for a quantitative
 accuracy claim. OESCR v1 therefore deliberately ships with no external
 quantitative qualification; these packages remain prepared research evidence,
 not hidden acceptance tests.
+
+`benchmark_portfolio.yaml` is the machine-readable post-v1 acquisition and
+qualification plan. It adds no validation verdict. It fixes the priority,
+independent unit, minimum condition design, split, supported claim, and
+explicitly unsupported claim for multi-condition Ar, O2, NF3, Cl2, CF4, SF6,
+C4F8, and N2 cases. The rationale and literature review are in
+`docs/multi_spectrum_benchmark_plan.md`.
+
+`external_eedf_rate_template` is the executable file-contract template for the
+first portfolio case. The independent solver writes frozen EEDF/rate tables;
+`scripts/prepare_bolsig_reference_run.py` prepares the fixed official-console
+instruction and provenance manifest without importing OESCR, while
+`scripts/compare_external_eedf_rates.py` verifies their hashes and compares
+them with OESCR's tabulated-EEDF rate path. The template and its analytic unit
+test are infrastructure, not external validation evidence.
+
+The Daly five-gas path has a separate external preflight producer:
+
+```bash
+python scripts/prepare_daly_surrogate_pilot.py \
+  --output-dir .local_outputs/daly_surrogate_pilot \
+  --source-revision <official-repository-commit> \
+  --tool-encoder-dir path/to/tool_encoder_l4 \
+  --spectra-decoder-dir path/to/spectra_decoder_l4 \
+  --execute
+```
+
+It generates 30 deterministic setpoints per gas system and one 3072-bin CSV
+per setpoint from the authors' released model. Run it in an isolated environment
+with the model-compatible TensorFlow version; TensorFlow is intentionally not
+an OESCR dependency. This output is an external empirical-surrogate preflight,
+not a substitute for the 48.8 GB held-out measured archive.

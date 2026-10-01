@@ -1,0 +1,47 @@
+format: oescr_external_eedf_rate_reference/v1
+benchmark_id: replace_with_dataset_and_grid_id
+
+reference:
+  producer:
+    name: BOLSIG+
+    version: replace_with_exact_version
+    command: replace_with_reproducible_external_command
+    imports_oescr: false
+  eedf_file:
+    path: external_eedf.csv
+    sha256: replace_with_sha256
+    distribution: energy_pdf_eV-1
+  rates_file:
+    path: external_rates.csv
+    sha256: replace_with_sha256
+  provenance:
+    cross_section_database: LXCat
+    dataset_name: replace_with_dataset_name_and_version
+    retrieved_on: YYYY-MM-DD
+    native_file_sha256: replace_with_sha256
+    conversion_command: replace_with_command
+
+conditions:
+- id: ar_100Td
+  reduced_field_Td: 100.0
+  gas_mixture: {Ar: 1.0}
+
+processes:
+- id: replace_with_exact_process_id
+  external_process_id: replace_with_lxcat_or_bolsig_process_id
+  native_row_count: 2
+  cross_section_file: replace_with_converted_cross_section.csv
+  cross_section_sha256: replace_with_sha256
+
+evaluation_grid:
+  min_eV: 0.0
+  max_eV: 100.0
+  n_points: 4001
+
+acceptance:
+  eedf_normalization_abs_error_max: 1.0e-6
+  mean_energy_relative_error_max: 1.0e-3
+  eedf_relative_l1_error_max: 1.0e-3
+  rate_relative_error_max: 0.01
+  near_zero_rate_floor_m3_s: 1.0e-20
+  near_zero_absolute_error_max_m3_s: 1.0e-20

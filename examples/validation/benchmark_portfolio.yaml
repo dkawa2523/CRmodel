@@ -1,0 +1,344 @@
+portfolio_version: 1
+updated: "2026-10-01"
+purpose: >-
+  Prioritized external benchmark portfolio for multiple gases, operating
+  conditions, spectra, sessions, and independent plasma diagnostics.
+
+claim_policy:
+  external_numerical:
+    may_support:
+    - EEDF import, normalization, interpolation, and rate-integral agreement
+    must_not_support:
+    - experimental plasma-state accuracy
+  external_spectral:
+    may_support:
+    - held-out spectral shape, line-ratio, interference, and repeatability claims
+    must_not_support:
+    - Te or ne accuracy without an independent reference
+  external_quantitative:
+    may_support:
+    - only the named quantity, gas, transitions, and operating range
+    requires:
+    - independently measured reference
+    - stated reference uncertainty
+    - held-out-only evaluation
+    - closed required model inputs
+
+external_tool_boundary:
+  rule: >-
+    Reference producers run outside the oescr package, import no OESCR code,
+    and write immutable result files. The OESCR comparator reads only those
+    frozen files and exercises the declared public EEDF/rate calculation path.
+  licensed_inputs: >-
+    LXCat native downloads and BOLSIG+ executables stay outside version
+    control; manifests record source identity, version, hashes, and process IDs.
+
+cases:
+- id: lxcat_bolsig_eedf_rate_grid
+  priority: P0
+  status: ar_collision_set_ready_bolsig_output_pending
+  evidence_kind: external_numerical
+  gases: [Ar, Ar/O2, Ar/NF3, Ar/Cl2]
+  source:
+    tool: BOLSIG+
+    target_version: 07/2024
+    executable: bolsigminus console application
+    producer_script: scripts/prepare_bolsig_reference_run.py
+    prepared_instruction_status: not_executed
+    tool_url: https://www.bolsig.laplace.univ-tlse.fr/
+    cross_sections: user-downloaded LXCat native files
+    cross_section_url: https://www.lxcat.net/
+    available_input_inventory:
+    - file: Cross%20section.txt
+      database: NGFSRDW
+      retrieved: 2026-09-29
+      sha256: ed69bdc134ddc1a22f276e79d4629a07bb8735e94be44893c321ce6b6b3fba51
+      processes:
+      - {id: 2567, label: Ar 2p6 excitation, rows: 17}
+      - {id: 2560, label: Ar 2p1 excitation, rows: 17}
+    - file: Cross%20section (1).txt
+      database: BSR
+      retrieved: 2026-09-29
+      sha256: c6e83764729162fce6e69a9b4580ecde5afdd890ddccde6d56fe0bc07cb1c205
+      processes:
+      - {id: 62281, label: Ar 2p6 excitation, rows: 218}
+      - {id: 62286, label: Ar 2p1 excitation, rows: 196}
+    - file: Ar_Biagi.txt
+      database: Biagi, Magboltz 8.97 transcription
+      retrieved: 2025-12-01
+      sha256: 43cefbee063bb43df5a1a593c40e6370dc745bf9460300ad3ade5886a71363b1
+      process_counts: {elastic: 1, excitation: 44, ionization: 1}
+      role: complete pure-Ar Boltzmann collision set
+    inventory_conclusion: >-
+      The BSR/NGFSRDW files remain state-resolved Arellano diagnostic inputs.
+      The separately inventoried Biagi file supplies the complete pure-Ar
+      collision set, so the Ar six-condition run now waits on official BOLSIG+
+      execution/output rather than collision data. O2, NF3, and Cl2 complete
+      sets remain pending.
+  unit_of_independence: solver_condition
+  condition_design:
+    reduced_field_Td: [10, 30, 50, 100, 200, 300]
+    molecular_fraction_percent: [5, 20, 50]
+    total_conditions: 60
+    count_note: pure Ar has 6 conditions; each of three Ar mixtures has 18
+  oescr_mode: tabulated_eedf_forward
+  compared_outputs:
+  - normalized EEDF
+  - mean electron energy
+  - process-resolved rate coefficients
+  - energy-grid convergence
+  acceptance:
+    eedf_normalization_abs_error_max: 1.0e-6
+    mean_energy_relative_error_max: 1.0e-3
+    eedf_relative_l1_error_max: 1.0e-3
+    rate_relative_error_max: 0.01
+    near_zero_rate_floor_m3_s: 1.0e-20
+    near_zero_absolute_error_max_m3_s: 1.0e-20
+  claim: external-tool numerical agreement only
+
+- id: fuller2001_cl2_ar_power_fraction
+  priority: P0
+  status: source_assessed_raster_digitization_pending
+  evidence_kind: external_spectral
+  gases: [Cl2, Ar, Ne, Xe]
+  source:
+    doi: 10.1063/1.1391222
+    url: https://doi.org/10.1063/1.1391222
+    author_pdf_url: https://www.columbia.edu/~iph1/Download/105.%20Fuller-JAP-90-3182-2001.pdf
+    source_pdf_sha256: 8df375068d854eab94fccf382de02d08b179c4c7386826cff7c2e4bc1a85107e
+    raw_data_availability: >-
+      Published raster figures contain response-corrected integrated emission
+      and actinometry-derived densities; no machine-readable full spectrum was
+      identified.
+  unit_of_independence: argon_fraction_power_condition
+  condition_design:
+    pressure_mTorr: 18
+    argon_fraction_percent: [1, 13, 40, 78, 96]
+    power_points: all published points
+    fixed_holdout_argon_fraction_percent: [78, 96]
+  observables_nm: [306.0, 480.7, 482.0, 585.2, 822.2, 828.0]
+  published_derived_quantities:
+  - absolute Cl2 density
+  - absolute Cl density
+  - absolute Cl+ density
+  - absolute Ar+ density
+  - Cl2 dissociation fraction
+  circular_reference_exclusions:
+  - OES-derived electron temperature is not independent truth
+  - OES/actinometry-derived densities are not independent truth
+  limitations:
+  - Raster digitization uncertainty must be separate from experimental uncertainty.
+  - This source cannot satisfy a measured-versus-predicted full-spectrum gate.
+  claim: mixture and power dependence of declared actinometry observables
+
+- id: an2023_nf3_o2_n2_o2_series
+  priority: P0
+  status: source_data_assessment_planned
+  evidence_kind: external_spectral
+  gases: [NF3, N2, O2, Ar]
+  source:
+    doi: 10.3390/coatings13010091
+    url: https://doi.org/10.3390/coatings13010091
+  unit_of_independence: gas_family_oxygen_fraction
+  condition_design:
+    gas_families: [N2/O2, NF3/O2]
+    oxygen_fraction_percent: [0, 20, 50, 80]
+    condition_groups: 8
+    frames_per_group: 60
+    sampling_Hz: 1
+    fixed_holdout_oxygen_fraction_percent: [20, 80]
+  observables_nm: [391.3, 703.7, 712.9, 750.3, 777.3, 811.5, 844.7]
+  evaluation:
+  - stable-plateau measured versus predicted spectrum
+  - repeat-frame noise baseline
+  - F/O/N/Ar window-area and line-ratio trends
+  circular_reference_exclusions:
+  - paper OES-derived Te and ne are not independent truth
+  claim: spectral and actinometric trend reproduction only
+
+- id: daly2023_released_surrogate_preflight
+  priority: P0
+  status: producer_implemented_local_run_completed
+  evidence_kind: external_empirical_surrogate
+  gases: [Ar, O2, Ar/O2, CF4/O2, SF6/O2]
+  source:
+    article_doi: 10.1088/2632-2153/aced7f
+    repository: https://github.com/gregdaly/generative_modelling_for_optical_plasma_diagnostics
+    executed_revision: c1d6b3eb204401dcc6792d2bdd9ee9c7c3468dd9
+    released_model: 4-dimensional tool encoder and spectra decoder
+  producer: scripts/prepare_daly_surrogate_pilot.py
+  independence:
+    imports_oescr: false
+    runtime: isolated TensorFlow environment, not an OESCR dependency
+  condition_design:
+    method: deterministic stratified permutation over each published active range
+    setpoints_per_gas_system: 30
+    condition_groups: 150
+    wavelength_channels: 3072
+    wavelength_range_nm: [207.340068141, 1081.016098975]
+  local_execution:
+    tensorflow_version: 2.10.1
+    spectra_file_count: 150
+    spectra_tree_sha256: 337fe43510f2e41fb5097642763fd408130557c869e431426b67de151688ce51
+    intensity_range: [0.0023868062999099493, 0.9913972616195679]
+  claim: external multi-gas spectral preflight and OESCR model-coverage assessment only
+  unsupported:
+  - held-out measured-spectrum validation
+  - Te or ne accuracy
+  - EEDF accuracy
+
+- id: daly2023_industrial_icp_pilot
+  priority: P0
+  status: monolithic_archive_download_pending
+  evidence_kind: external_spectral
+  gases: [Ar, O2, Ar/O2, CF4/O2, SF6/O2]
+  source:
+    article_doi: 10.1088/2632-2153/aced7f
+    dataset_doi: 10.5281/zenodo.7704879
+    url: https://doi.org/10.5281/zenodo.7704879
+    archive_size_GB: 48.8
+    archive_bytes: 48824112520
+    distribution:
+      split_file_count: 10
+      bytes_per_split_file: 4882411252
+      compression: one tar.xz stream split into numbered chunks
+      selective_spectrum_download: false
+    available_image_spectrum_pairs: 812500
+  unit_of_independence: process_setpoint
+  condition_design:
+    pilot_setpoints_per_gas_system: 30
+    pilot_condition_groups: 150
+    repeat_frames: keep all frames within their process-setpoint group
+    selection_axes: [ICP power, table power, pressure, gas flows]
+  split:
+    rule: never split repeated frames from one setpoint across fit and test
+    score: predeclared held-out transition windows within every condition
+  staged_coverage:
+  - [Ar, O2, Ar/O2]
+  - [CF4/O2, SF6/O2]
+  claim: spectral shape and process-trend coverage, not Te or ne accuracy
+
+- id: sayyed2025_bosch_day_holdout
+  priority: P1
+  status: download_not_started
+  evidence_kind: external_spectral
+  gases: [SF6, C4F8, O2, O2/SF6]
+  source:
+    dataset_doi: 10.5281/zenodo.17122442
+    url: https://doi.org/10.5281/zenodo.17122442
+    archive_size_GB: 7.9
+  unit_of_independence: experiment_day
+  acquisition:
+    day_files: 10
+    wavelength_range_nm: [185, 884]
+    wavelength_channels: 3648
+    oes_sampling_Hz: 25
+    process_sampling_Hz: 5
+  condition_design:
+    cycles_per_wafer: 100
+    sf6_etch_seconds: 4.5
+    c4f8_passivation_seconds: 1.5
+    extraction: phase-center plateau spectra only
+  split:
+    rule: leave complete experiment days out
+  claim: phase-specific spectral repeatability and day transfer
+  unsupported:
+  - transient global-chemistry inference
+  - causal wafer-outcome prediction
+
+- id: yuk2026_n2_air_microleak_sessions
+  priority: P1
+  status: download_not_started
+  evidence_kind: external_spectral
+  gases: [N2, O2, NO]
+  source:
+    dataset_doi: 10.17632/9gy9v3h4mp.1
+    url: https://doi.org/10.17632/9gy9v3h4mp.1
+  unit_of_independence: experiment_session
+  acquisition:
+    wavelength_range_nm: [200, 850]
+    wavelength_channels: 2048
+    optical_resolution_nm: 0.95
+    selection_experiments: 2
+    detection_sessions: [A, B, C]
+  condition_design:
+    process_flow_N2_sccm: 2500
+    pressure_Torr: 2.5
+    leak_range_ppm: [10, 60]
+    primary_reported_feature_nm: 245.2
+  split:
+    model_and_preprocessing_sessions: [A, B]
+    fixed_holdout_sessions: [C]
+  claim: trace-mixture spectral response and session transfer
+  unsupported:
+  - Te or ne accuracy
+  - NO chemistry closure from leak ppm
+
+- id: chai_kwon2019_ar_ccp_icp_state
+  priority: P1
+  status: blocked_on_machine_readable_raw_data
+  evidence_kind: external_quantitative
+  gases: [Ar]
+  source:
+    doi: 10.1016/j.jqsrt.2019.02.015
+    url: https://doi.org/10.1016/j.jqsrt.2019.02.015
+  unit_of_independence: discharge_power_pressure_condition
+  published_scope:
+    discharge_types: [CCP, ICP]
+    power_W: [5, 200]
+    pressure_Pa: [8, 80]
+    Te_eV: [1.2, 2.2]
+    ne_cm3: [4.0e9, 8.0e11]
+  minimum_if_figure_derived:
+    conditions_per_discharge_type: 6
+    rule: cover low, middle, and high power and pressure
+  independent_references:
+  - Langmuir-probe electron temperature
+  - Langmuir-probe electron density
+  model_factors:
+  - two-temperature EEDF
+  - finite-cylinder escape factor
+  claim: Te and ne only after raw data and uncertainty gate are closed
+
+- id: li2020_nf3_ar_o2_ar_dissociation
+  priority: P1
+  status: source_data_assessment_planned
+  evidence_kind: external_quantitative
+  gases: [NF3, O2, Ar]
+  source:
+    doi: 10.1116/1.5126429
+    url: https://doi.org/10.1116/1.5126429
+  unit_of_independence: gas_fraction_pressure_flow_condition
+  published_scope:
+    pressure_Torr: [0.4, 2.0]
+    total_flow_sccm: [200, 600]
+    nf3_ar_example_percent: [95, 5]
+  independent_references:
+  - downstream mass spectrometry
+  - UV absorption
+  - gas temperature from mass-spectrometer signals
+  target_quantities:
+  - NF3 dissociation fraction
+  - O2 dissociation fraction
+  - F, F2, N2, and O density trends
+  claim: actinometry/dissociation consistency within matched sampling volumes
+
+- id: massiveoes_n2_band_grid
+  priority: P2
+  status: conditional_on_molecular_band_scope
+  evidence_kind: external_numerical
+  gases: [N2, N2+]
+  source:
+    doi: 10.1088/1361-6595/aa51f0
+    project_url: https://www.physics.muni.cz/~janvorac/plot_the_fits.html
+  unit_of_independence: temperature_resolution_condition
+  condition_design:
+    Trot_K: [300, 500, 800, 1200]
+    Tvib_K: [1000, 3000, 6000]
+    gaussian_fwhm_nm: [0.05, 0.2, 0.95]
+    total_conditions: 36
+  compared_outputs:
+  - N2 second-positive-system line positions
+  - convolved band envelope
+  - integrated band area conservation
+  claim: molecular line-shape cross-tool agreement only

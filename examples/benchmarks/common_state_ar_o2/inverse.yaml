@@ -1,0 +1,42 @@
+inference_mode: calibrated_absolute
+
+measurements:
+  - {instrument_id: ar750, file: measurements/ar750.csv}
+  - {instrument_id: ar763, file: measurements/ar763.csv}
+  - {instrument_id: o777, file: measurements/o777.csv}
+  - {instrument_id: ar800, file: measurements/ar800.csv}
+  - {instrument_id: ar922, file: measurements/ar922.csv}
+
+fit:
+  objective:
+    spectrum_weight: 1.0
+    window_fit_weight: 0.0
+    area_weight: 0.0
+    peak_weight: 0.0
+    auto_gain_fit: false
+    auto_offset_fit: false
+    window_ratio_weight: 0.0
+  global:
+    enabled: true
+    maxiter: 45
+    popsize: 12
+    seed: 0
+    tol: 1.0e-6
+  local:
+    enabled: true
+    max_nfev: 160
+  uncertainty:
+    laplace: true
+  identifiability:
+    enabled: true
+    rank_rtol: 1.0e-8
+
+parameters:
+  - name: electron_temperature_eV
+    path: plasma_state.te_shells_eV[0]
+    scale: linear
+    bounds: [1.5, 7.0]
+  - name: electron_density_m3
+    path: plasma_state.ne_shells_m3[0]
+    scale: log
+    bounds: [5.0e15, 6.0e16]

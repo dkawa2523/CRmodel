@@ -5,7 +5,6 @@ from __future__ import annotations
 
 import argparse
 import csv
-import hashlib
 import json
 import sys
 from pathlib import Path
@@ -16,6 +15,7 @@ import numpy as np
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 from oescr.data.cross_section_db import CrossSection, CrossSectionLibrary
+from oescr.data.lxcat import load_lxcat_cross_section
 from oescr.data.provenance import file_sha256
 from oescr.io.yaml_loader import load_yaml
 from oescr.physics.eedf import druyvesteyn_energy_pdf, maxwell_energy_pdf
@@ -31,56 +31,6 @@ def _artifact_path(candidate_dir: Path, value: object) -> Path:
     return path if path.is_absolute() else candidate_dir / path
 
 
-def _curve_data_sha256(energy_eV: np.ndarray, sigma_m2: np.ndarray) -> str:
-    """Hash numeric curve content independently of the LXCat text envelope."""
-
-    values = np.column_stack((energy_eV, sigma_m2)).astype("<f8", copy=False)
-    return hashlib.sha256(values.tobytes(order="C")).hexdigest()
-
-
-def _lxcat_table_start(lines: list[str], process_label: str) -> int:
-    try:
-        label_index = lines.index(process_label)
-    except ValueError as exc:
-        raise ValueError(f"LXCat download does not contain process '{process_label}'.") from exc
-
-    table_start = next(
-        (index for index in range(label_index + 1, len(lines)) if lines[index].startswith("-----")),
-        None,
-    )
-    if table_start is None:
-        raise ValueError(f"LXCat process '{process_label}' has no numeric table.")
-    return table_start
-
-
-def _lxcat_numeric_rows(lines: list[str], process_label: str) -> tuple[np.ndarray, np.ndarray]:
-    numeric_rows = [line.split() for line in lines if len(line.split()) == 2]
-    if len(numeric_rows) < 2:
-        raise ValueError(f"LXCat process '{process_label}' has fewer than two data rows.")
-    values = np.asarray(numeric_rows, dtype=float)
-    return values[:, 0], values[:, 1]
-
-
-def _parse_lxcat_curve(lines: list[str], process_label: str, source: Path) -> CrossSection:
-    table_start = _lxcat_table_start(lines, process_label)
-    table_end = next(
-        (index for index in range(table_start + 1, len(lines)) if lines[index].startswith("-----")),
-        len(lines),
-    )
-    energy_array, sigma_array = _lxcat_numeric_rows(lines[table_start + 1 : table_end], process_label)
-
-    if np.any(np.diff(energy_array) <= 0.0) or np.any(sigma_array < 0.0):
-        raise ValueError(f"LXCat process '{process_label}' has invalid numeric data.")
-    digest = _curve_data_sha256(energy_array, sigma_array)
-    return CrossSection(
-        energy_eV=energy_array,
-        sigma_m2=sigma_array,
-        path=f"{source.resolve()}#{process_label}",
-        sha256=digest,
-        metadata={"curve_data_sha256": digest, "process_label": process_label},
-    )
-
-
 def _load_verified_lxcat_cross_sections(
     download_path: Path,
     reference: Mapping[str, Any],
@@ -91,11 +41,10 @@ def _load_verified_lxcat_cross_sections(
             f"Download the selected {model_id} processes from www.lxcat.net and pass "
             f"the resulting 'Cross section.txt': {download_path}"
         )
-    lines = download_path.read_text(encoding="utf-8").splitlines()
     curves: dict[str, CrossSection] = {}
     artifacts = {str(item["upper_level"]): item for item in reference["artifacts"]}
     for level, artifact in artifacts.items():
-        curve = _parse_lxcat_curve(lines, str(artifact["process_label"]), download_path)
+        curve = load_lxcat_cross_section(download_path, str(artifact["process_label"]))
         expected_rows = int(artifact["row_count"])
         if len(curve.energy_eV) != expected_rows:
             raise ValueError(

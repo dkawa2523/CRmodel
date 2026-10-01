@@ -2,6 +2,22 @@
 
 These benchmark directories package literature-anchored, measurement-like spectra for the OESCR examples. They are not redistributed raw experimental spectra. Each benchmark uses a published process window, expected dominant features, and a reproducible synthetic spatialization/noise model to produce five same-height chords for forward/inverse testing.
 
+`common_state_ar_o2/` and `common_state_ar_cl2/` are a separate focused family:
+each narrow wavelength window is one observed spectrum from the same single
+zone, and all windows share one fitted `Te` and `ne`. They intentionally do not
+use five chords. Run both with:
+
+```bash
+python scripts/run_common_state_benchmarks.py
+```
+
+The command also runs a fixed-seed CMA-ES cross-check and writes the report to
+[`docs/common_state_benchmark.md`](../../docs/common_state_benchmark.md).
+Ar/O2 contains five observed spectra but three independent excitation
+channels; Ar/Cl2 contains seven and five respectively. This distinction avoids
+counting multiple radiative branches from one upper state as independent
+physics.
+
 Each benchmark directory now includes:
 
 - `case_truth.yaml`

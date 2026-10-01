@@ -1,0 +1,62 @@
+kind: oescr_species_pack
+metadata:
+  source: OESCR curated Cl2/Ar initialization curves
+  scope: Three effective Cl-emission channels for common-state inverse self-consistency tests
+  evidence: Literature-anchored effective-emitter fits; not state-resolved external validation data
+states:
+  - id: Cl_725_effective_upper
+    species: Cl
+    energy_eV: 10.6
+    mass_amu: 35.45
+    solve: true
+  - id: Cl_755_effective_upper
+    species: Cl
+    energy_eV: 10.6
+    mass_amu: 35.45
+    solve: true
+  - id: Cl_822_dissociative_upper
+    species: Cl
+    energy_eV: 8.1
+    mass_amu: 35.45
+    solve: true
+reactions:
+  - id: exc_Cl_to_725_effective_upper
+    kind: electron_excitation
+    source_state: Cl
+    target_state: Cl_725_effective_upper
+    cross_section_file: ../cross_sections_curated/cl2/ClI_725p662_effective_curated.csv
+  - id: exc_Cl_to_755_effective_upper
+    kind: electron_excitation
+    source_state: Cl
+    target_state: Cl_755_effective_upper
+    cross_section_file: ../cross_sections_curated/cl2/ClI_754p707_effective_curated.csv
+  - id: diss_exc_Cl2_to_822_effective_upper
+    kind: electron_excitation
+    source_state: Cl2
+    target_state: Cl_822_dissociative_upper
+    cross_section_file: ../cross_sections_curated/cl2/ClI_822p2_dissociative_excitation_interference_curated.csv
+transitions:
+  - id: Cl725_effective
+    upper: Cl_725_effective_upper
+    lower: Cl_effective_lower
+    wavelength_nm: 725.662
+    A_s-1: 1.0e7
+    profile:
+      kind: gaussian
+      fwhm_nm: 0.03
+  - id: Cl755_effective
+    upper: Cl_755_effective_upper
+    lower: Cl_effective_lower
+    wavelength_nm: 754.707
+    A_s-1: 1.0e7
+    profile:
+      kind: gaussian
+      fwhm_nm: 0.03
+  - id: Cl822_dissociative_effective
+    upper: Cl_822_dissociative_upper
+    lower: Cl_effective_lower
+    wavelength_nm: 822.2
+    A_s-1: 1.0e7
+    profile:
+      kind: gaussian
+      fwhm_nm: 0.03

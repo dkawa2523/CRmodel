@@ -1,0 +1,8 @@
+include: case_truth.yaml
+plasma_state:
+  te_eedf_kind: maxwell
+  ne_shells_m3: [3.0e16]
+  te_shells_eV: [2.8]
+  metastables: {}
+  radicals:
+    O: [2.0e19]

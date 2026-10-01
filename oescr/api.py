@@ -6,6 +6,13 @@ and plugin registries that define the stable extension surface of the code base.
 
 from .data.atomic_db import StateRegistry
 from .data.cross_section_db import CrossSectionLibrary
+from .data.lxcat import (
+    LXCatDataset,
+    LXCatProcess,
+    load_lxcat_cross_section,
+    load_lxcat_dataset,
+    select_lxcat_process,
+)
 from .forward.compiled import CompiledCase, compile_case
 from .forward.model import OESCRModel
 from .geometry import GEOMETRY_PLUGINS, build_W_axisym_shell, get_geometry_plugin, shell_centers, shell_edges
@@ -55,6 +62,8 @@ __all__ = [
     "GEOMETRY_PLUGINS",
     "InstrumentSpec",
     "LSF_PLUGINS",
+    "LXCatDataset",
+    "LXCatProcess",
     "OESCRModel",
     "REACTION_RATE_PLUGINS",
     "REACTION_FAMILIES",
@@ -73,12 +82,15 @@ __all__ = [
     "druyvesteyn_energy_pdf",
     "eedf_model_kind",
     "get_geometry_plugin",
+    "load_lxcat_cross_section",
+    "load_lxcat_dataset",
     "maxwell_energy_pdf",
     "normalize_instrument_config",
     "resolve_eedf_plugin_spec",
     "resolve_reaction_rate_spec",
     "shell_centers",
     "shell_edges",
+    "select_lxcat_process",
     "tabulated_energy_pdf",
     "validate_document",
 ]

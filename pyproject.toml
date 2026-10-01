@@ -17,6 +17,7 @@ dependencies = [
 
 [project.optional-dependencies]
 dev = [
+  "cma>=4.5,<5",
   "pytest>=8.0",
   "import-linter>=2.15",
   "matplotlib>=3.9",
@@ -92,6 +93,7 @@ source_modules = [
   "oescr.analysis.benchmark_metrics",
   "oescr.analysis.benchmark_model",
   "oescr.analysis.benchmark_contract",
+  "oescr.analysis.external_eedf_reference",
   "oescr.analysis.validation_evidence"
 ]
 forbidden_modules = [

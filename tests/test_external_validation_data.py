@@ -9,12 +9,12 @@ import numpy as np
 from scripts.assess_arellano_atomic_model import (
     _cascade_anchor_sensitivity,
     _eedf_at_mean_energy,
-    _parse_lxcat_curve,
     _quenching_sensitivity,
     _rate_from_curve,
 )
 
 from oescr.data.cross_section_db import CrossSection, CrossSectionLibrary
+from oescr.data.lxcat import load_lxcat_cross_section
 from oescr.data.provenance import file_sha256
 from oescr.io.normalize import normalize_case_config
 from oescr.io.yaml_loader import load_yaml
@@ -190,18 +190,26 @@ def test_lxcat_model_references_require_user_download_and_fix_numeric_identity()
     assert not list(AR_CANDIDATE.glob("ngfsrdw_1998_ground_to_4p_*.csv"))
 
 
-def test_lxcat_parser_and_mean_energy_matching_are_explicit() -> None:
-    lines = [
-        "EXCITATION",
-        "Ar -> Ar(test)",
-        " 1.0",
-        "COLUMNS: Energy (eV) | Cross section (m2)",
-        "-----------------------------",
-        " 1.0 0.0",
-        " 2.0 3.0e-20",
-        "-----------------------------",
-    ]
-    curve = _parse_lxcat_curve(lines, "Ar -> Ar(test)", Path("Cross section.txt"))
+def test_lxcat_parser_and_mean_energy_matching_are_explicit(tmp_path: Path) -> None:
+    source = tmp_path / "Cross section.txt"
+    source.write_text(
+        "\n".join(
+            [
+                "DATABASE: unit fixture",
+                "EXCITATION",
+                "Ar -> Ar(test)",
+                " 1.0",
+                "PROCESS: E + Ar -> E + Ar(test), Excitation",
+                "COLUMNS: Energy (eV) | Cross section (m2)",
+                "-----------------------------",
+                " 1.0 0.0",
+                " 2.0 3.0e-20",
+                "-----------------------------",
+            ]
+        ),
+        encoding="utf-8",
+    )
+    curve = load_lxcat_cross_section(source, "Ar -> Ar(test)")
     assert curve.energy_eV.tolist() == [1.0, 2.0]
     assert curve.sigma_m2.tolist() == [0.0, 3.0e-20]
 

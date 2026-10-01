@@ -1,6 +1,6 @@
 # OESCR Development Plan
 
-Updated: 2026-10-01
+Updated: 2026-10-02
 
 ## Purpose
 
@@ -109,7 +109,9 @@ External quantitative model qualification remains a separate evidence track.
 | Benchmark-report responsibility | Complete | pure metrics, shared records, concrete CSV/SVG/HTML/Markdown writers, report assembly, and CLI are separated with an enforced inward dependency direction |
 | Independent scientific validation | v1 qualification decision complete; no external quantitative claim | analytic/grid checks, immutable evidence, versioned contracts, and eligibility audit are complete; the selection gate rejects both held-out candidates because required inputs or uncertainty are open |
 | Distant-initialization optimizer robustness | Diagnostic complete; both cases fail | truth-distant prior-free starts, three seeds, blind training-Loss selection, and held-out chord show non-identifiability; reduce only fitted profile dimensionality and rerun the unchanged protocol |
-| Release readiness | Complete for v1 platform | all four quality tools, 114 tests, project/evidence/link checks, and wheel import/package-data smoke test pass |
+| Common-state multi-spectrum recovery | Complete as a synthetic inverse gate | Ar/O2 uses 5 observed line spectra / 3 independent excitation channels and Ar/Cl2 uses 7 / 5; one moderately displaced start recovers shared `Te` and `ne` with full 2/2 measurement rank, while independent CMA-ES reproduces the DE+LSQ optimum |
+| Multi-gas, multi-spectrum external portfolio | Comparator and five-gas surrogate preflight complete; measured execution pending | prioritized BOLSIG+/LXCat, Cl2/Ar, NF3/O2, five-system industrial ICP, BOSCH, N2/air, and Ar probe-reference cases are fixed; the EEDF/rate comparator and independent 150-spectrum Daly preflight producer are implemented |
+| Release readiness | Complete for v1 platform | all four quality tools, 122 tests, project/evidence/link checks, and wheel import/package-data smoke test pass |
 
 ## Completed sequence to v1 platform completion
 
@@ -238,8 +240,169 @@ wheel build plus isolated import/package-data smoke test also passes. Remaining
 tag/version selection and clean-checkout repetition are release operations,
 not missing platform implementation.
 
+## Post-v1 external qualification sequence
+
+This sequence expands evidence coverage without reopening the completed v1
+platform or adding a global chemistry model. Detailed conditions and claim
+boundaries are fixed in `docs/multi_spectrum_benchmark_plan.md`.
+
+### Enabling gate: common-state multi-spectrum inverse recovery — complete
+
+The user-facing target is now represented directly instead of by the earlier
+multi-shell robustness problem: several line-resolved spectra from one plasma
+condition share exactly one `Te` and one `ne`. Ar/O2 uses five observed lines
+from three independent upper-state excitation channels; Ar/Cl2 uses seven
+observed lines from five independent channels. The initial `Te` is 20% low and
+`ne` is 50% high, producing 40.6% and 36.5% initial spectral NRMSE rather than
+a truth-near start. DE+LSQ and a separate CMA-ES run converge to the same
+objective and recover both parameters within 2.6%; the measurement-only rank
+is 2/2 and energy/wavelength refinement changes spectra by less than 0.1%.
+
+This closes optimizer and shared-state wiring self-consistency only. It does
+not qualify the O/Cl effective excitation data or an arbitrary EEDF. The full
+results and figures are in `docs/common_state_benchmark.md`; external EEDF/rate
+and measured-spectrum qualification remain items 7 and 8 below.
+
+### 7. Cross-tool EEDF and rate qualification — in progress
+
+- The immutable input contract and comparator are implemented in
+  `examples/validation/external_eedf_rate_template` and
+  `scripts/compare_external_eedf_rates.py`. Hash, EEDF convention, complete
+  condition/process coverage, near-zero handling, and cross-section support
+  are checked before a result can pass.
+- The user-downloaded LXCat native files are inventoried without redistribution:
+  NGFSRDW and BSR each contain only the selected Ar 2p1/2p6 excitation curves.
+  They remain useful rate processes and already support the Arellano atomic
+  diagnostic. A fresh run from both native downloads is byte-identical to the
+  fixed assessment (SHA-256
+  `ded0452fe27a053a34cc6469543a39f43659d8deff5b4d5c1a4b59d8575870fd`), but these inputs cannot by
+  themselves close a Boltzmann EEDF calculation.
+- A separate native LXCat Biagi/Magboltz 8.97 Ar set is now parsed through the
+  shared `oescr.data.lxcat` adapter: one elastic, 44 excitation, and one
+  ionization process, raw SHA-256
+  `43cefbee063bb43df5a1a593c40e6370dc745bf9460300ad3ade5886a71363b1`.
+  This closes the pure-Ar collision-input gap. The same adapter replaces the
+  former Arellano-only parser and can inventory/export future gas sets without
+  duplicating validation logic.
+- `scripts/prepare_bolsig_reference_run.py` creates the official 07/2024
+  console instruction format for the fixed pure-Ar 10/30/50/100/200/300 Td
+  series without importing OESCR. It records collision and instruction hashes,
+  and records executable, log, and result hashes after execution. The prepared
+  local manifest remains `not_executed` until the official binary is supplied.
+- Run BOLSIG+ outside the `oescr` package for the predeclared 60-condition Ar,
+  Ar/O2, Ar/NF3, and Ar/Cl2 E/N/mixture grid.
+- Feed only frozen external EEDF tables into OESCR's tabulated-EEDF forward
+  path and compare process-resolved rate coefficients. The comparator now also
+  emits an EEDF overlay for every E/N condition and a mean-energy/rate-ratio
+  summary with the declared acceptance band; these are views of the same
+  hash-checked numerical result rather than a separate scoring path.
+
+Exit condition: source IDs and hashes are fixed, the external runner imports no
+OESCR physics, and the declared EEDF-normalization and rate-coefficient gates
+are reported for every non-negligible process.
+
+Current boundary: the comparator is unit-tested, the pure-Ar complete
+collision set is ready, and the exact six-condition instruction and hash
+manifest are prepared, but no official BOLSIG+ output has yet been accepted.
+A BOLSIG+ executable remains unavailable locally. The target is the official
+07/2024 `bolsigminus` console application; its terms prohibit third-party
+redistribution, so the binary is neither downloaded on the user's behalf nor
+committed. Complete O2, NF3, and Cl2
+sets also remain pending. Existing nearby three-point fixtures and files
+named `comsol_*.csv` were audited and rejected as scientific references: the
+former are synthetic tests and the latter are inputs prepared for COMSOL, not
+COMSOL solver results. Therefore no external numerical pass is claimed and no
+COMSOL rerun is required for this EEDF/rate gate.
+
+### 8. Replace one-condition halogen evidence with measured series — planned
+
+- Add the Fuller Cl2/Ar five-mixture power series as an external package,
+  separate from the existing generated Fuller-anchored fixture.
+- Add the An/Hong NF3/O2 and N2/O2 eight-condition, 60-frame series as a
+  spectral/actinometry package.
+- Preserve OES-derived Te/ne as circular comparison values, not independent
+  truth; use mass-spectrometric or absorption references when available.
+
+Exit condition: at least one Cl2 and one NF3 package scores held-out mixture or
+wavelength conditions and reports repeatability, source uncertainty, and
+unsupported claims.
+
+Source audit update: the Fuller author-hosted PDF has been verified (SHA-256
+`8df375068d854eab94fccf382de02d08b179c4c7386826cff7c2e4bc1a85107e`).
+It contains raster figures of response-corrected integrated emissions and
+actinometry-derived densities, but no machine-readable full spectra. Those
+figures can support declared mixture/power trends with raster-digitization
+uncertainty; they cannot satisfy the full-spectrum overlay exit condition or
+serve as independent density truth for the same actinometry calculation.
+
+### 9. Exercise broad multi-gas full-spectrum coverage — planned
+
+- Build a deterministic 30-setpoint-per-gas pilot from the Daly Ar, O2, Ar/O2,
+  CF4/O2, and SF6/O2 industrial ICP archive.
+- Keep frames grouped by process setpoint and report unmodeled peaks as coverage
+  gaps rather than hiding them with a flexible baseline.
+- Add BOSCH day-level phase-plateau evaluation only after the five-system pilot
+  establishes ingestion and wavelength-window policy.
+
+Exit condition: all five gas systems have measured/predicted spectrum overlays,
+held-out transition windows, and an explicit model-coverage table. This is a
+spectral qualification, not a Te/ne claim.
+
+Current increment: Zenodo distribution was verified as one 48,824,112,520-byte
+`tar.xz` stream split into ten equal chunks, so it cannot provide a selective
+30-condition download. Before that acquisition gate, the released external
+tool-encoder/spectrum-decoder was run independently at 30 deterministic
+setpoints per gas system. `scripts/prepare_daly_surrogate_pilot.py` now records
+the source revision, published ranges, wavelength calibration, model-tree
+identities, 150 spectrum hashes, and an overview figure. This completed run is
+an emitter/wavelength-coverage preflight only; it does not satisfy the measured
+archive exit condition and TensorFlow was not added to OESCR dependencies.
+
+### 10. Attempt quantitative state qualification — conditional
+
+- Obtain machine-readable Chai/Kwon Ar CCP/ICP spectra, Langmuir-probe Te/ne,
+  and uncertainties, or keep the case blocked.
+- Evaluate the present OESCR model blind before changing EEDF or trapping
+  physics. Implement a minimal plugin-local change only if residual structure
+  and independent data identify the missing effect.
+- Add Li et al. NF3/Ar and O2/Ar dissociation only where OES and independent
+  mass-spectrometry/absorption sampling volumes can be reconciled.
+
+Exit condition: a declared quantity passes a fixed uncertainty-aware gate, or
+the case records a scientifically useful failure without weakening the gate.
+
 ## Completed in the current implementation increment
 
+- Added and executed the focused Ar/O2 and Ar/Cl2 common-state benchmarks.
+  They use gas-specific observed-line counts rather than a fixed arbitrary
+  number of spectra, distinguish radiative branches from independent
+  excitation channels, and compare the existing optimizer with CMA-ES using
+  one fixed seed rather than a seed sweep. The generated report includes
+  spectral overlays, parameter/EEDF recovery, convergence traces, numerical
+  refinement, and explicit external-physics limitations.
+- Specified the multi-gas, multi-condition external portfolio and implemented
+  its first calculation boundary: immutable external EEDF/rate tables and
+  cross sections are hash-checked, imported through the tabulated-EEDF path,
+  and scored for normalization, interpolation, mean energy, process rates,
+  near-zero rates, and cross-section support. Physical EEDF overlays and
+  mean-energy/rate-ratio figures are generated from that report without
+  introducing a second calculation implementation.
+- Replaced the Arellano-specific LXCat text parser with one reusable data-layer
+  adapter and CLI. The adapter inventories complete native files and exports
+  selected, unchanged process curves with source and numeric hashes. The
+  refactor reproduces the prior Arellano artifact byte-for-byte.
+- Added a standalone BOLSIG+ reference-run producer for the fixed pure-Ar
+  six-condition series. Its instruction/manifest responsibility is separate
+  from the OESCR result comparator and its source is regression-tested not to
+  import OESCR.
+- Added a standalone Daly released-surrogate producer and executed its
+  deterministic 30-setpoint-per-gas design for all five gas systems. It writes
+  OESCR-compatible spectrum CSV files and provenance without importing OESCR;
+  the measured 48.8 GB archive remains a separate pending evidence gate.
+- Audited nearby BOLSIG/COMSOL-named artifacts rather than promoting them by
+  filename: the available BOLSIG fixture is synthetic or lacks official-run
+  provenance, and the `comsol_*.csv` files are COMSOL inputs, not solver
+  outputs. Neither is counted as external evidence.
 - Added one authoritative capability matrix covering physical/empirical
   forward use, all four inverse modes, parametric EEDF use, tabulated-EEDF
   forward use, instrument output bases, and unsupported arbitrary-EEDF
