@@ -71,3 +71,11 @@ archiveはソース、CSV、YAML、JSON、READMEを収録し、BOLSIG+実行bina
 L2の定義は `sqrt(sum((prediction-reference)^2)/sum(reference^2))`。共通状態runnerのfit指標は選択されたチャネルの全画素を集計し、`exported_spectral_metrics.csv` の `selected_spectral_relative_l2` は実際のfit pixel maskだけを集計する。端の画素の取り扱いにより微差が生じる。六kernelのscore standardized RMSEは `sqrt(mean(((prediction-measurement)/sigma)^2))` であり、L2とは別の無次元量である。
 
 最終PDFのページ数・埋込フォント・文字抽出・版面確認・SHA-256は `document_quality.json` に記録する。
+
+## 理論解説の改訂と追加の実装確認
+
+改訂版は、各機能の入力・計算・用途を先に説明し、第6章に機能群、処理フロー、数値解法、設計上の工夫を加えた。第7章を数値検証、第8章を現行機能・実測評価・計算核の拡張課題として整理している。既存26式と77件の数値根拠ファイルは、改訂前の記録と一致する。新章では、台形積分、区分線形の累積面積と画素平均、共通校正誤差の白色化を4式で説明する。
+
+計算計画の再利用、反復と最終診断の分離、校正group、識別可能性、profileに関する既存テストを保存ソースから追加実行し、43件の成功を確認した。対象と結果は `implementation_checks.json` に保存する。これは元のベンチマークの106件とは別の確認である。
+
+計算フロー図は `../reproduce/make_computation_flow.py` が生成する。ベンチマーク図と数値は既存の記録を維持し、新図は処理の接続を表す図として独立に管理する。最終PDFの32ページ、30式、5図、12文献、フォント埋込と版面確認は `document_quality.json` に対応する。

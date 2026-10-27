@@ -1,7 +1,7 @@
 {
   "title": "OESCRの理論・実装と数値検証",
   "date": "2026-10-27",
-  "pdf_pages": 25,
+  "pdf_pages": 32,
   "files": [
     {
       "path": "docs/oescr_paper/.gitattributes",
@@ -155,13 +155,18 @@
     },
     {
       "path": "docs/oescr_paper/evidence/document_quality.json",
-      "bytes": 1821,
-      "sha256": "3441d3b4b746ed5086383e263f16428890c49fece749ccb9e37c9be54c359909"
+      "bytes": 2273,
+      "sha256": "66e035871c78312fea30b7725e6fcbbf0c1437ca048efc07dbf25f9e21ee76a7"
     },
     {
       "path": "docs/oescr_paper/evidence/exported_spectral_metrics.csv",
       "bytes": 1288,
       "sha256": "be26d67fe78bbc30bc7403666744cab525f64d1870e44c8fbe11582f1e08a972"
+    },
+    {
+      "path": "docs/oescr_paper/evidence/implementation_checks.json",
+      "bytes": 761,
+      "sha256": "2f00ccd5e4c01326749a30bf52f0d07b5b34c4f7a9a75367382d2f794efcda2f"
     },
     {
       "path": "docs/oescr_paper/evidence/logs/ar_six_kernel.log",
@@ -200,8 +205,8 @@
     },
     {
       "path": "docs/oescr_paper/evidence/README.md",
-      "bytes": 9099,
-      "sha256": "f3d2928aaeb81e471ca1d0f726440da536e42f5345ad6fd79b74ad7884a90c5d"
+      "bytes": 10260,
+      "sha256": "b04b6db91f4fa11305050d047836e2825248693b267d9e5815d9b53c05cfd1f9"
     },
     {
       "path": "docs/oescr_paper/evidence/results/ar_six_kernel/audit/identifiability.yaml",
@@ -444,54 +449,69 @@
       "sha256": "474984835e41c454cbd6bb656b38bfcc2b13933fee180cc691626e6104294270"
     },
     {
+      "path": "docs/oescr_paper/figures/computation_flow.pdf",
+      "bytes": 89071,
+      "sha256": "5dfe46cdc90e7004d0453f73e12150c85a85b50cbc4081812fb694074d4fe633"
+    },
+    {
+      "path": "docs/oescr_paper/figures/computation_flow.png",
+      "bytes": 263900,
+      "sha256": "6cc87407f19ef85ee9cff7a3b4deb32054d249cb86aa3a816a78845792e8f120"
+    },
+    {
       "path": "docs/oescr_paper/manuscript/appendix.tex",
-      "bytes": 3907,
-      "sha256": "f316748f0663765c205035ff5b731563ef98f9a15d51a75b84c1f86c448fa6e7"
+      "bytes": 3921,
+      "sha256": "2b8f0e915c57614569a7b28e6bccf60622af9bf3dd2adc05543774635de61363"
     },
     {
       "path": "docs/oescr_paper/manuscript/background.tex",
-      "bytes": 5452,
-      "sha256": "888844757d502eaea16fb88e9de3910f2a6790a385116e6a08b26855f1c873a4"
+      "bytes": 5178,
+      "sha256": "e6048cf69ddc4e62d8e9390ae140d1a9281d38abe383994e936ae9e2235fc016"
     },
     {
       "path": "docs/oescr_paper/manuscript/benchmarks.tex",
-      "bytes": 16558,
-      "sha256": "957035f209b2e34924232ec441406201394d0684f404cbf5a3589be9eeca6f53"
+      "bytes": 18914,
+      "sha256": "373943a1a334aa20ba3e4772efd3d0e36d3cac2e28c521077cc8f27ac7663b04"
     },
     {
       "path": "docs/oescr_paper/manuscript/discussion.tex",
-      "bytes": 5359,
-      "sha256": "5a37410f13a2eb31df96518111dbed115ffbd692c0b8bb135a747e73a8573c90"
+      "bytes": 7294,
+      "sha256": "f766f4bdb4a040bc8284e07721b7ef3b9e2cc0e04834a09bc1c8db3df78a7f35"
     },
     {
       "path": "docs/oescr_paper/manuscript/extensions.tex",
-      "bytes": 6438,
-      "sha256": "ca5570fa0b4dd4f548b6967d1190b60aaf77a3f558a20be5fb9e0ca4009a55bb"
+      "bytes": 7540,
+      "sha256": "358ab8cd9787acf1990a3b623d1ce3d09ca177be8148f2fcb5e4647bf3fcb8ee"
+    },
+    {
+      "path": "docs/oescr_paper/manuscript/implementation.tex",
+      "bytes": 14212,
+      "sha256": "7e92baa625f05f7b55d1a902c956cb6cf03bcc286817809ddefa4526214932f0"
     },
     {
       "path": "docs/oescr_paper/manuscript/inverse.tex",
-      "bytes": 9150,
-      "sha256": "9f7474367c60c85f2a553984d0b71432c9a135983d8ae8f5756a63f0848f5f3a"
+      "bytes": 11672,
+      "sha256": "9271102e479e06f80d916042ec7dd4e8dff6129b3e6316bfff44633ba55c2ebd"
     },
     {
       "path": "docs/oescr_paper/manuscript/kinetics.tex",
-      "bytes": 12007,
-      "sha256": "73029f2ccf69abb69ed774f0adba1d3a85d45075ad42ba74969a24275117f86b"
+      "bytes": 13068,
+      "sha256": "1e21cd5e00494773eb0e2d5f0e06cb4f3bb0333c1bcaecf911e991ac0b959faa"
     },
     {
       "path": "docs/oescr_paper/manuscript/main.tex",
-      "bytes": 4078,
-      "sha256": "d75a63c50c605e4ea3c87fec8260e9c7c4a3fce2b326e1d3f66b8f94d7eab98b"
+      "bytes": 3875,
+      "sha256": "46cc79ae10b0a71438f7326e4c0b9c5b00f6ede5f548a7ecdf19c6203190b182"
     },
     {
       "path": "docs/oescr_paper/manuscript/observation.tex",
-      "bytes": 7222,
-      "sha256": "4b87d132bd839800224fccc04d5d47a4184098df96b94900f3cf345c54d2431d"
+      "bytes": 7911,
+      "sha256": "0f1b42aeadb95750254baeba70ccb6b272a552a0e2f95739468d65eb734f9689"
     },
     {
       "path": "docs/oescr_paper/manuscript/overview.tex",
-      "bytes": 3675,
-      "sha256": "bfbe43d38cd3ac1d56762e53301f39e3fd40e3ec375c0f39ee687952bc76039b"
+      "bytes": 3319,
+      "sha256": "8c3c563be0b2c66fce66e7a7cbe6c8bb1ffcdce658a4509adadb27845f2bd7be"
     },
     {
       "path": "docs/oescr_paper/manuscript/references.tex",
@@ -500,8 +520,8 @@
     },
     {
       "path": "docs/oescr_paper/README.md",
-      "bytes": 2610,
-      "sha256": "8f868daaec5bdcb46c7b3bc8c1c582f4223abb9bf59d103f434ce5f27b24f487"
+      "bytes": 2852,
+      "sha256": "b00e8cc143ea74b38bbae0aacdaac405ae6c741d40ca1a3ea51b6fdc093e83da"
     },
     {
       "path": "docs/oescr_paper/references.bib",
@@ -519,14 +539,20 @@
       "sha256": "e682635b93ac48fe69c00c45bea0a4dd41719a3f9bc4f74b711147272212a411"
     },
     {
+      "path": "docs/oescr_paper/reproduce/make_computation_flow.py",
+      "bytes": 5337,
+      "sha256": "4a4e18c07a1482131b72899a296dcd4db9abf6bcfffbc0fe94b0ce18276f4fc1"
+    },
+    {
       "path": "docs/oescr_paper/reproduce/run_benchmarks.py",
       "bytes": 3199,
       "sha256": "184c43a43a807bbf0413cb86e281af90e9b01e2e1a0b99c33c78781401ee1842"
     },
     {
       "path": "output/pdf/oescr_theory_and_validation_ja.pdf",
-      "bytes": 704680,
-      "sha256": "d1f886b0f4b9cf9bb60c5f1e29f3852b8d7ee3ea2e56e68f33ddcfb5a5fd6233"
+      "bytes": 814334,
+      "sha256": "d994fa13853fdbf14977c87e2cc3fca21885138f3291874e6289d7758b1fa4d3"
     }
-  ]
+  ],
+  "revision": "Capabilities, workflow and numerical implementation chapter; explicit validation and development stages."
 }

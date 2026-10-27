@@ -7,16 +7,16 @@ n_u^*\Aeff_{u\ell}\,\phi_{u\ell}(\lambda),\qquad
 \int\phi_{u\ell}(\lambda)\,d\lambda=1
 \label{eq:line}
 \end{equation}
-とする。$a_{u\ell}$は明示的な\code{amplitude\_scale}で既定値1、$[j_\lambda]=\mathrm{W\,m^{-3}\,sr^{-1}\,nm^{-1}}$である。光子エネルギーに使う波長はmへ変換する。$1/(4\pi)$があるため、後段の放射輝度を全立体角で積分した発光パワーと混同しない。
+とする。$a_{u\ell}$は明示的な\code{amplitude\_scale}で既定値1、$[j_\lambda]=\mathrm{W\,m^{-3}\,sr^{-1}\,nm^{-1}}$である。上準位密度に放射率と光子エネルギーを掛け、$1/(4\pi)$で単位立体角当たりへ換算する。光子エネルギーに使う波長はm、線形状の波長変数はnmで扱う。この定義により、後段の視線積分が分光放射輝度を与える。
 
-固有原子線形は、指定した中心とFWHMに対するGaussianである。
+各原子線には中心波長と半値全幅（FWHM）を指定し、固有線形状をGaussianで与える。
 \begin{equation}
 \phi(\lambda)=\frac{1}{\sqrt{2\pi}s_\lambda}
 \exp\!\left[-\frac{(\lambda-\lambda_0)^2}{2s_\lambda^2}\right],\qquad
 s_\lambda=\frac{\mathrm{FWHM}}{2\sqrt{2\ln2}}.
 \label{eq:gaussian}
 \end{equation}
-Doppler幅、Stark幅、圧力幅を温度や密度から自動的に計算する機能ではない。線形は観測区間と独立に正規化する。観測窓で線の片側が欠けたとき、その失われた光を残った区間へ再配分しない。
+FWHMは、既知の線幅やDoppler幅等の見積りに基づいて設定する。全波長域で積分した式\eqref{eq:line}の発光量を保つよう、線形状を解析的に正規化する。観測窓が線の一部だけを含む場合は、その区間に入る光量を取り出す。この処理により、観測波長範囲を変更しても準位が生成する全光量の定義を維持できる。
 
 同一上準位の光学的に薄い二分岐を完全積分した強度比は、応答補正後には
 \begin{equation}
@@ -25,7 +25,7 @@ Doppler幅、Stark幅、圧力幅を温度や密度から自動的に計算す�
 {a_{u\ell_2}A_{u\ell_2}/\lambda_{u\ell_2}}
 \label{eq:branchratio}
 \end{equation}
-となり、占有率$n_u^*$は消える。分岐線は波長応答や放射分岐の整合性の確認には有用だが、線の本数だけ独立なEEDF情報が増えるわけではない。本稿でいう励起kernelは、断面積から上準位占有率を経て発光へ至る応答経路を区別する単位であり、数値的な感度の独立性まで保証する語ではない。
+となり、占有率$n_u^*$が消去される。したがって同一上準位の分岐比は、主に放射データと波長応答の整合性を確認する観測量になる。電子状態の感度を増やすには、異なる上準位や励起経路を組み合わせる。本稿では、断面積から上準位占有率を経て発光へ至る応答経路を励起kernelと呼ぶ。各kernelがもたらす独立な測定情報は、第4節のJacobianと特異値で評価する。
 
 \subsection{物理的な分子帯と経験的な分子帯}
 \code{electron\_impact\_photon\_band}は、供給粒子密度$N_s$、速度係数$k_b$、反応当たり光子収率$Y_b$、分岐割合$B_b$を使って
@@ -34,9 +34,11 @@ j_{b,\lambda}=\frac{hc}{4\pi\lambda}\nelec N_s k_b[\fe]Y_bB_b\psi_b(\lambda),
 \qquad \int\psi_b(\lambda)\,d\lambda=1
 \label{eq:band}
 \end{equation}
-を与える。帯域内の各波長で光子エネルギーを換算するため、原子線と同じ放射パワー基準で加算できる。$Y_b$は明示入力であり、コードが励起状態の消光や振動分布から導出するものではない。帯の形はGaussianまたは表形式profileで指定し、表形式は元の全波長支持域で正規化する。
+を与える。帯域内の各波長で光子エネルギーを換算するため、原子線と同じ放射パワー基準で加算できる。$Y_b$は対象条件での光子生成を表す入力値として与え、$B_b$で採用する分岐の割合を指定する。帯の形はGaussianまたは表形式の輪郭で与える。表形式は元の全波長支持域で正規化するため、広帯域測定から切り出した一部の帯も共通の光量基準で比較できる。
 
-一方、\code{effective\_excitation\_band}は$a\nelec N_sk_b\psi_b$、\code{effective\_density\_band}は$cN_s\psi_b$に比例する経験的出力である。これらは事象率または経験係数で尺度づけた形で、放射輝度と同じ次元とは限らない。使用には\code{emission\_mode: empirical}を明示し、絶対強度推定には使わない。現行のNF$_3$/Ar、Cl$_2$/Ar例にはこの経験的成分がある。分子帯の回転・振動準位を連立CRで解く機能や、帯形から回転温度を自動推定する機能は含まれない。
+相対スペクトルの構成には、二種類の経験的な帯モデルも実装している。
+
+\code{effective\_excitation\_band}は$a\nelec N_sk_b\psi_b$、\code{effective\_density\_band}は$cN_s\psi_b$に比例する信号を与える。前者は励起事象率、後者は供給密度を経験係数で尺度づける表現であり、\code{emission\_mode: empirical}で選択する。帯の重なり、視線依存性、相対強度の推定を試す用途に適し、現行のNF$_3$/Ar、Cl$_2$/Ar例で利用している。絶対発光量を扱う場合は、光子収率を含む式\eqref{eq:band}を用いる。回転・振動準位に基づく帯モデルへの発展は、第\ref{sec:outlook}節で整理する。
 
 \subsection{視線積分と軸対称の殻モデル}
 半径方向に等幅の殻領域を置き、殻$z$の発光を一定と近似する。同一高さの視線$m$のimpact parameterを$b_m$、殻の内外半径を$r_z,r_{z+1}$とすると
@@ -45,9 +47,9 @@ I_{m,\lambda}=\sum_zW_{mz}j_{z,\lambda},\qquad
 W_{mz}=2\left[\sqrt{(r_{z+1}^2-b_m^2)_+}-\sqrt{(r_z^2-b_m^2)_+}\right],
 \label{eq:chord}
 \end{equation}
-ただし$(x)_+=\max(x,0)$である。$W$の単位はm、$I_\lambda$は放射輝度$\mathrm{W\,m^{-2}\,sr^{-1}\,nm^{-1}}$となる。各殻のCR計算は独立で、殻間拡散や輸送による結合はない。多視線の逆解析は、この投影を含む少数殻の状態推定であって、任意の二・三次元場の再構成ではない。
+ただし$(x)_+=\max(x,0)$である。$W$の単位はm、$I_\lambda$は放射輝度$\mathrm{W\,m^{-2}\,sr^{-1}\,nm^{-1}}$となる。各殻に入力状態を与えて独立にCRを解き、得られた発光を視線ごとの経路長で加算する。複数視線を同時にfitすれば、各視線が共有する殻ごとの温度や供給密度を推定できる。殻数と観測数は、空間分布の識別性を評価して選ぶ。
 
-外部行列を使う\code{user\_field}で別の幾何を接続できる。\code{chordavg}は全1の行列で領域を加算する簡略機能であり、それ自体は実長を持つ視線積分ではない。\code{asym\_lowrank}は視線ごとに$1+a_m\cos\theta_m$を掛ける補正で、角度方向のトモグラフィではない。絶対強度に用いる場合は、選択した投影重みの物理的長さと観測体積の意味を明示する。
+観測幾何を外部で定める場合は、\code{user\_field}に投影行列を渡す。\code{chordavg}は全1の行列で領域信号を加算する集計用の投影、\code{asym\_lowrank}は視線ごとに$1+a_m\cos\theta_m$を掛ける角度依存の近似補正である。絶対強度の計算には、経路長の単位と観測体積が定まった重み行列を使う。これらの入口により、同じ発光計算を実験の視線配置へ接続できる。
 
 \subsection{装置応答の順序と単位}
 入射放射輝度$I$に対し、透過率$T(\lambda)$、次元換算$\mathcal C$、波長写像$\mathcal S_\delta$、線広がり関数（line spread function; LSF）$K$、固定gain $g$、baseline $b$を順に適用する。画素$i$の予測は
@@ -57,7 +59,7 @@ F_i=\frac{1}{\Delta\lambda_i}\int_{\lambda_{i-1/2}}^{\lambda_{i+1/2}}
 +b(\lambda)\right\}\,d\lambda .
 \label{eq:instrument}
 \end{equation}
-光子数換算と透過率は入射した物理波長で計算する。波長依存の透過率とLSFの畳み込みは一般に交換できず、波長写像後の見かけの波長から光子エネルギーを再計算しない。現在の波長shiftの実装は$\mathcal S_\delta q(\lambda)=q(\lambda+\delta)$で、正の\code{wavelength\_shift\_nm}はピークを短波長側へ移す。
+光子数換算と透過率は入射した物理波長で評価し、その光が装置内で広がる過程を波長写像とLSFで表す。波長応答の変化を正しく反映するため、式\eqref{eq:instrument}の演算順を固定する。波長shiftの実装は$\mathcal S_\delta q(\lambda)=q(\lambda+\delta)$で、正の\code{wavelength\_shift\_nm}はピークを短波長側へ移す。
 
 装置LSFはGaussianまたはVoigtで、離散kernelの総和を1にして波長方向へFFT畳み込みを行う。現行のkernelは波長に対して並進不変で、有限支持域のVoigt翼は切断後に再正規化する。透過率は定数または表、baselineは定数または多項式である。観測端での切断やLSF翼の影響は別途点検する。
 
@@ -67,7 +69,7 @@ F_i=\frac{1}{\Delta\lambda_i}\int_{\lambda_{i-1/2}}^{\lambda_{i+1/2}}
 \toprule
 出力基準 & 変換 & 出力単位 \\
 \midrule
-相対装置信号 & 絶対校正を主張しない応答 & arb \\
+相対装置信号 & 相対強度で扱う装置応答 & arb \\
 分光放射輝度 & $I_\lambda$を維持 & W m$^{-2}$ sr$^{-1}$ nm$^{-1}$ \\
 収集分光パワー & $P_\lambda=I_\lambda A_c\Omega f_v$ & W nm$^{-1}$ \\
 光電子スペクトル & $N_{e,\lambda}=P_\lambda t\eta/(hc/\lambda)$ & photoelectron nm$^{-1}$ \\
@@ -76,4 +78,4 @@ F_i=\frac{1}{\Delta\lambda_i}\int_{\lambda_{i-1/2}}^{\lambda_{i+1/2}}
 \caption{装置出力の基準。$A_c$は収集面積、$\Omega$は立体角、$f_v$はviewing factor、$t$は積分時間、$\eta$は量子効率。現行の量子効率はスカラー入力である。baselineは変換後の出力単位で加算する。}
 \end{table}
 
-検出画素には中心波長の点値ではなく、式\eqref{eq:instrument}の\textbf{画素平均}を出力する。したがって、光電子スペクトルを画素当たりの光電子数へ直すには画素幅を掛ける。細い原子線を内部の細格子で保持し、画素境界を含む積分を最後に行うため、粗い測定画素の間へ未分解線が落ちて消える問題を避けられる。この処理は低分解能分光器で線強度と帯形を比較する際に重要である。
+検出画素への出力は、式\eqref{eq:instrument}で定義した\textbf{画素平均}である。光電子スペクトルに画素幅を掛けると、画素当たりの光電子数が得られる。内部では固有線を表現する細格子を維持し、装置応答を適用した後に画素境界で積分する。この順序により、未分解の原子線についても画素に入る積分光量を評価できる。低分解能の分光器を使う場合には、この処理が線強度と帯形の比較を支える。

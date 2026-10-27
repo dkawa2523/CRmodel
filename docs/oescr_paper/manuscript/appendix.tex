@@ -22,7 +22,7 @@ $C,J,D_p$ & 共分散、測定感度、条件付きprofile & \path{inverse/measu
 \end{longtable}
 \normalsize
 
-状態の\code{energy\_eV}と\code{degeneracy}は準位の同定・記録に用いるメタデータである。現行では、これらから励起閾値、詳細釣合いの脱励起率、光子エネルギーを自動計算しない。閾値は反応・断面積、光子エネルギーは遷移波長で与える。このため、準位エネルギーだけを修正しても速度係数や発光波長は変わらない。
+状態の\code{energy\_eV}と\code{degeneracy}は、準位の同定と原子データの記録に用いる。速度係数を決める閾値と断面積は反応レコード、光子エネルギーを決める波長は遷移レコードで管理する。したがって、準位データの改訂時には、対応する反応・遷移の値を併せて確認する。詳細釣合いに基づく脱励起率を採用する場合は、その関係を率モデルとして明示する。
 
 \section{再現手順と添付データ}
 \small
@@ -32,9 +32,9 @@ python scripts/run\_common\_state\_benchmarks.py --out runs/common\\
 python scripts/run\_argon\_six\_kernel\_candidate.py --out runs/ar6\\
 python scripts/run\_project.py project.yaml --out runs/fit --audit
 \end{quote}
-二帯域は\path{examples/use_cases/two_band/}の初期caseと三つのinverse設定、多視線は\path{examples/benchmarks/}の各\code{project.yaml}を使う。common-state runnerの終了値1は、今回のAr/Cl$_2$回復ゲートFAILを反映する。計算の異常終了として数値を除外したものではない。
+二帯域は\path{examples/use_cases/two_band/}の初期caseと三つのinverse設定、多視線は\path{examples/benchmarks/}の各\code{project.yaml}を使う。common-state runnerの終了値1は、今回のAr/Cl$_2$が所定の回復基準を超えたことを表す。この結果も、推定誤差と感度を考察する対象として本文に掲載した。
 
-厳密に掲載時点を再現する場合は、\code{source\_snapshot.zip}を専用の空ディレクトリへ展開し、そのルートを作業ディレクトリとして依存を導入する。archiveのSHA-256先頭16桁は\code{16a5f0c95cf381c2}で、完全な値はmanifestにある。付属再現スクリプトと\code{run\_manifest.json}が、完全な実行引数、種、hash、結果位置を保持する。現在のソースへ凍結入力を混在させず、同じsnapshot内のコードと入力を組み合わせる。図は\code{figures/}のベクトルPDF、数値は\code{evidence/}のCSVで確認できる。
+厳密に掲載時点を再現する場合は、\code{source\_snapshot.zip}を専用の空ディレクトリへ展開し、そのルートを作業ディレクトリとして依存を導入する。archiveのSHA-256先頭16桁は\code{16a5f0c95cf381c2}で、完全な値はmanifestにある。付属再現スクリプトと\code{run\_manifest.json}が、完全な実行引数、種、hash、結果位置を保持する。再現時には、同じsnapshot内のコードと入力を一組として用いる。図は\code{figures/}のベクトルPDF、数値は\code{evidence/}のCSVで確認できる。
 
-再計算環境はWindows 11、Python 3.13.12、NumPy 2.4.3、SciPy 1.17.1、Matplotlib 3.11.2である。計算時間の統制比較は行っていない。
+再計算環境はWindows 11、Python 3.13.12、NumPy 2.4.3、SciPy 1.17.1、Matplotlib 3.11.2である。
 \normalsize

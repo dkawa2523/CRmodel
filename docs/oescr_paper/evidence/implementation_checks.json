@@ -1,0 +1,20 @@
+{
+  "purpose": "Implementation properties described in the new chapter; existing tests run on the frozen numerical source.",
+  "source_snapshot_archive_sha256": "16a5f0c95cf381c26e6a6bfbfb2666c45655412d27b699969c9c2d5050815549",
+  "command": [
+    "python",
+    "-m",
+    "pytest",
+    "-q",
+    "tests/test_case_compilation_boundary.py",
+    "tests/test_inverse_audit_boundary.py",
+    "tests/test_calibration_groups.py",
+    "tests/test_identifiability.py",
+    "tests/test_parameter_profiles.py"
+  ],
+  "result": "43 passed in 1.77s",
+  "benchmark_evidence_files_unchanged": 77,
+  "existing_equations_unchanged": 26,
+  "added_equations": 4,
+  "revision": "Exposition rewritten; implementation chapter and computation flow diagram added."
+}

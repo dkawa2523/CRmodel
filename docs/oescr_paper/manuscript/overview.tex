@@ -1,38 +1,25 @@
-\section*{全体像：何を入力し、何を計算し、何を推定するか}
-\addcontentsline{toc}{section}{全体像：機能群と計算フロー}
-OESCRは、発光分光（optical emission spectroscopy; OES）と衝突放射（collisional-radiative; CR）計算を接続する、縮約された順・逆解析基盤である。電子エネルギー分布関数（electron energy distribution function; EEDF）と粒子密度を励起計算の入力とする。本稿のOESCRは当該コードを指し、単一の普遍的なプラズマ方程式の名称ではない。まず既知または仮定したプラズマ状態から測定値を予測し、その予測と観測のずれから、宣言した少数の状態量を推定する。
-
-\begin{figure}[htbp]
-\centering
-\newcommand{\flowbox}[2]{\fbox{\parbox{0.90\linewidth}{\textbf{#1}\quad #2}}}
-\flowbox{入力・モデルの定義}{圧力・ガス温度・組成、電子と供給粒子の密度、EEDF、状態・反応・放射データ、視線と分光器、測定CSV}
-\\[2pt]$\downarrow$\\[2pt]
-\flowbox{1. 読込・検査・静的準備}{YAMLとspecies packを展開。参照・単位・密度の所有者を検査し、格子・経路長・固有線形状を準備する。}
-\\[2pt]$\downarrow$\\[2pt]
-\flowbox{2. 励起動力学}{領域ごとのEEDF $\to$ 反応速度係数 $\to$ 線形定常CR $M\boldsymbol n^*=\boldsymbol b$ $\to$ 原子線・分子帯の固有発光。}
-\\[2pt]$\downarrow$\\[2pt]
-\flowbox{3. 観測演算}{視線積分 $\to$ 入射波長での透過率・単位換算 $\to$ 波長写像・LSF $\to$ gain・baseline $\to$ 画素幅で平均。}
-\\[2pt]$\downarrow$\\[2pt]
-\flowbox{4. 推定・出力}{観測との共分散で白色化した残差を最小化。名前付き物理量、予測・残差を保存。必要時に品質・SVD・profile・局所曲率を監査する。}
-\caption{計算の全体フロー。逆解析では、推定パラメータを更新して段階2--4を反復する。ガス組成の生成、電力収支、電場、輸送を求める自己無撞着ループはこのフローに含まれない。}
-\label{fig:overview}
-\end{figure}
+\section*{OESCRで扱う計算と本書の構成}
+\addcontentsline{toc}{section}{OESCRで扱う計算と本書の構成}
+OESCRは、発光分光（optical emission spectroscopy; OES）を衝突放射（collisional-radiative; CR）モデルで解析するための計算基盤である。電子エネルギー分布関数（electron energy distribution function; EEDF）と粒子密度を与えて測定スペクトルを予測する\textbf{順解析}と、観測スペクトルに合う状態量を求める\textbf{逆解析}を備える。
 
 \begin{table}[htbp]
 \centering\small
-\begin{tabularx}{\linewidth}{p{27mm}YY}
+\begin{tabularx}{\linewidth}{p{28mm}YY}
 \toprule
-機能群 & 役割・主な出力 & 実装の所在 \\
+利用する機能 & 入力と得られる結果 & 主な活用場面 \\
 \midrule
-設定とデータ & 入力の正規化、種別データの合成、出典・hash & \code{io}, \code{data} \\
-物理計算 & EEDF、速度係数、準位密度、発光、生成・消滅収支 & \code{physics}, \code{forward.emissivity} \\
-幾何と装置 & 殻領域から視線への投影、装置単位でのスペクトル & \code{geometry}, \code{instrument} \\
-順解析 & 固定構造のcompileと繰返し評価 & \code{forward.compiled}, \code{forward.model} \\
-逆解析 & 測定誤差、目的関数、境界付き推定、任意の監査 & \code{inverse} \\
-検証・報告 & 解析解との比較、回復誤差、保留窓の評価、根拠区分 & \code{analysis}, \code{scripts} \\
+発光の予測 & 電子状態・供給粒子密度・反応データから、準位密度、発光、装置出力を計算 & 線や帯の同定、励起・消光機構の感度調査 \\
+共有状態の推定 & 複数の視線・装置・繰返し観測から、指定した温度や密度を共通に推定 & 同じプラズマを複数の測定で診断 \\
+複数種の合成 & 種別データを組み合わせ、共通のEEDF・電子密度で各成分の発光を計算 & Ar参照を使うO、Cl、F等の解析 \\
+物理項の改訂 & 断面積、放射分岐、消光、壁損失等を個別に変更し、予測と収支を比較 & 対象条件に合う縮約モデルの構築 \\
+観測情報の評価 & 残差、感度の特異値、条件付きprofileから推定しやすい量と弱い組合せを把握 & 診断線、視線、独立測定量の選定 \\
 \bottomrule
 \end{tabularx}
-\caption{機能の分担。モジュール名はすべて\code{oescr}パッケージ内の相対名である。}
+\caption{現行版が提供する計算と、その結果の使い方。逆解析で求める量と固定する量は、観測に含まれる情報に応じて設定する。}
 \end{table}
 
-\noindent\textbf{読み方。} 第1--2節で低圧プラズマと励起方程式を導入し、第3節で測定値への変換、第4節で逆問題を説明する。第5節は物理項の変更と複数ガスへの拡張、第6節は再現ベンチマーク、第7節は利用範囲を扱う。数式中のエネルギーは原則eV、波長はnm、密度はm$^{-3}$とする。数式は物理量として記し、実際の設定キーとの対応は付録にまとめる。
+\noindent\textbf{現行の計算範囲。} 励起準位の定常・線形収支を各領域で解き、その発光を視線と分光器へ投影する。親ガスは圧力・温度・分率から、ラジカルや準安定状態は指定した密度から構成する。組成やEEDFを測定または外部モデルで与えることで、発光過程と測定過程を重点的に解析できる。
+
+\noindent\textbf{検証と今後の段階。} 本稿に掲載する確認は、解析解との比較と生成データによる数値検証である。次の検証段階では、校正済み実測と独立した電子温度診断を同じ条件へ対応づけ、対象ガス・遷移・運転範囲での精度を評価する。時間依存、輸送、化学組成との連成、分子の詳細準位計算は、その後に検討する計算核の拡張課題として第\ref{sec:outlook}節にまとめる。
+
+\noindent\textbf{本書の読み方。} 第1節で低圧プラズマ診断における位置づけ、第2--3節で励起動力学と観測方程式、第4節で逆解析を説明する。第5節は物理項の変更と複数ガスへの展開、第\ref{sec:implementation}節は機能群、処理フロー、数値計算と設計上の工夫を扱う。第\ref{sec:benchmarks}節のベンチマークを踏まえ、第\ref{sec:outlook}節で実測への適用手順と拡張課題を述べる。エネルギーは原則eV、波長はnm、密度はm$^{-3}$とし、設定キーとの対応を付録に示す。

@@ -1,27 +1,71 @@
 \section{逆解析、測定誤差および識別可能性}
-\subsection{推定する状態量と観測の共有}
-推定対象$\boldsymbol\theta$は、温度、電子密度、選択した外部粒子密度など、設定ファイルの明示的な経路へ結びつける。正の密度等には$x=\log_{10}\theta$を使え、上下限もその座標へ変換する。報告値は名前付きの物理単位へ戻す。
+\subsection{推定の目的と四つの利用モード}
+逆解析は、観測スペクトルを説明する温度、電子密度、供給粒子密度などを、指定した反応モデルのもとで求める計算である。OESCRでは、利用する情報を相対形状、線・帯の比、actinometry、絶対強度から選び、測定の校正状態と診断目的に合わせて推定を構成する。
 
-複数の装置、視線、繰返し測定を同じプラズマ状態へ接続できる。観測IDと予測IDを分離するため、三回の観測を一つの予測スペクトルへ対応させることも可能である。現行の一回のfitは、一つの\code{condition\_id}と一つの\code{state\_group\_id}を扱う。異なる電力・圧力条件を同時に推定する階層モデルとは区別する。
+\begin{table}[htbp]
+\centering\small
+\begin{tabularx}{\linewidth}{p{35mm}YY}
+\toprule
+モード & 求める量・利用する情報 & 入力条件と典型的な用途 \\
+\midrule
+\code{relative\_shape} & 相対的な線・帯の形、殻方向の分布を説明する設定パラメータ & 装置gainを補助変数として扱い、相対スペクトルの変化から電子状態や分布を検討する \\
+\code{ratio\_diagnostic} & 選択した窓面積・peak比に感度を持つ設定パラメータ & 波長間の相対応答と励起経路を与え、線比・帯比による診断を行う \\
+\code{actinometry} & 既知参照種に対する対象種の密度比、またはそれを決める設定パラメータ & 参照種密度と両種の励起・消光条件を与え、発光比から対象密度を推定する \\
+\code{calibrated\_absolute} & 絶対尺度を含む電子密度・供給密度等の設定パラメータ & 物理単位の発光モデル、絶対校正、観測幾何、測定誤差、既知の供給密度・損失を用いる \\
+\bottomrule
+\end{tabularx}
+\caption{実装済みの推定モード。推定対象は利用者が指定し、その量に対する測定の感度を本節のSVDとprofileで評価する。}
+\end{table}
 
-\subsection{残差と共分散}
+actinometryは、既知の参照粒子Aと対象Xの発光比から密度比を推定する方法である\cite{coburn,fuller}。視線内で一様な状態、同じ電子密度・光路、光学的薄さ、直接励起、無視できる消光を仮定したコロナ極限では
+\begin{equation}
+\frac{I_X}{I_A}=\frac{N_X}{N_A}\frac{k_X}{k_A}
+\frac{B_X}{B_A}\frac{\lambda_A}{\lambda_X}\frac{T(\lambda_X)}{T(\lambda_A)}
+\label{eq:actino}
+\end{equation}
+となる。$B$は放射分岐割合で、波長応答を補正した強度では最後の透過率比を除く。OESCRはこの比を共通の比目的関数で評価する。対象条件に段階励起、解離励起、消光が寄与する場合は、該当する反応と供給密度を加えて発光比を計算する。この構成により、単純な式の適用と反応経路を加えた計算を同じ入力・出力形式で比較できる。
+
+絶対強度を利用する場合は、装置gain・offset・tiltを固定し、測定CSVと装置の出力基準、単位、校正参照を照合する。例えば$I\propto\nelec N_s k(\Te)$の系で電子密度を求めるには、$N_s$を既知量として与えるか、別の測定で制約する。診断設計の要点は、求めたい量と既知量を定め、その組合せに独立な感度を持つ発光を選ぶことである。
+
+\subsection{推定パラメータと複数観測の対応}
+推定対象$\boldsymbol\theta$は、設定ファイル内の温度、電子密度、選択した外部粒子密度などへ直接対応づける。正の密度等には$x=\log_{10}\theta$を選べ、上下限もその座標へ変換する。結果はパラメータ名と物理単位で出力する。
+
+一回のfitは、一つの\code{condition\_id}と一つの\code{state\_group\_id}に属するプラズマ状態を扱う。そこへ複数装置、複数視線、繰返し測定を接続し、共通する状態量を同時に推定する。観測IDと予測IDを個別に指定できるため、同じ視線の三回測定を一つの予測へ対応させ、別視線の測定を別の投影へ対応させる構成が可能である。電力や圧力が異なる条件は、現行の利用手順では条件ごとにfitを実行する。
+
+\subsection{測定誤差と画素の取扱い}
+測定は、波長校正と必要な放射校正を済ませたCSVとして入力する。adapterは単位、誤差、画素状態、出典を読み取り、順解析の出力へ対応づける。測定の前処理とプラズマ状態推定を別の段階に置くことで、どの校正値を使った結果かを追跡できる。
+
 選択した画素の観測を$\boldsymbol y$、予測を$\boldsymbol F(\boldsymbol\theta)$とする。測定共分散$C=LL^\mathsf T$に対し、
 \begin{equation}
 \boldsymbol r_{\mathrm{data}}(\boldsymbol\theta)
 =L^{-1}\left[\boldsymbol F(\boldsymbol\theta)-\boldsymbol y\right]
 \label{eq:whiten}
 \end{equation}
-と白色化する。独立誤差なら$r_i=(F_i-y_i)/\sigma_i$に戻る。共分散は有限・対称・正定値を要し、明示的な逆行列ではなくCholesky因子で解く。測定$\sigma$も共分散もない相対fitでは、観測の標準偏差等による便宜的尺度を使う。この場合のcostを、校正済みの統計的$\chi^2$と同じ意味で扱うことはできない。
+と白色化する。独立誤差なら$r_i=(F_i-y_i)/\sigma_i$に戻る。共分散は有限・対称・正定値を要し、Cholesky因子を用いて残差を求める。これにより、雑音の大きさが異なる波長や、相関を持つ画素を、その測定精度に応じて重みづけできる。
 
-同じ校正を共有する観測には、共通の乗算誤差がある。校正group $g$に属する観測$i$の相対標準不確かさを$s_i$、観測値を使った固定ベクトルを$\boldsymbol u_g$として
+同じ校正を共有する観測には共通の乗算誤差がある。校正group $g$に属する観測$i$の相対標準不確かさを$s_i$、観測値を使った固定ベクトルを$\boldsymbol u_g$として
 \begin{equation}
 C=C_{\mathrm{meas}}+\sum_g\boldsymbol u_g\boldsymbol u_g^\mathsf T,
 \qquad (u_g)_i=\begin{cases}s_iy_i,&i\in g,\\0,&i\notin g\end{cases}
 \label{eq:calcov}
 \end{equation}
-とする。予測値で共分散を毎回更新するのではなく、観測を尺度基準として固定する。共通誤差を独立画素誤差とみなしてしまうと、画素数や繰返し数に比例して精度が向上したように見えるため、この区別が重要になる。
+とする。共分散の尺度基準を観測値に固定し、同じ校正誤差が複数画素・複数観測へ及ぶことを表す。独立雑音と共通校正誤差を分けることで、繰返し測定によって減る誤差と、校正の改善によって減る誤差を評価できる。
 
-測定の画素状態を保持し、通常残差には有効な画素を使う。飽和画素には下限値のメタデータを要求するが、現行の目的関数では有効画素以外を除外し、飽和の打切り尤度や一側制約を評価する機能は実装していない。入力adapterも、校正済みCSVの単位、誤差、状態、出典を検査して接続するもので、raw countsの校正や平滑化を暗黙に行わない。
+\begin{table}[htbp]
+\centering\small
+\begin{tabularx}{\linewidth}{p{35mm}YY}
+\toprule
+測定情報 & 現行の取扱い & 解析時の役割 \\
+\midrule
+有効画素と$\sigma$ & 画素ごとの標準偏差で残差を規格化 & 独立雑音に基づく重みづけ \\
+画素共分散 & Cholesky因子による白色化 & 画素間相関を含む重みづけ \\
+共通校正誤差 & 式\eqref{eq:calcov}の相関項を追加 & 装置・校正groupの尺度不確かさを伝える \\
+飽和画素 & 有限の下限値を記録し、通常残差の対象から除外 & 飽和位置と下限情報を測定記録に保持 \\
+誤差情報を省略した相対fit & 観測標準偏差等を尺度として使用 & 形状比較用の相対目的関数を構成 \\
+\bottomrule
+\end{tabularx}
+\caption{測定情報に応じた計算経路。統計的な$\chi^2$として解釈する場合は、測定に対応する$\sigma$または共分散を入力する。飽和下限を尤度へ取り込む方法は拡張課題に含まれる。}
+\end{table}
 
 \subsection{目的関数、波長選択、補助パラメータ}
 推定は、測定由来の残差、事前分布、殻方向平滑化を組み合わせた
@@ -32,59 +76,33 @@ C=C_{\mathrm{meas}}+\sum_g\boldsymbol u_g\boldsymbol u_g^\mathsf T,
 \|\boldsymbol r_{\mathrm{smooth}}\|_2^2\right)
 \label{eq:objective}
 \end{equation}
-で行う。全スペクトル、選択窓内の形、baseline補正後の面積・peak・比、名前付きfeatureの共分散を使える。面積や比の残差は所定の尺度で無次元化してから白色化する。同じfeatureを共分散項とスカラー重み項に二重に入れない。ただし、同じ画素から作ったfeatureと全画素残差を別々に足した目的関数は、自動的に独立な尤度にはならない。採用した重みの意味と情報の重複を吟味する。
+で行う。測定残差には全スペクトル、選択窓内の形、baseline補正後の面積・peak・比を選べる。面積や比は所定の尺度で無次元化し、名前付きfeatureの共分散も指定できる。共分散で扱うfeatureは対応するスカラー重み項から除き、各featureを一度ずつ評価する。同じ画素に由来するスペクトルとfeatureを併用する場合は、それらの相関と目的関数の重みを診断設計として定める。
 
-通常の\code{full\_spectrum}は全有効画素を使う。\code{window\_union}を選ぶと、物理的に対応づけたfit窓の和集合だけを使える。\code{score}窓は推定後の予測確認へ保留し、fit窓との区間重複を禁止する。弱い窓を閾値で除く機能はあるが、共分散で名前を指定したfeatureが欠落した場合には、残差の長さを黙って変えずエラーとする。
+通常の\code{full\_spectrum}は全有効画素を使う。\code{window\_union}では、選択した物理発光に対応するfit窓の和集合を使う。\code{score}窓は推定後の予測確認に割り当て、fit窓との区間重複を入力検査で除く。弱信号の窓を閾値で除外する設定もあり、使用した窓は結果へ記録する。共分散で名前を指定したfeatureはすべて揃うことを求め、目的関数の構成を実行中に一定に保つ。
 
-相対fitでは、gain、offset、必要なら波長方向のtiltを内側で推定できる。これらも最終残差と同じ有効画素と白色化を使う。スペクトルのみなら重み付き線形最小二乗、featureや事前項を含む場合は対応する内側評価を行う。固定装置gain・baselineは順解析で一度だけ適用する。外側の最適化は、必要に応じたdifferential evolutionの後、境界付き\code{least\_squares}で局所精密化する。
+相対fitではgain、offset、必要に応じて波長方向のtiltを補助パラメータとして求める。これらには物理パラメータと同じ有効画素と白色化を適用する。スペクトルのみなら重み付き線形最小二乗、featureや事前項を含む場合は対応する内側評価を行う。固定装置gain・baselineは順解析で一度適用する。外側の最適化は、必要に応じたdifferential evolutionによる探索と、境界付き\code{least\_squares}による局所精密化を組み合わせる。
 
-\subsection{四つの推定モードとactinometry}
-\begin{table}[htbp]
-\centering\small
-\begin{tabularx}{\linewidth}{p{35mm}YY}
-\toprule
-モード & 主な情報 & 定量解釈に必要な条件 \\
-\midrule
-\code{relative\_shape} & 相対形状、制約された空間変化 & gainや供給密度との尺度縮退を確認する \\
-\code{ratio\_diagnostic} & 有効な窓面積・peak比 & 波長間応答と比の動力学を与える \\
-\code{actinometry} & 同じ比目的関数 & actinometerと対象の励起・消光・組成の前提を別途支持する \\
-\code{calibrated\_absolute} & 絶対尺度の測定 & 物理発光、校正基準の一致、固定gain等、測定誤差、供給密度と損失の独立制約 \\
-\bottomrule
-\end{tabularx}
-\caption{モードは利用目的と解釈の契約を明示する。選択した名前だけで、温度や密度の観測可能性が得られるわけではない。}
-\end{table}
-
-actinometryは、既知の参照粒子Aと対象Xの発光比から密度比を推定する考え方である\cite{coburn,fuller}。視線内で一様な状態、同じ電子密度・光路、光学的薄さ、直接励起、無視できる消光を仮定した単純なコロナ極限では
-\begin{equation}
-\frac{I_X}{I_A}=\frac{N_X}{N_A}\frac{k_X}{k_A}
-\frac{B_X}{B_A}\frac{\lambda_A}{\lambda_X}\frac{T(\lambda_X)}{T(\lambda_A)}
-\label{eq:actino}
-\end{equation}
-と書ける。$B$は放射分岐割合である。波長応答を補正した強度なら最後の透過率比は除く。実際には段階励起、解離励起、消光、EEDF変化の採否を確認しなければならない。OESCRの\code{actinometry}は、この前提を明示して同じ比の最適化を利用する。別の化学組成solverを起動するモードではない。
-
-絶対モードでは自動gain・offset・tiltや装置尺度の同時推定を禁止し、測定CSVと装置の基準・単位・校正参照を照合する。しかし、$I\propto\nelec N_s k(\Te)$の$\nelec$と$N_s$をともに自由にすれば、校正済みでも積しか分からない場合がある。絶対校正の必要条件と、パラメータの識別条件は分けて判定する。
-
-\subsection{SVD、profile、局所不確かさの読み方}
-局所識別性は、事前分布や平滑化を除いた測定残差だけから、最適化座標$\boldsymbol x$に対する有限差分Jacobian
+\subsection{感度、条件付きprofile、局所不確かさ}
+推定後には、どのパラメータの組合せが観測で決まったかを調べる。局所識別性は測定残差だけから、最適化座標$\boldsymbol x$に対する有限差分Jacobian
 \begin{equation}
 J_{ij}=\frac{\partial r_{\mathrm{data},i}}{\partial x_j},\qquad
 J=U\,\operatorname{diag}(s_1,\ldots,s_p)V^\mathsf T
 \label{eq:svd}
 \end{equation}
-を作って調べる。小さい特異値に対応する$V$の方向は、観測をほとんど変えずに動かせるパラメータの組合せである。条件数$s_{\max}/s_{\min}$とrankは座標尺度・局所点・閾値に依存する。full rankでも実用上の精度を保証しない。
+を作って評価する。小さい特異値に対応する$V$の方向は、観測の変化が小さいパラメータの組合せを示す。rankは局所的に独立な方向の数、条件数$s_{\max}/s_{\min}$は方向間の感度差を表す。これらは座標尺度・評価点・閾値とともに報告する。実用的な推定精度は、特異値の大きさ、測定誤差、次のprofileを併せて判断する。
 
-明示したnuisanceパラメータのJacobianを$J_\eta$、targetを$J_\theta$とすると、
+明示した補助パラメータのJacobianを$J_\eta$、推定対象を$J_\theta$とすると、
 \begin{equation}
 J_{\theta,\perp}=(I-Q_\eta Q_\eta^\mathsf T)J_\theta
 \label{eq:project}
 \end{equation}
-で、nuisanceが説明できる測定方向を除く。$Q_\eta$はSVDによる列空間の正規直交基底である。内側で既にprofileしたgain等は二度数えない。事前分布を入れてrankを増やしたように見せることも避ける。
+で、補助パラメータが説明する測定方向を射影して除く。$Q_\eta$はSVDによる列空間の正規直交基底である。内側でprofileしたgain等は残差評価の段階に組み込まれ、ここでは明示した補助変数の寄与を扱う。事前分布と平滑化は最適解を安定化する情報、式\eqref{eq:svd}は測定が与える情報として整理する。
 
-非線形性は、対象パラメータ$\psi$を固定して残り$\boldsymbol\lambda$を再推定する
+非線形な感度は、対象パラメータ$\psi$を固定して残り$\boldsymbol\lambda$を再推定する
 \begin{equation}
 D_p(\psi)=\min_{\boldsymbol\lambda}\|\boldsymbol r_{\mathrm{data}}(\psi,\boldsymbol\lambda)\|_2^2
 \label{eq:profile}
 \end{equation}
-でも調べられる。局所的で境界付きのprofileであり、score窓、事前項、平滑化を除く。狭い閉じた谷か、広い谷か、境界へ開いているかを確認する。$\Delta D=1$や3.84は追加条件下の漸近的目安であり、現行の図から校正済み信頼区間と呼ぶことはしない。
+で調べる。これは設定範囲内での局所的な条件付きprofileであり、測定だけに対する目的関数を用いる。谷の幅と境界への開き方から、対象量を動かせる範囲と他変数による補償を読み取る。$\Delta D=1$や3.84を信頼区間の目安として採用する場合は、Gaussian尤度、漸近近似、被覆率を別途確認する。
 
-Laplace近似は全目的関数の局所曲率から共分散を近似する。事前・平滑化・指定共分散に条件づけられ、断面積、欠落反応、モデル不一致の不確かさを周辺化した完全な事後分布ではない。これらの監査は\code{--audit}等で明示的に実行し、毎回の順解析反復には付けない。最適化の\code{success}、数値品質、実用的識別性、外部検証は、それぞれ別の判定である。
+Laplace近似は、事前分布・平滑化・指定共分散を含む全目的関数の局所曲率から共分散を求める。報告される不確かさは、採用した反応データとモデルを固定した条件付き評価である。断面積や欠落機構の不確かさは、反応集合や係数を変える感度解析、または今後の不確かさモデルで扱う。\code{--audit}は、最終解の数値品質、測定感度、profile、局所曲率をまとめて出力する入口である。最適化の収束、方程式の数値精度、推定量の感度、実測との一致を順に確認することで、結果の利用範囲を判断できる。
