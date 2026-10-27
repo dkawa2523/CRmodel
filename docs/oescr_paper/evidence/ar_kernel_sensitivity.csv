@@ -1,0 +1,7 @@
+kernel_id,upper_state,process_id,rate_coefficient_m3_s_at_truth,d_log_rate_d_log_te
+Ar_ground_2p10,Ar_2p10,exc_Ar_ground_to_2p10,3.0234644341423845e-17,3.200154914235931
+Ar_ground_2p9,Ar_2p9,exc_Ar_ground_to_2p9,6.570810611248225e-17,2.8538743630026175
+Ar_ground_2p8,Ar_2p8,exc_Ar_ground_to_2p8,2.0925989961700165e-17,4.008993966325747
+Ar_ground_2p7,Ar_2p7,exc_Ar_ground_to_2p7,2.8803076031797797e-17,3.268725012373963
+Ar_ground_2p6,Ar_2p6,exc_Ar_ground_to_2p6,3.8122261270747064e-17,3.1661031666756045
+Ar_ground_2p1,Ar_2p1,exc_Ar_ground_to_2p1,9.091393210655505e-17,3.2899099838253676

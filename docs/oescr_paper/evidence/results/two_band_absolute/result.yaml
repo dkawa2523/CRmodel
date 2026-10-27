@@ -1,0 +1,39 @@
+success: true
+message: '`gtol` termination condition is satisfied.'
+cost: 1.213294083752858e-22
+parameters:
+  electron_density_m3: 3.000000000000099e+16
+selected_windows:
+  two_band_radiance:
+  - target_500
+  - actinometer_510
+declared_windows:
+  two_band_radiance:
+  - target_500
+  - actinometer_510
+assessment:
+  mode: calibrated_absolute
+  absolute_scale_prerequisites_met: true
+  absolute_scale_locally_identifiable: true
+  assumptions:
+  - The configuration declares absolute instrument calibration and disables fitted
+    scale and baseline corrections.
+  - Quantitative absolute-scale interpretation additionally requires independently
+    closed viewing geometry, emitter densities, and quenching; the fit does not verify
+    them.
+calibration_uncertainty:
+  two_band_radiance: 0.01
+spectral_fits:
+- observation_id: two_band_radiance:measurement:5b34741871
+  instrument_id: two_band_radiance
+  prediction_key: chord_0
+  output_basis: spectral_radiance_W_m-2_sr-1_nm-1
+  output_unit: W_m-2_sr-1_nm-1
+  file: spectra/00_two_band_radiance_measurement_5b34741871.csv
+audit:
+  uncertainty:
+    file: audit/uncertainty.yaml
+  identifiability:
+    file: audit/identifiability.yaml
+  forward_quality:
+    file: audit/forward_quality.yaml

@@ -1,5 +1,7 @@
 # Documentation index
 
+[論文形式の解説・PDF・再現データ](oescr_paper/README.md)は、2026年10月27日の実装を固定し、背景、方程式、近似、計算フロー、拡張方法とベンチマークをまとめた資料です。
+
 - `architecture.md` — code structure and module boundaries
 - `capability_matrix.md` — supported workflows, units, prerequisites, and unsupported claims
 - `compatibility_policy.md` — retained adapters, owners, canonical targets, and removal conditions

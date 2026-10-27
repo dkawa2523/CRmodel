@@ -1,0 +1,141 @@
+plasma_mode: te
+emission_mode: empirical
+energy_grid:
+  min_eV: 0.0
+  max_eV: 150.0
+  n_points: 800
+numerics:
+  wavelength_refinement_factor: 1.0
+geometry:
+  mode: axisym_shell
+  n_shells: 3
+  chamber_radius_m: 0.15
+  chamber_height_m: 0.08
+  chord_r_m:
+  - 0.0
+  - 0.02
+  - 0.04
+  - 0.06
+  - 0.08
+plasma_state:
+  metastables:
+    Ar_1s5:
+    - 260000000000000.0
+    - 180000000000000.0
+    - 90000000000000.0
+  radicals:
+    F:
+    - 7.10044942316486e+18
+    - 5.234276987963815e+18
+    - 3.838581642383118e+18
+    N2_emit:
+    - 1.3067317967265114e+18
+    - 8.258448609227192e+17
+    - 6.123771481278245e+17
+    Ar_811_proxy:
+    - 800000000000000.0
+    - 500000000000000.0
+    - 250000000000000.0
+  te_eedf_kind: maxwell
+  ne_shells_m3:
+  - 8400000000000000.0
+  - 6800000000000000.0
+  - 5500000000000000.0
+  te_shells_eV:
+  - 2.5864213386364727
+  - 2.2175064466983425
+  - 1.8992752755832636
+residuals:
+  mode: custom
+  species_density_m3:
+    H2O: 0.0
+    N2: 0.0
+    O2: 0.0
+    CO: 0.0
+    CO2: 0.0
+    H2: 0.0
+wall:
+  gamma:
+    Ar: 0.01
+  model: gamma_thermal
+  thermal_flux_factor: 1.0
+gas_mixture:
+  total_pressure_Pa: 133.322
+  gas_temperature_K: 450.0
+  fractions:
+    NF3: 0.9615384615384616
+    Ar: 0.038461538461538464
+states:
+- id: Ar_2p1
+  species: Ar
+  energy_eV: 13.48
+  mass_amu: 39.948
+  solve: true
+reactions:
+- id: exc_Ar_to_2p1
+  kind: electron_excitation
+  source_state: Ar
+  target_state: Ar_2p1
+  cross_section_file: ..\..\..\examples\data\cross_sections_curated\ar\Ar_ground_to_4p_2p1_curated.csv
+- id: exc_Ar1s5_to_2p1
+  kind: electron_excitation
+  source_state: Ar_1s5
+  target_state: Ar_2p1
+  cross_section_file: ..\..\..\examples\data\cross_sections_curated\ar\Ar_1s5_to_4p_2p1_curated.csv
+transitions:
+- id: Ar750
+  upper: Ar_2p1
+  lower: Ar_1s2
+  wavelength_nm: 750.386
+  A_s-1: 45000000.0
+  profile:
+    kind: gaussian
+    fwhm_nm: 0.03
+bands:
+- id: N2_SPS
+  kind: effective_density_band
+  source_density_key: N2_emit
+  coefficient: 0.021
+  profile_kind: tabulated
+  profile_file: ..\..\..\examples\benchmarks\nf3_ar_ccp_clean_2023\profiles\n2_sps_profile.csv
+- id: N2_FP
+  kind: effective_density_band
+  source_density_key: N2_emit
+  coefficient: 0.016
+  profile_kind: tabulated
+  profile_file: ..\..\..\examples\benchmarks\nf3_ar_ccp_clean_2023\profiles\n2_first_positive_profile.csv
+- id: F685
+  kind: effective_excitation_band
+  source_density_key: F
+  cross_section_file: ..\..\..\examples\data\cross_sections_curated\nf3\FI_685p603_effective_curated.csv
+  center_nm: 685.603
+  fwhm_nm: 1.6
+  amplitude_scale: 0.75
+  profile_kind: gaussian
+- id: F704
+  kind: effective_excitation_band
+  source_density_key: F
+  cross_section_file: ..\..\..\examples\data\cross_sections_curated\nf3\FI_703p747_effective_curated.csv
+  center_nm: 703.747
+  fwhm_nm: 1.6
+  amplitude_scale: 1.0
+  profile_kind: gaussian
+- id: F713
+  kind: effective_excitation_band
+  source_density_key: F
+  cross_section_file: ..\..\..\examples\data\cross_sections_curated\nf3\FI_712p789_effective_curated.csv
+  center_nm: 712.789
+  fwhm_nm: 1.6
+  amplitude_scale: 0.85
+  profile_kind: gaussian
+- id: Ar811_proxy
+  kind: effective_density_band
+  source_density_key: Ar_811_proxy
+  coefficient: 4.0
+  center_nm: 811.531
+  fwhm_nm: 1.4
+  profile_kind: gaussian
+instruments:
+- id: nf3_benchmark_uvvis
+  yaml_file: ..\..\..\examples\benchmarks\nf3_ar_ccp_clean_2023\instrument.yaml
+emission_kernels: []

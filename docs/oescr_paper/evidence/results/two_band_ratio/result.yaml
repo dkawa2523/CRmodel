@@ -1,0 +1,40 @@
+success: true
+message: '`gtol` termination condition is satisfied.'
+cost: 1.3023986796287957e-20
+parameters:
+  target_density_m3: 1.9999999996773642e+18
+gain_offset:
+- instrument_id: two_band_radiance
+  observation_id: two_band_radiance:measurement:5b34741871
+  gain: 1.0
+  offset: 0.0
+  tilt: 0.0
+selected_windows:
+  two_band_radiance:
+  - target_500
+  - actinometer_510
+declared_windows:
+  two_band_radiance:
+  - target_500
+  - actinometer_510
+assessment:
+  mode: ratio_diagnostic
+  absolute_scale_prerequisites_met: false
+  assumptions:
+  - Only configured line/window ratios are interpreted as diagnostics.
+calibration_uncertainty:
+  two_band_radiance: 0.01
+spectral_fits:
+- observation_id: two_band_radiance:measurement:5b34741871
+  instrument_id: two_band_radiance
+  prediction_key: chord_0
+  output_basis: spectral_radiance_W_m-2_sr-1_nm-1
+  output_unit: W_m-2_sr-1_nm-1
+  file: spectra/00_two_band_radiance_measurement_5b34741871.csv
+audit:
+  uncertainty:
+    file: audit/uncertainty.yaml
+  identifiability:
+    file: audit/identifiability.yaml
+  forward_quality:
+    file: audit/forward_quality.yaml

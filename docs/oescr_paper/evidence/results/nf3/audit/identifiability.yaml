@@ -1,0 +1,371 @@
+singular_values:
+- 87.09173511087197
+- 5.253139218375261
+- 2.9187962712417974
+- 0.5750227689699505
+- 0.27401277510290606
+- 0.17386372130418246
+- 0.05417384684054431
+- 0.0009649432016626737
+- 0.00010486259711342414
+singular_directions:
+- index: 0
+  singular_value: 87.09173511087197
+  relative_strength: 1.0
+  identifiable: true
+  dominant_parameters:
+  - name: te1
+    coefficient: 0.5664481317700412
+  - name: F0
+    coefficient: -0.4923575435339427
+  - name: te0
+    coefficient: -0.4861617738975939
+  - name: F1
+    coefficient: 0.42246379929296135
+  - name: te2
+    coefficient: 0.12966714588987627
+- index: 1
+  singular_value: 5.253139218375261
+  relative_strength: 0.06031731038183775
+  identifiable: true
+  dominant_parameters:
+  - name: te2
+    coefficient: -0.7189639214498136
+  - name: F2
+    coefficient: -0.39508910728321156
+  - name: te1
+    coefficient: 0.38099797647434097
+  - name: F1
+    coefficient: 0.2841537045774103
+  - name: F0
+    coefficient: 0.22066152513813012
+- index: 2
+  singular_value: 2.9187962712417974
+  relative_strength: 0.03351404432953402
+  identifiable: true
+  dominant_parameters:
+  - name: N2e1
+    coefficient: -0.4544513973748443
+  - name: te2
+    coefficient: 0.4274726502829253
+  - name: F0
+    coefficient: 0.3761024967782133
+  - name: te0
+    coefficient: 0.3711657397279723
+  - name: te1
+    coefficient: 0.3324411621544592
+- index: 3
+  singular_value: 0.5750227689699505
+  relative_strength: 0.006602495268212522
+  identifiable: true
+  dominant_parameters:
+  - name: N2e0
+    coefficient: 0.7836615021123722
+  - name: N2e1
+    coefficient: -0.4516339819522477
+  - name: N2e2
+    coefficient: -0.30253134817782024
+  - name: F0
+    coefficient: -0.14699513208511802
+  - name: te0
+    coefficient: -0.1415110158777446
+- index: 4
+  singular_value: 0.27401277510290606
+  relative_strength: 0.0031462546331643827
+  identifiable: true
+  dominant_parameters:
+  - name: N2e0
+    coefficient: -0.6157822722715169
+  - name: N2e1
+    coefficient: -0.5581565279651481
+  - name: N2e2
+    coefficient: -0.2914949595366703
+  - name: F0
+    coefficient: -0.24122590642352737
+  - name: te0
+    coefficient: -0.2134446046219729
+- index: 5
+  singular_value: 0.17386372130418246
+  relative_strength: 0.0019963285963110686
+  identifiable: true
+  dominant_parameters:
+  - name: N2e2
+    coefficient: 0.8497749016787463
+  - name: N2e1
+    coefficient: -0.5239412777002794
+  - name: N2e0
+    coefficient: 0.04156316614640089
+  - name: F0
+    coefficient: 0.022087248904320372
+  - name: te1
+    coefficient: 0.01686402082530496
+- index: 6
+  singular_value: 0.05417384684054431
+  relative_strength: 0.0006220320076477797
+  identifiable: true
+  dominant_parameters:
+  - name: te0
+    coefficient: 0.5617145798637789
+  - name: F0
+    coefficient: -0.54319683576454
+  - name: F1
+    coefficient: -0.4957187018685458
+  - name: te1
+    coefficient: 0.3782567203380522
+  - name: N2e1
+    coefficient: 0.01193094999186839
+- index: 7
+  singular_value: 0.0009649432016626737
+  relative_strength: 1.1079618524470255e-05
+  identifiable: true
+  dominant_parameters:
+  - name: F1
+    coefficient: -0.6261661896987478
+  - name: te1
+    coefficient: 0.4669703310107577
+  - name: te0
+    coefficient: -0.44388652130962447
+  - name: F0
+    coefficient: 0.4382573103481984
+  - name: F2
+    coefficient: -0.02398931313558608
+- index: 8
+  singular_value: 0.00010486259711342414
+  relative_strength: 1.204047628399285e-06
+  identifiable: true
+  dominant_parameters:
+  - name: F2
+    coefficient: 0.8759857157499888
+  - name: te2
+    coefficient: -0.4813756735337823
+  - name: F1
+    coefficient: -0.02380997935825081
+  - name: te1
+    coefficient: 0.017758074279249702
+  - name: te0
+    coefficient: -0.004731026884669094
+parameter_column_norms:
+  te0: 42.370113555511196
+  te1: 49.38316556280808
+  te2: 11.973270517847915
+  F0: 42.9101263477897
+  F1: 36.830561795367416
+  F2: 6.579608488593527
+  N2e0: 0.5240748181632717
+  N2e1: 1.3977096039410755
+  N2e2: 0.9760000538316033
+inactive_parameters: []
+condition_number: 830531.9294797706
+rank_estimate: 9
+rank_threshold: 8.709173511087197e-07
+n_observations: 4619
+n_parameters: 9
+target_parameter_names:
+- te0
+- te1
+- te2
+- F0
+- F1
+- F2
+- N2e0
+- N2e1
+- N2e2
+nuisance_parameter_names: []
+projected_target:
+  singular_values:
+  - 87.09173511087197
+  - 5.253139218375261
+  - 2.9187962712417974
+  - 0.5750227689699505
+  - 0.27401277510290606
+  - 0.17386372130418246
+  - 0.05417384684054431
+  - 0.0009649432016626737
+  - 0.00010486259711342414
+  singular_directions:
+  - index: 0
+    singular_value: 87.09173511087197
+    relative_strength: 1.0
+    identifiable: true
+    dominant_parameters:
+    - name: te1
+      coefficient: 0.5664481317700412
+    - name: F0
+      coefficient: -0.4923575435339427
+    - name: te0
+      coefficient: -0.4861617738975939
+    - name: F1
+      coefficient: 0.42246379929296135
+    - name: te2
+      coefficient: 0.12966714588987627
+  - index: 1
+    singular_value: 5.253139218375261
+    relative_strength: 0.06031731038183775
+    identifiable: true
+    dominant_parameters:
+    - name: te2
+      coefficient: -0.7189639214498136
+    - name: F2
+      coefficient: -0.39508910728321156
+    - name: te1
+      coefficient: 0.38099797647434097
+    - name: F1
+      coefficient: 0.2841537045774103
+    - name: F0
+      coefficient: 0.22066152513813012
+  - index: 2
+    singular_value: 2.9187962712417974
+    relative_strength: 0.03351404432953402
+    identifiable: true
+    dominant_parameters:
+    - name: N2e1
+      coefficient: -0.4544513973748443
+    - name: te2
+      coefficient: 0.4274726502829253
+    - name: F0
+      coefficient: 0.3761024967782133
+    - name: te0
+      coefficient: 0.3711657397279723
+    - name: te1
+      coefficient: 0.3324411621544592
+  - index: 3
+    singular_value: 0.5750227689699505
+    relative_strength: 0.006602495268212522
+    identifiable: true
+    dominant_parameters:
+    - name: N2e0
+      coefficient: 0.7836615021123722
+    - name: N2e1
+      coefficient: -0.4516339819522477
+    - name: N2e2
+      coefficient: -0.30253134817782024
+    - name: F0
+      coefficient: -0.14699513208511802
+    - name: te0
+      coefficient: -0.1415110158777446
+  - index: 4
+    singular_value: 0.27401277510290606
+    relative_strength: 0.0031462546331643827
+    identifiable: true
+    dominant_parameters:
+    - name: N2e0
+      coefficient: -0.6157822722715169
+    - name: N2e1
+      coefficient: -0.5581565279651481
+    - name: N2e2
+      coefficient: -0.2914949595366703
+    - name: F0
+      coefficient: -0.24122590642352737
+    - name: te0
+      coefficient: -0.2134446046219729
+  - index: 5
+    singular_value: 0.17386372130418246
+    relative_strength: 0.0019963285963110686
+    identifiable: true
+    dominant_parameters:
+    - name: N2e2
+      coefficient: 0.8497749016787463
+    - name: N2e1
+      coefficient: -0.5239412777002794
+    - name: N2e0
+      coefficient: 0.04156316614640089
+    - name: F0
+      coefficient: 0.022087248904320372
+    - name: te1
+      coefficient: 0.01686402082530496
+  - index: 6
+    singular_value: 0.05417384684054431
+    relative_strength: 0.0006220320076477797
+    identifiable: true
+    dominant_parameters:
+    - name: te0
+      coefficient: 0.5617145798637789
+    - name: F0
+      coefficient: -0.54319683576454
+    - name: F1
+      coefficient: -0.4957187018685458
+    - name: te1
+      coefficient: 0.3782567203380522
+    - name: N2e1
+      coefficient: 0.01193094999186839
+  - index: 7
+    singular_value: 0.0009649432016626737
+    relative_strength: 1.1079618524470255e-05
+    identifiable: true
+    dominant_parameters:
+    - name: F1
+      coefficient: -0.6261661896987478
+    - name: te1
+      coefficient: 0.4669703310107577
+    - name: te0
+      coefficient: -0.44388652130962447
+    - name: F0
+      coefficient: 0.4382573103481984
+    - name: F2
+      coefficient: -0.02398931313558608
+  - index: 8
+    singular_value: 0.00010486259711342414
+    relative_strength: 1.204047628399285e-06
+    identifiable: true
+    dominant_parameters:
+    - name: F2
+      coefficient: 0.8759857157499888
+    - name: te2
+      coefficient: -0.4813756735337823
+    - name: F1
+      coefficient: -0.02380997935825081
+    - name: te1
+      coefficient: 0.017758074279249702
+    - name: te0
+      coefficient: -0.004731026884669094
+  parameter_column_norms:
+    te0: 42.370113555511196
+    te1: 49.38316556280808
+    te2: 11.973270517847915
+    F0: 42.9101263477897
+    F1: 36.830561795367416
+    F2: 6.579608488593527
+    N2e0: 0.5240748181632717
+    N2e1: 1.3977096039410755
+    N2e2: 0.9760000538316033
+  inactive_parameters: []
+  condition_number: 830531.9294797706
+  rank_estimate: 9
+  rank_threshold: 8.709173511087197e-07
+  n_observations: 4619
+  n_parameters: 9
+nuisance_projection:
+  method: identity_no_explicit_nuisance
+  rank: 0
+  rank_threshold: 0.0
+  n_columns: 0
+basis: measurement_data_only
+implicit_nuisance_handling:
+  auto_gain_offset_tilt:
+    active:
+      gain: true
+      offset: true
+      tilt: false
+    handling: profiled_inside_each_residual_evaluation
+    explicit_projection_columns_added: false
+  shared_calibration_covariance:
+    handling: prewhitened_in_measurement_residual
+    explicit_projection_columns_added: false
+selected_windows:
+  nf3_benchmark_uvvis:
+  - N2_SPS_300_400
+  - N2_FP_550_700
+  - FI_685_603
+  - FI_703_747
+  - FI_712_789
+  - ArI_750_387
+  - ArI_811_531
+declared_windows:
+  nf3_benchmark_uvvis:
+  - N2_SPS_300_400
+  - N2_FP_550_700
+  - FI_685_603
+  - FI_703_747
+  - FI_712_789
+  - ArI_750_387
+  - ArI_811_531

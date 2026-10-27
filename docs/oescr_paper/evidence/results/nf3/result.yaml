@@ -1,0 +1,102 @@
+success: true
+message: '`ftol` termination condition is satisfied.'
+cost: 162.68515531906658
+parameters:
+  te0: 2.5864213386364727
+  te1: 2.2175064466983425
+  te2: 1.8992752755832636
+  F0: 7.10044942316486e+18
+  F1: 5.234276987963815e+18
+  F2: 3.838581642383118e+18
+  N2e0: 1.3067317967265114e+18
+  N2e1: 8.258448609227192e+17
+  N2e2: 6.123771481278245e+17
+gain_offset:
+- instrument_id: nf3_benchmark_uvvis
+  observation_id: nf3_benchmark_uvvis:chord_0:4e1dcbc944
+  gain: 2.1463873935864375
+  offset: 188881115417929.53
+  tilt: 0.0
+- instrument_id: nf3_benchmark_uvvis
+  observation_id: nf3_benchmark_uvvis:chord_1:689f778fd5
+  gain: 2.1463873935864375
+  offset: 188881115417929.53
+  tilt: 0.0
+- instrument_id: nf3_benchmark_uvvis
+  observation_id: nf3_benchmark_uvvis:chord_2:16f4fc209b
+  gain: 2.1463873935864375
+  offset: 188881115417929.53
+  tilt: 0.0
+- instrument_id: nf3_benchmark_uvvis
+  observation_id: nf3_benchmark_uvvis:chord_3:af934690c3
+  gain: 2.1463873935864375
+  offset: 188881115417929.53
+  tilt: 0.0
+- instrument_id: nf3_benchmark_uvvis
+  observation_id: nf3_benchmark_uvvis:chord_4:8dbf56bf8f
+  gain: 2.1463873935864375
+  offset: 188881115417929.53
+  tilt: 0.0
+selected_windows:
+  nf3_benchmark_uvvis:
+  - N2_SPS_300_400
+  - N2_FP_550_700
+  - FI_685_603
+  - FI_703_747
+  - FI_712_789
+  - ArI_750_387
+  - ArI_811_531
+declared_windows:
+  nf3_benchmark_uvvis:
+  - N2_SPS_300_400
+  - N2_FP_550_700
+  - FI_685_603
+  - FI_703_747
+  - FI_712_789
+  - ArI_750_387
+  - ArI_811_531
+assessment:
+  mode: relative_shape
+  absolute_scale_prerequisites_met: false
+  assumptions:
+  - Only relative spectral or spatial information is interpreted.
+calibration_uncertainty:
+  nf3_benchmark_uvvis: 0.0
+spectral_fits:
+- observation_id: nf3_benchmark_uvvis:chord_0:4e1dcbc944
+  instrument_id: nf3_benchmark_uvvis
+  prediction_key: chord_0
+  output_basis: relative_instrument_signal
+  output_unit: arb
+  file: spectra/00_nf3_benchmark_uvvis_chord_0_4e1dcbc944.csv
+- observation_id: nf3_benchmark_uvvis:chord_1:689f778fd5
+  instrument_id: nf3_benchmark_uvvis
+  prediction_key: chord_1
+  output_basis: relative_instrument_signal
+  output_unit: arb
+  file: spectra/01_nf3_benchmark_uvvis_chord_1_689f778fd5.csv
+- observation_id: nf3_benchmark_uvvis:chord_2:16f4fc209b
+  instrument_id: nf3_benchmark_uvvis
+  prediction_key: chord_2
+  output_basis: relative_instrument_signal
+  output_unit: arb
+  file: spectra/02_nf3_benchmark_uvvis_chord_2_16f4fc209b.csv
+- observation_id: nf3_benchmark_uvvis:chord_3:af934690c3
+  instrument_id: nf3_benchmark_uvvis
+  prediction_key: chord_3
+  output_basis: relative_instrument_signal
+  output_unit: arb
+  file: spectra/03_nf3_benchmark_uvvis_chord_3_af934690c3.csv
+- observation_id: nf3_benchmark_uvvis:chord_4:8dbf56bf8f
+  instrument_id: nf3_benchmark_uvvis
+  prediction_key: chord_4
+  output_basis: relative_instrument_signal
+  output_unit: arb
+  file: spectra/04_nf3_benchmark_uvvis_chord_4_8dbf56bf8f.csv
+audit:
+  uncertainty:
+    file: audit/uncertainty.yaml
+  identifiability:
+    file: audit/identifiability.yaml
+  forward_quality:
+    file: audit/forward_quality.yaml

@@ -1,0 +1,65 @@
+singular_values:
+- 192.79630040223003
+singular_directions:
+- index: 0
+  singular_value: 192.79630040223003
+  relative_strength: 1.0
+  identifiable: true
+  dominant_parameters:
+  - name: electron_density_m3
+    coefficient: 1.0
+parameter_column_norms:
+  electron_density_m3: 192.79630040223003
+inactive_parameters: []
+condition_number: 1.0
+rank_estimate: 1
+rank_threshold: 1.9279630040223003e-06
+n_observations: 10
+n_parameters: 1
+target_parameter_names:
+- electron_density_m3
+nuisance_parameter_names: []
+projected_target:
+  singular_values:
+  - 192.79630040223003
+  singular_directions:
+  - index: 0
+    singular_value: 192.79630040223003
+    relative_strength: 1.0
+    identifiable: true
+    dominant_parameters:
+    - name: electron_density_m3
+      coefficient: 1.0
+  parameter_column_norms:
+    electron_density_m3: 192.79630040223003
+  inactive_parameters: []
+  condition_number: 1.0
+  rank_estimate: 1
+  rank_threshold: 1.9279630040223003e-06
+  n_observations: 10
+  n_parameters: 1
+nuisance_projection:
+  method: identity_no_explicit_nuisance
+  rank: 0
+  rank_threshold: 0.0
+  n_columns: 0
+basis: measurement_data_only
+implicit_nuisance_handling:
+  auto_gain_offset_tilt:
+    active:
+      gain: false
+      offset: false
+      tilt: false
+    handling: profiled_inside_each_residual_evaluation
+    explicit_projection_columns_added: false
+  shared_calibration_covariance:
+    handling: prewhitened_in_measurement_residual
+    explicit_projection_columns_added: false
+selected_windows:
+  two_band_radiance:
+  - target_500
+  - actinometer_510
+declared_windows:
+  two_band_radiance:
+  - target_500
+  - actinometer_510

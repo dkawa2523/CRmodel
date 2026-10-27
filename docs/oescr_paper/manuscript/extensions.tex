@@ -1,0 +1,63 @@
+\section{物理項の改訂と複数ガスへの展開}
+\subsection{データの変更と方程式の変更を分ける設計}
+OESCRは、状態・反応・遷移・分子帯をYAMLで定義し、原子データと断面積を順・逆解析の制御から分離する。既存の式で表せる変更では、中央のsolverを書き換える必要はない。例えばO 777 nmの消光係数を改訂するなら、二体過程の係数だけを変更する。新たな放射分岐なら遷移集合へ追加する。反応供給と損失の行列寄与は共通の規則で作るため、係数変更が準位寿命と発光へ整合して反映される。
+
+\begin{table}[htbp]
+\centering\small
+\begin{tabularx}{\linewidth}{p{31mm}p{42mm}Y}
+\toprule
+改訂したい内容 & 最小の編集箇所 & 物理的な確認事項 \\
+\midrule
+励起断面積 & 反応のCSVまたは\code{cross\_section\_file} & 状態・閾値・断面積単位・energy範囲・出典 \\
+放射寿命・分岐 & species packの\code{transitions} & 未観測分岐も含む全損失、air/vacuum波長 \\
+消光・一次失活 & \code{two\_body}/\code{first\_order}反応 & colliderの密度所有者と係数単位 \\
+三体過程 & \code{three\_body}反応 & 二つの外部collider、非線形項の混入防止 \\
+壁損失 & \code{wall}の$\gamma,L,f_{\rm flux}$ & 質量・熱流束定義・拡散近似の妥当性 \\
+放射捕獲 & 遷移の\code{trapping} & slabの限界、$\tau$入力と$\beta$の根拠 \\
+分子帯 & \code{bands}の率・収率・profile & 光子収率と経験係数の区別、支持域正規化 \\
+観測条件 & 視線幾何と\code{instruments} & 光路、透過率、LSF、画素、出力基準 \\
+新しい関数形 & 対応するplugin registry & 単位、正規化、解析解・保存則での確認 \\
+\bottomrule
+\end{tabularx}
+\caption{物理タームごとの改訂箇所。編集の容易さは、係数が自動的に適正化されることではなく、変更の所有箇所と影響が明示されることを意味する。}
+\label{tab:edits}
+\end{table}
+
+既存solverの枠内で閉包や応答の関数形を変更する場合は、EEDF、reaction rate、band emission/profile、trapping、wall loss、geometry、throughput、LSF、baselineのregistryを通してpluginを登録できる。各pluginは選択キー\code{kind}、説明、局所schema、実行関数を持つ。EEDFなら\code{build\_pdf}、反応率なら\code{rate}、壁損失なら\code{loss\_rate}を実装する。局所schemaは共通外枠と独立に検査される。
+
+ただし、pluginの存在は任意の連成系をそのまま導入できる意味ではない。未知準位密度同士の積、輸送連成、自己無撞着な電力収支など、現在の線形・領域独立の前提を変える拡張にはsolver設計の変更が必要になる。
+
+\subsection{species packの合成と密度の共有}
+species packは状態、反応、遷移、分子帯、および出典をまとめる再利用単位である。例えばArの原子データとO 777 nmの縮約データを合成する入力は次のようになる。
+\begin{quote}\small\ttfamily
+species\_packs:\\
+\hspace*{1em}- yaml\_file: data/species\_packs/ar\_2p1\_2p6\_nist.yaml\\
+\hspace*{1em}- yaml\_file: data/species\_packs/o\_777\_reduced.yaml\\
+\hspace*{2em}namespace: oxygen
+\end{quote}
+pack内の断面積やprofileの相対パスは、caseでなくpack自身を基準に解決する。namespaceはpack内の状態・反応等のIDと内部参照を書き換え、pack内で状態IDとして宣言されていない外部供給粒子やcolliderの密度キーは変えない。重複IDはエラーで、読込順による暗黙の上書きは行わない。置換するときは旧packを外して新版を選ぶ。
+
+\begin{table}[htbp]
+\centering\small
+\begin{tabularx}{\linewidth}{p{25mm}YY}
+\toprule
+対象例 & 現在ある構成・確認 & 第三者が確認すべき境界 \\
+\midrule
+Ar & 2p1/2p6の分岐pack、六上準位の直接励起候補 & 六kernel例は準安定励起・cascade等を閉じていない \\
+O/O$_2$ & O 777 nm縮約pack、O$_2$消光、Arとの合成 & 例示断面積を含み、O/O$_2$組成を導出しない \\
+Cl/Cl$_2$ & Clの有効線、Ar/Cl$_2$共有状態例、帯形例 & Cl有効励起・822 nmの解離励起干渉に適用性評価の不足 \\
+F/NF$_3$ & F線・分子帯を使う多視線の例 & 生成・経験的構成を含み、NF$_3$解離化学を解かない \\
+CF$_4$/O$_2$/Ar & Ar/O packとCF、CF$_2$等の帯の合成例 & 供給密度と経験帯の根拠が必要 \\
+BCl$_3$/Ar等 & skeletonによる設定の入口 & 完備な反応・断面積・実験検証が整った証拠ではない \\
+\bottomrule
+\end{tabularx}
+\caption{複数ガス対応の実際の意味。ガス名の追加が可能なことと、そのガスで定量診断が適用性評価されていることを分ける。}
+\label{tab:gases}
+\end{table}
+
+同一領域のすべての発光種は、同じ電子密度とEEDFを参照できる。一方、消光には実際の混合相手を指定できるため、Arを参照にOやClの感度を同時に検討する設定が自然に表現できる。追加したガスが電子分布や組成を変える効果は、入力EEDFや外部密度へ反映するか、外部の電子・化学モデルから供給する必要がある。
+
+\subsection{繰返し評価、追跡性、利用者にとっての利点}
+compile時に、状態参照、格子、反応の構造、固有線形状、視線重み、装置の観測計画を準備する。繰返しfitでは対応する状態量を更新し、可能な固定構造を再利用する。多数の順解析が必要な感度解析や推定ではこの分離が有用である。ただし、本稿は他コードに対する速度優位を測定していない。
+
+入力の正規化、相対パスの補正、schemaと意味検査、測定IDと予測の対応、校正基準の照合は、物理方程式以外に再現性を支える機能である。断面積のhashや成分別の出力基準を残し、測定、予測、残差をCSVに出せるため、結果の第三者点検を行いやすい。通常実行と監査を分ける設計により、最適化中の計算量を抑えつつ、最終点の品質や推定の弱い方向を確認できる。

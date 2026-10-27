@@ -1,0 +1,161 @@
+\section{ベンチマークの問題設定と再計算結果}
+\label{sec:benchmarks}
+\subsection{検証設計と評価量}
+本節は2026年10月27日の作業ツリーから固定したソースと入力を用いた再実行である。未コミット変更を含むため、Gitのcommit番号だけで実行対象を同定せず、同梱の\code{source\_snapshot.zip}と\code{source\_snapshot\_manifest.json}で対象を固定する。生成図の数値、標準result、実行ログ、環境・hashは\code{evidence/}に保存した。原子・分子データが実際の外部資料に基づく場合でも、観測側を同じモデルから生成したケースは独立実験検証には数えない。
+
+パラメータの真値$\theta_0$に対する回復誤差と、スペクトルの相対L2差を
+\begin{equation}
+\epsilon_\theta=\frac{|\widehat\theta-\theta_0|}{|\theta_0|},\qquad
+\epsilon_S=\frac{\|\boldsymbol F-\boldsymbol y\|_2}{\|\boldsymbol y\|_2}
+\label{eq:metrics}
+\end{equation}
+とする。共通状態runnerのfit/holdout指標は、宣言した各チャネルの全21画素を連結して式\eqref{eq:metrics}を求める。補助CSVでは実際のfit maskに選ばれた18画素に限定した値も出す。使用する画素範囲が異なるため同じ数値にはならず、本節の共通状態の表はチャネル全画素によるrunner値で統一した。
+
+標準化RMSEは、選択した画素の$(F_i-y_i)/\sigma_i$の二乗平均平方根である。相対L2、標準化RMSE、事前項等を含む最適化costは異なる量で、互いに代替しない。ベンチマークのPASSは、個別に定めたソフトウェア回復条件を満たす意味である。
+
+\begin{table}[htbp]
+\centering\small
+\begin{tabularx}{\linewidth}{p{25mm}YYp{28mm}}
+\toprule
+ケース & 問い & 観測・推定対象 & 根拠の種類 \\
+\midrule
+解析解・保存 & 次元換算と積分が整合するか & 500 nm帯と600 nm原子線、1領域 & 解析解との比較 \\
+二帯域 & 比と絶対尺度を使い分けられるか & 対象密度または電子密度を各1変数 & 雑音なし生成回復 \\
+共有状態Ar/O$_2$ & 複数狭帯域が共通状態を制約するか & 5観測、$\Te$と$\nelec$ & 雑音付き生成回復 \\
+共有状態Ar/Cl$_2$ & 小残差が回復を保証するか & 7観測、$\Te$と$\nelec$ & 雑音付き生成回復 \\
+六kernel Ar & 広帯域入力と別上準位の保留評価が接続するか & 2チャネル各3反復、$\Te$のみ & 同一モデル生成回復 \\
+NF$_3$/Ar、Cl$_2$/Ar & 多視線と分子帯の推定が動くか & 5視線、3殻の選択状態量 & 正則化付き生成回復 \\
+\bottomrule
+\end{tabularx}
+\caption{本稿で再実行したケース群。外部実測に対する温度・密度の定量精度を示すケースは、この表にはない。}
+\end{table}
+
+\subsection{解析的な原子線・分子帯の積分確認}
+仮想粒子X、$p=1\unit{Pa}$、$T_g=300\unit{K}$、$\nelec=3\times10^{16}\unit{m^{-3}}$、半径0.1 mの一様領域を考える。500 nmのGaussian帯はFWHM 1 nm、$k_b=2\times10^{-14}\unit{m^3s^{-1}}$、$Y_b=0.6$、$B_b=0.5$とする。600 nmの原子線は、励起率$10^{-15}\unit{m^3s^{-1}}$、$A=10^7\unit{s^{-1}}$、固有FWHM 0.05 nmで、他の損失を置かない。視線は中心を通り、光路長0.2 mである。装置のFWHMは0.05 nm、画素幅は0.05 nm、透過率1、恒等の絶対校正を使う。
+
+原子線の積分発光は式\eqref{eq:single}と\eqref{eq:line}から厳密に計算できる。分子帯は中心波長の光子エネルギーを使う狭帯域近似$hc/\lambda_0$を基準とする。コードは$hc/\lambda$を帯内で積分するので、この比較には格子誤差以外に小さい有限幅補正が含まれる。
+
+\begin{table}[htbp]
+\centering\small
+\begin{tabular}{lrrr}
+\toprule
+量 & 解析値 & 計算値 & 相対差 \\
+\midrule
+原子線積分発光 & 190.8237101 & 190.8237101 & $1.11\times10^{-16}$ \\
+分子帯積分発光 & 1373.9307124 & 1373.9317035 & $7.21\times10^{-7}$ \\
+合計積分発光 & 1564.7544224 & 1564.7554135 & $6.33\times10^{-7}$ \\
+中心視線積分輝度 & 312.9508845 & 312.9510827 & $6.33\times10^{-7}$ \\
+\bottomrule
+\end{tabular}
+\caption{発光はW m$^{-3}$ sr$^{-1}$、視線輝度はW m$^{-2}$ sr$^{-1}$。図\ref{fig:analytic}は装置出力と相対差を示す。基準許容値$2\times10^{-4}$より十分小さい。}
+\end{table}
+
+\begin{figure}[htbp]
+\centering\includegraphics[width=\linewidth]{\figfile{benchmark_analytic.pdf}}
+\caption{解析的保存例。(a) 500 nm帯と600 nm線の中心視線スペクトル。(b) 積分量の絶対相対差を百分率で表示。破線は0.02\%の許容値。帯幅が異なるためpeak高さの比較では積分光量は判断できない。数値は表と\code{analytic\_conservation.csv}に対応する。}
+\label{fig:analytic}
+\end{figure}
+
+\subsection{二帯域の最小例：比、actinometry、絶対尺度}
+500 nmの対象帯と510 nmの参照帯を用いる。両者のFWHMは0.6 nm、装置FWHMは0.3 nm、反応係数はそれぞれ$10^{-14}$と$2\times10^{-14}\unit{m^3s^{-1}}$、光子収率と分岐は1である。真値は$N_{\mathrm{Target}}=2\times10^{18}$、$N_{\mathrm{Actinometer}}=10^{18}$、$\nelec=3\times10^{16}\unit{m^{-3}}$とし、$\Te=3\unit{eV}$を固定する。一定係数のため、この例は温度感度を検証しない。
+
+比診断とactinometryでは、同じ面積比を使って対象密度だけを推定した。両モードで$1.9999999997\times10^{18}\unit{m^{-3}}$、相対誤差$1.61\times10^{-10}$を得た。絶対モードでは供給密度を固定し、$\nelec=3.0000000000001\times10^{16}\unit{m^{-3}}$、相対誤差$3.31\times10^{-14}$を得た。いずれも雑音なしの生成入力と同じ式を使うため、極小の誤差は自己整合性試験で期待される結果である。確認しているのは、情報源の切替、単位、設定から結果までの接続である。現実のactinometryの系統誤差をこの数値で評価することはできない。
+
+\subsection{\texorpdfstring{Ar/O$_2$とAr/Cl$_2$}{Ar/O2とAr/Cl2}の共有状態}
+両者とも半径0.05 m、一殻、中心視線、$T_g=400\unit{K}$、$E=0$--60 eVを601点で積分する。装置は各線を含む4 nm幅、0.2 nm画素、0.35 nm FWHMで、固定の絶対尺度と1\%の校正標準不確かさを置く。生成測定には1.5\%の点雑音とpeakの0.15\%を下限尺度とする雑音を加えた固定fixtureを使う。両ケースとも$\Te$と$\log_{10}\nelec$を推定し、放射捕獲と壁損失を置かない。
+
+Ar/O$_2$は$p=2\unit{Pa}$、親ガス分率0.8/0.2、$N_{\mathrm O}=2\times10^{19}\unit{m^{-3}}$を与え、750.4、763.5、777.4 nmをfit、800.6と922.4 nmを保留する。fitにはAr二上準位とO一上準位の三kernelがある。二つの保留Ar線は既にfitした2p6からの分岐で、別の励起kernelではない。
+
+Ar/Cl$_2$は$p=2.4\unit{Pa}$、分率0.78/0.22、$N_{\mathrm{Cl}}=2\times10^{19}\unit{m^{-3}}$を与える。750.4、763.5、800.6、922.4 nmのAr四線をfitするが、独立な上準位は二つである。725.7、754.7、822.2 nmのCl系は例示的な有効経路として保留し、温度・密度fitには使わない。
+
+\begin{table}[htbp]
+\centering\small
+\begin{tabular}{llrrr}
+\toprule
+ケース & パラメータ & 真値 & 初期値 & 推定値（相対誤差） \\
+\midrule
+Ar/O$_2$ & $\Te$ / eV & 3.5 & 2.8 & 3.50596（0.170\%） \\
+ & $\nelec$ / $10^{16}$ m$^{-3}$ & 2.0 & 3.0 & 1.96832（1.584\%） \\
+Ar/Cl$_2$ & $\Te$ / eV & 4.0 & 3.2 & 3.74073（6.482\%） \\
+ & $\nelec$ / $10^{16}$ m$^{-3}$ & 1.6 & 2.4 & 2.07902（29.939\%） \\
+\bottomrule
+\end{tabular}
+\caption{二つの共有状態ベンチマークの回復結果。数値は単一の固定雑音実現に対するもので、誤差分布や信頼区間ではない。}
+\label{tab:commonrecovery}
+\end{table}
+
+\begin{table}[htbp]
+\centering\small
+\begin{tabular}{lrr}
+\toprule
+指標 & Ar/O$_2$ & Ar/Cl$_2$ \\
+\midrule
+fit測定に対する相対L2（チャネル全画素） & 1.274\% & 0.944\% \\
+保留窓の雑音なし真値に対する相対L2 & 0.860\% & 12.297\% \\
+保留測定に対する相対L2 & 2.410\% & 12.880\% \\
+測定のみの局所rank / 対象数 & 2/2 & 2/2 \\
+測定Jacobian条件数 & 15.565 & 220.195 \\
+エネルギー格子細分化の相対L2差 & 0.0697\% & 0.0582\% \\
+波長格子細分化の相対L2差 & 0.00560\% & 0.00562\% \\
+既定の回復判定 & PASS & FAIL \\
+\bottomrule
+\end{tabular}
+\caption{収束、回復、保留予測を別に示した評価。既定ゲートはoptimizer成功、局所full rank、温度・密度誤差と保留真値差がそれぞれ5\%未満、格子細分化差1\%未満を要求する。}
+\label{tab:commonmetrics}
+\end{table}
+
+\begin{figure}[p]
+\centering\includegraphics[width=\linewidth]{\figfile{benchmark_common_state.pdf}}
+\caption{共有状態の結果。(a,c) Ar/O$_2$、Ar/Cl$_2$の初期値と推定値を真値で割って表示。点の注記は絶対相対誤差。(b,d) 測定のみの条件付き温度profileで、他の推定量を再最適化する。縦軸は$\Delta\sum r_i^2$で、ゼロ近傍が線形、大きい値が対数の表示、縦破線は真値。(e,f) fitしたO線と保留したCl線を各測定peakで規格化して比較。error barは画素の$\sigma$のみで共通校正誤差を含まない。粗いprofile点の結線は谷の詳細な形や信頼区間を与えない。}
+\label{fig:common}
+\end{figure}
+
+Ar/Cl$_2$はoptimizerが成功し、局所rankも2だが、回復ゲートを満たさない。Arの二上準位の応答で温度と密度を分ける感度が弱く、温度のずれを密度の増加で補えるため、小さいfit残差と大きい密度誤差が併存する。図\ref{fig:common}のprofileと条件数はその状況と整合する。ただし、この一回の結果だけから弱識別性と雑音以外の寄与を厳密に分解したとはいえない。Clの有効経路には独立した適用性評価もないため、保留の不一致を実験中のCl動力学の失敗率と解釈してはならない。
+
+\subsection{六kernel Ar：広帯域と別上準位の予測確認}
+純Ar、$p=2\unit{Pa}$、$T_g=400\unit{K}$、一殻、中心視線、$\nelec=2\times10^{16}\unit{m^{-3}}$固定、真値$\Te=4.0\unit{eV}$、初期値2.5 eVとする。650--850 nmと840--1050 nmの二チャネルに0.2 nm画素を置き、各三回の決定論的摂動を加えた観測を用意する。六つの異なる上準位2p10、2p9、2p8、2p7、2p6、2p1の基底状態からの直接励起断面積は外部公開bundle\cite{schmalzried}、17の放射分岐はNIST ASD\cite{nist}で固定する。16分岐が装置範囲に入り、1148.8 nm分岐も占有率の損失には残す。
+
+五つの上準位をfitに使い、2p10を別kernelとして保留する。fitに使用した上準位の別分岐も保留するが、これは二種類の確認である。相対形状モードで装置ごとのgainを許し、推定する物理量は共通$\Te$一つだけとする。六つの観測CSVが六つの独立状態を意味するわけではない。
+
+推定値は3.983264 eV、真値に対する相対誤差0.4184\%となった。標準化RMSEは全保留窓0.5124、別kernel保留0.4458、分岐保留0.5500で、ソフトウェア回復条件を満たした。真値4 eVでの$d\log k/d\log\Te$は2.854--4.009であり、六つの率が同じ温度関数の定数倍だけではないことを確認できる。ただし、これだけで実験上の独立情報量を確定できない。
+
+\begin{figure}[p]
+\centering\includegraphics[width=\linewidth]{\figfile{benchmark_ar_six_kernel.pdf}}
+\caption{六kernel Arの広帯域例。二チャネルの測定・初期予測・最適予測、測定のみの温度profile、および各励起率の対数温度感度を示す。profileは宣言したMaxwell分布族内の一変数診断である。推定温度は自由な分布再構成の結果ではなく、固定電子密度の条件下で推定したMaxwellian有効温度である。}
+\label{fig:six}
+\end{figure}
+
+このケースでは準安定励起、cascade、消光、捕獲の閉包は行っていない。公開断面積と放射データを使っていても、すべてのkernelの根拠区分は\code{validation\_candidate}である。実測Teの適用性評価は保留される。Arの状態別励起には、直接励起とcascadeを区別した測定\cite{chilton}や、電子動力学とCRを組み合わせた実験比較\cite{arellano}が重要であり、それらの結果を本コードの実証結果へ転用することはできない。
+
+\subsection{\texorpdfstring{NF$_3$/Ar、Cl$_2$/Ar}{NF3/Ar、Cl2/Ar}：多視線と経験的帯の例}
+両例は半径0.15 mの三殻を五視線から観測する。NF$_3$/Arは$p=133.322\unit{Pa}$、300--820 nmを0.5 nm画素で、Cl$_2$/Arは$p=2.3998\unit{Pa}$、270--885 nmを0.2 nm画素で観測する。文献\cite{an2023,fuller}は運転条件と線・帯の配置の手掛かりだが、五視線の測定はコードから生成した入力である。実験の視線データを取得して再現したものではない。
+
+NF$_3$/Arでは三殻それぞれの$\Te$、F密度、N$_2$帯用の有効供給密度を推定する。Cl$_2$/ArではCl密度とCl$_2$帯用の有効供給密度を三殻で推定し、温度は固定する。いずれも相対形状、gain/offset、事前分布、殻平滑化を伴い、経験的発光成分を含む。\code{N2\_emit}、\code{Cl2\_emit}は帯を表す供給キーで、全N$_2$、全Cl$_2$密度の独立測定量ではない。
+
+\begin{table}[htbp]
+\centering\small
+\begin{tabularx}{\linewidth}{p{25mm}p{42mm}p{30mm}Y}
+\toprule
+ケース & 推定対象 & 殻ごとの回復誤差範囲 & 測定のみの局所診断 \\
+\midrule
+NF$_3$/Ar & $\Te$（3変数） & 5.04--5.95\% & rank 9/9 \\
+ & F密度（3変数） & 8.61--12.76\% & 条件数$8.31\times10^5$ \\
+ & N$_2$有効供給（3変数） & 12.52--24.92\% &  \\
+Cl$_2$/Ar & Cl密度（3変数） & 10.61--20.08\% & rank 6/6 \\
+ & Cl$_2$有効供給（3変数） & 6.23--17.14\% & 条件数32.71 \\
+\bottomrule
+\end{tabularx}
+\caption{多視線例の回復結果。事前分布や平滑化は最適化には含むが、ここに示すrankと条件数には含まない。完全rankであっても、NF$_3$例の条件数は大きい。}
+\label{tab:multichord}
+\end{table}
+
+\begin{figure}[p]
+\centering\includegraphics[width=\linewidth]{\figfile{benchmark_multichord.pdf}}
+\caption{多視線例の代表スペクトルと半径方向の回復。上段はNF$_3$/Ar、下段はCl$_2$/Ar。左列は中心視線の広帯域比較、右列は三殻の推定量を真値で割った値。右列縦軸は差を読める範囲に限定しておりゼロ始まりではない。スペクトルの一致と個々の供給密度の回復を別に評価する。経験帯、相対gain、事前分布を含むため、この図を実測の絶対密度精度の証明に使うことはできない。}
+\label{fig:multichord}
+\end{figure}
+
+保存された補正後予測を全波長で連結した相対L2差はNF$_3$/Arで14.52\%、Cl$_2$/Arで18.32\%だった。選択したスペクトル画素だけでは10.78\%、11.63\%である。これは窓featureや事前項を含むoptimizer costとは別の表示用指標である。これらの例は、複数成分、幾何、装置、正則化付き推定を接続する機能を確認するが、各ラジカル密度の高精度回復を示したケースではない。
+
+\subsection{現在の証拠から言えること}
+解析例は、発光単位、放射分岐、投影と積分の一貫性を支持する。二帯域と六kernel例は、宣言した情報源からの条件付き回復を支持する。共通状態例は、kernel選択によって温度・密度の分離が大きく変わることを示す。多視線例は複合入力から推定までの処理を確認する。生成と推定に同一の演算子を用いるため、共通する原子データの誤りや欠落機構の影響を、この試験だけで検出することはできない。外部診断に対する定量検証は、次節の課題として残す。

@@ -1,0 +1,40 @@
+\section{主要記号と実装との対応}
+\small
+\begin{longtable}{p{24mm}p{43mm}p{86mm}}
+\toprule 記号 & 意味・単位 & 主な設定または実装 \\
+\midrule\endhead
+$\Te,E_D,T_c,T_h$ & EEDFの温度・尺度 / eV & \code{eedf.kind}, \code{eedf.zones}、\path{physics/eedf.py} \\
+$\alpha$ & 高温電子の粒子割合 & \code{hot\_fraction} \\
+$\fe$ & エネルギー確率密度 / eV$^{-1}$ & \code{build\_pdf}。有限格子で正規化 \\
+$\nelec$ & 電子密度 / m$^{-3}$ & \code{plasma\_state.ne\_shells\_m3} \\
+$p,T_g,x_s$ & 圧力 / Pa、温度 / K、分率 & \code{gas\_mixture}、\path{physics/residuals.py} \\
+$N_s$ & 外部供給粒子密度 / m$^{-3}$ & \code{radicals}, \code{metastables}, \code{residuals}等 \\
+$\sigma_r,k_r$ & 断面積 / m$^2$、率 / m$^3$ s$^{-1}$ & \code{cross\_section\_file}、\path{physics/rates.py} \\
+$n_i^*,M,\boldsymbol b$ & 準位密度、損失行列、供給 & \code{states}, \code{reactions}、\path{physics/cr_atomic.py}, \path{physics/cr_processes.py} \\
+$A,\beta,\tau$ & 放射率、脱出係数、光学厚さ & \code{transitions}, \code{trapping} \\
+$\gamma,f_{\rm flux},L$ & 壁確率、流束係数、長さ / m & \code{wall}、\path{physics/wall.py} \\
+$j_\lambda$ & 体積分光発光 & \path{forward/emissivity.py}, \path{physics/bands.py} \\
+$W,I_\lambda$ & 経路長 / m、分光放射輝度 & \code{geometry}、\path{geometry/axisym_shell.py} \\
+$K,T,\mathcal C$ & LSF、透過率、単位換算 & \code{instruments}、\path{instrument/spec.py}等 \\
+$\boldsymbol F,\boldsymbol y$ & 予測と測定画素平均 & \code{prediction\_key}, 観測CSV \\
+$C,J,D_p$ & 共分散、測定感度、条件付きprofile & \path{inverse/measurements.py}, \path{inverse/identifiability.py}, \path{inverse/profiles.py} \\
+\bottomrule
+\end{longtable}
+\normalsize
+
+状態の\code{energy\_eV}と\code{degeneracy}は準位の同定・記録に用いるメタデータである。現行では、これらから励起閾値、詳細釣合いの脱励起率、光子エネルギーを自動計算しない。閾値は反応・断面積、光子エネルギーは遷移波長で与える。このため、準位エネルギーだけを修正しても速度係数や発光波長は変わらない。
+
+\section{再現手順と添付データ}
+\small
+本文の数値は付属の\code{evidence/}にあるCSV・YAML・JSONと対応する。通常の作業ツリーに対しては、リポジトリルートから次の入口を使える。
+\begin{quote}\small\ttfamily
+python scripts/run\_common\_state\_benchmarks.py --out runs/common\\
+python scripts/run\_argon\_six\_kernel\_candidate.py --out runs/ar6\\
+python scripts/run\_project.py project.yaml --out runs/fit --audit
+\end{quote}
+二帯域は\path{examples/use_cases/two_band/}の初期caseと三つのinverse設定、多視線は\path{examples/benchmarks/}の各\code{project.yaml}を使う。common-state runnerの終了値1は、今回のAr/Cl$_2$回復ゲートFAILを反映する。計算の異常終了として数値を除外したものではない。
+
+厳密に掲載時点を再現する場合は、\code{source\_snapshot.zip}を専用の空ディレクトリへ展開し、そのルートを作業ディレクトリとして依存を導入する。archiveのSHA-256先頭16桁は\code{16a5f0c95cf381c2}で、完全な値はmanifestにある。付属再現スクリプトと\code{run\_manifest.json}が、完全な実行引数、種、hash、結果位置を保持する。現在のソースへ凍結入力を混在させず、同じsnapshot内のコードと入力を組み合わせる。図は\code{figures/}のベクトルPDF、数値は\code{evidence/}のCSVで確認できる。
+
+再計算環境はWindows 11、Python 3.13.12、NumPy 2.4.3、SciPy 1.17.1、Matplotlib 3.11.2である。計算時間の統制比較は行っていない。
+\normalsize

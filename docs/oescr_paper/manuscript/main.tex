@@ -1,0 +1,73 @@
+\documentclass[a4paper,11pt]{article}
+\usepackage{fontspec,xeCJK}
+\setmainfont{Times New Roman}
+\setsansfont{Arial}
+\setmonofont{Consolas}[Scale=0.87]
+\setCJKmainfont{Yu Mincho}[BoldFont=Yu Mincho Demibold]
+\setCJKsansfont{Yu Gothic}
+\setCJKmonofont{Yu Gothic}
+\usepackage{amsmath,amssymb,graphicx,booktabs,longtable,tabularx,array}
+\usepackage[a4paper,top=23mm,bottom=23mm,left=23mm,right=23mm]{geometry}
+\usepackage{xcolor,caption,fancyhdr}
+\usepackage[unicode,colorlinks=true,linkcolor=black,citecolor=black,urlcolor=blue!55!black,bookmarksnumbered]{hyperref}
+\hypersetup{pdftitle={OESCRの理論・実装と数値検証},pdfsubject={低圧プラズマの縮約衝突放射モデルと分光逆解析}}
+\renewcommand{\contentsname}{目次}
+\renewcommand{\figurename}{図}
+\renewcommand{\tablename}{表}
+\renewcommand{\refname}{参考文献}
+\renewcommand{\abstractname}{要旨}
+\numberwithin{equation}{section}
+\setlength{\parskip}{3pt}
+\setlength{\parindent}{1em}
+\setlength{\tabcolsep}{5pt}
+\renewcommand{\arraystretch}{1.25}
+\linespread{1.13}
+\emergencystretch=1em
+\makeatletter
+\setlength{\@fptop}{0pt}
+\makeatother
+\captionsetup{font=small,labelfont=bf,labelsep=quad}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small OESCR：理論・実装と数値検証}
+\fancyhead[R]{\small 2026-10-27 実装記述}
+\fancyfoot[C]{\thepage}
+\setlength{\headheight}{15pt}
+\newcolumntype{Y}{>{\raggedright\arraybackslash}X}
+\newcommand{\code}[1]{\texttt{#1}}
+\newcommand{\unit}[1]{\,\mathrm{#1}}
+\newcommand{\nelec}{n_{\mathrm e}}
+\newcommand{\Te}{T_{\mathrm e}}
+\newcommand{\fe}{f_E}
+\newcommand{\Aeff}{A^{\mathrm{eff}}}
+\newcommand{\figfile}[1]{../figures/#1}
+\title{\LARGE 低圧プラズマ発光分光のための\\縮約衝突放射・観測モデル OESCR\\[6pt]\large 理論的背景、実装方程式、逆解析および再現ベンチマーク}
+\author{}
+\date{2026年10月27日版}
+\begin{document}
+\maketitle
+\begin{abstract}
+低圧・非平衡プラズマの発光強度は、観測対象の粒子密度に加え、電子エネルギー分布、準安定状態からの段階励起、放射分岐、衝突消光、光学系の応答に依存する。このため、線強度を直接プラズマ状態へ読み替えるには、励起動力学と観測過程を明示したモデルが必要である。本稿では、研究用PythonコードOESCRの保存した実装スナップショットを対象に、エネルギー分布からの速度係数積分、定常線形の縮約衝突放射方程式、視線積分、装置応答および重み付き逆解析を一つの測定方程式として記述する。物理項の追加・置換、複数ガスの合成、測定共分散と局所識別可能性の扱いを実装に対応づける。再実行した生成データの検証では、Ar/O$_2$の共有温度・密度を良好に回復する一方、Ar/Cl$_2$では小さいスペクトル残差と密度の回復誤差が併存する。六励起kernelのAr例は、五kernelによる温度推定と別上準位の予測確認を通して、広帯域の入力から推定までの処理を確認する。これらは数値的一貫性の検証であり、独立実測に対する温度・密度精度の検証ではない。OESCRの有用性は、仮定を変更した際のスペクトルへの影響を追跡し、与えられた観測がどの状態量を制約できるかを検討できる点にある。
+\end{abstract}
+\noindent\textbf{キーワード：} 発光分光、低温プラズマ、衝突放射モデル、電子エネルギー分布、逆問題、識別可能性
+\clearpage
+\input{overview}
+\clearpage
+{\small\linespread{0.97}\selectfont\setlength{\parskip}{0pt}\tableofcontents}
+\clearpage
+\input{background}
+\input{kinetics}
+\input{observation}
+\input{inverse}
+\input{extensions}
+\clearpage
+\input{benchmarks}
+\input{discussion}
+\clearpage
+\appendix
+\input{appendix}
+\clearpage
+\phantomsection
+\addcontentsline{toc}{section}{参考文献}
+\input{references}
+\end{document}

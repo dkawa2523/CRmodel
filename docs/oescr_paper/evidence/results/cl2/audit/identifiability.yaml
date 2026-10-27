@@ -1,0 +1,264 @@
+singular_values:
+- 3.8678536821314986
+- 2.3284277424259767
+- 1.4280467722380115
+- 0.8477013783733457
+- 0.3000882884754156
+- 0.11826188319057938
+singular_directions:
+- index: 0
+  singular_value: 3.8678536821314986
+  relative_strength: 1.0
+  identifiable: true
+  dominant_parameters:
+  - name: Cl1
+    coefficient: 0.7777626218550672
+  - name: Cl2
+    coefficient: 0.5009727741946877
+  - name: Cl0
+    coefficient: 0.3056886057870888
+  - name: Cl2e1
+    coefficient: 0.17818864920827734
+  - name: Cl2e2
+    coefficient: 0.11457585033362741
+- index: 1
+  singular_value: 2.3284277424259767
+  relative_strength: 0.6019947841312409
+  identifiable: true
+  dominant_parameters:
+  - name: Cl2e1
+    coefficient: -0.7619338494001715
+  - name: Cl2e2
+    coefficient: -0.4680390619905903
+  - name: Cl2e0
+    coefficient: -0.3871873391421985
+  - name: Cl1
+    coefficient: 0.18108662854583085
+  - name: Cl2
+    coefficient: 0.11593082665731985
+- index: 2
+  singular_value: 1.4280467722380115
+  relative_strength: 0.3692090987917213
+  identifiable: true
+  dominant_parameters:
+  - name: Cl0
+    coefficient: 0.921859235809862
+  - name: Cl1
+    coefficient: -0.26976480217246673
+  - name: Cl2e0
+    coefficient: 0.221137491104088
+  - name: Cl2
+    coefficient: -0.13484179081920025
+  - name: Cl2e1
+    coefficient: -0.09291830284808557
+- index: 3
+  singular_value: 0.8477013783733457
+  relative_strength: 0.21916583408765195
+  identifiable: true
+  dominant_parameters:
+  - name: Cl2e0
+    coefficient: -0.8851577486305826
+  - name: Cl2e1
+    coefficient: 0.3846186452833069
+  - name: Cl0
+    coefficient: 0.22647877380186598
+  - name: Cl2e2
+    coefficient: 0.0971538599028049
+  - name: Cl1
+    coefficient: -0.07832883825903447
+- index: 4
+  singular_value: 0.3000882884754156
+  relative_strength: 0.07758522248702096
+  identifiable: true
+  dominant_parameters:
+  - name: Cl2
+    coefficient: -0.829259069127285
+  - name: Cl1
+    coefficient: 0.5241149052434273
+  - name: Cl2e2
+    coefficient: -0.16675127331418185
+  - name: Cl2e1
+    coefficient: 0.09239455038755134
+  - name: Cl0
+    coefficient: 0.028821719011902433
+- index: 5
+  singular_value: 0.11826188319057938
+  relative_strength: 0.030575583491412626
+  identifiable: true
+  dominant_parameters:
+  - name: Cl2e2
+    coefficient: 0.8537460746567331
+  - name: Cl2e1
+    coefficient: -0.4718088046937161
+  - name: Cl2
+    coefficient: -0.1674397423110721
+  - name: Cl2e0
+    coefficient: -0.10692597447391597
+  - name: Cl1
+    coefficient: 0.09320969753491097
+parameter_column_norms:
+  Cl0: 1.7863409303171471
+  Cl1: 3.0667836313946317
+  Cl2: 1.981949549602323
+  Cl2e0: 1.2499203769298997
+  Cl2e1: 1.9365583926198333
+  Cl2e2: 1.1861546221266213
+inactive_parameters: []
+condition_number: 32.705835369613055
+rank_estimate: 6
+rank_threshold: 3.8678536821314985e-08
+n_observations: 1296
+n_parameters: 6
+target_parameter_names:
+- Cl0
+- Cl1
+- Cl2
+- Cl2e0
+- Cl2e1
+- Cl2e2
+nuisance_parameter_names: []
+projected_target:
+  singular_values:
+  - 3.8678536821314986
+  - 2.3284277424259767
+  - 1.4280467722380115
+  - 0.8477013783733457
+  - 0.3000882884754156
+  - 0.11826188319057938
+  singular_directions:
+  - index: 0
+    singular_value: 3.8678536821314986
+    relative_strength: 1.0
+    identifiable: true
+    dominant_parameters:
+    - name: Cl1
+      coefficient: 0.7777626218550672
+    - name: Cl2
+      coefficient: 0.5009727741946877
+    - name: Cl0
+      coefficient: 0.3056886057870888
+    - name: Cl2e1
+      coefficient: 0.17818864920827734
+    - name: Cl2e2
+      coefficient: 0.11457585033362741
+  - index: 1
+    singular_value: 2.3284277424259767
+    relative_strength: 0.6019947841312409
+    identifiable: true
+    dominant_parameters:
+    - name: Cl2e1
+      coefficient: -0.7619338494001715
+    - name: Cl2e2
+      coefficient: -0.4680390619905903
+    - name: Cl2e0
+      coefficient: -0.3871873391421985
+    - name: Cl1
+      coefficient: 0.18108662854583085
+    - name: Cl2
+      coefficient: 0.11593082665731985
+  - index: 2
+    singular_value: 1.4280467722380115
+    relative_strength: 0.3692090987917213
+    identifiable: true
+    dominant_parameters:
+    - name: Cl0
+      coefficient: 0.921859235809862
+    - name: Cl1
+      coefficient: -0.26976480217246673
+    - name: Cl2e0
+      coefficient: 0.221137491104088
+    - name: Cl2
+      coefficient: -0.13484179081920025
+    - name: Cl2e1
+      coefficient: -0.09291830284808557
+  - index: 3
+    singular_value: 0.8477013783733457
+    relative_strength: 0.21916583408765195
+    identifiable: true
+    dominant_parameters:
+    - name: Cl2e0
+      coefficient: -0.8851577486305826
+    - name: Cl2e1
+      coefficient: 0.3846186452833069
+    - name: Cl0
+      coefficient: 0.22647877380186598
+    - name: Cl2e2
+      coefficient: 0.0971538599028049
+    - name: Cl1
+      coefficient: -0.07832883825903447
+  - index: 4
+    singular_value: 0.3000882884754156
+    relative_strength: 0.07758522248702096
+    identifiable: true
+    dominant_parameters:
+    - name: Cl2
+      coefficient: -0.829259069127285
+    - name: Cl1
+      coefficient: 0.5241149052434273
+    - name: Cl2e2
+      coefficient: -0.16675127331418185
+    - name: Cl2e1
+      coefficient: 0.09239455038755134
+    - name: Cl0
+      coefficient: 0.028821719011902433
+  - index: 5
+    singular_value: 0.11826188319057938
+    relative_strength: 0.030575583491412626
+    identifiable: true
+    dominant_parameters:
+    - name: Cl2e2
+      coefficient: 0.8537460746567331
+    - name: Cl2e1
+      coefficient: -0.4718088046937161
+    - name: Cl2
+      coefficient: -0.1674397423110721
+    - name: Cl2e0
+      coefficient: -0.10692597447391597
+    - name: Cl1
+      coefficient: 0.09320969753491097
+  parameter_column_norms:
+    Cl0: 1.7863409303171471
+    Cl1: 3.0667836313946317
+    Cl2: 1.981949549602323
+    Cl2e0: 1.2499203769298997
+    Cl2e1: 1.9365583926198333
+    Cl2e2: 1.1861546221266213
+  inactive_parameters: []
+  condition_number: 32.705835369613055
+  rank_estimate: 6
+  rank_threshold: 3.8678536821314985e-08
+  n_observations: 1296
+  n_parameters: 6
+nuisance_projection:
+  method: identity_no_explicit_nuisance
+  rank: 0
+  rank_threshold: 0.0
+  n_columns: 0
+basis: measurement_data_only
+implicit_nuisance_handling:
+  auto_gain_offset_tilt:
+    active:
+      gain: true
+      offset: true
+      tilt: false
+    handling: profiled_inside_each_residual_evaluation
+    explicit_projection_columns_added: false
+  shared_calibration_covariance:
+    handling: prewhitened_in_measurement_residual
+    explicit_projection_columns_added: false
+selected_windows:
+  cl2_benchmark_scan:
+  - Cl2_band_306
+  - ArII_480_602
+  - ClII_481_986
+  - ArI_750_387
+  - ClI_822_200_interference
+  - XeI_828_012
+declared_windows:
+  cl2_benchmark_scan:
+  - Cl2_band_306
+  - ArII_480_602
+  - ClII_481_986
+  - ArI_750_387
+  - ClI_822_200_interference
+  - XeI_828_012

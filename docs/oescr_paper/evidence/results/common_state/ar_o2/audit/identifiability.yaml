@@ -1,0 +1,104 @@
+singular_values:
+- 339.5670550743857
+- 21.816115869830522
+singular_directions:
+- index: 0
+  singular_value: 339.5670550743857
+  relative_strength: 1.0
+  identifiable: true
+  dominant_parameters:
+  - name: electron_density_m3
+    coefficient: 0.899273235970297
+  - name: electron_temperature_eV
+    coefficient: 0.437387296417615
+- index: 1
+  singular_value: 21.816115869830522
+  relative_strength: 0.0642468565304472
+  identifiable: true
+  dominant_parameters:
+  - name: electron_temperature_eV
+    coefficient: 0.899273235970297
+  - name: electron_density_m3
+    coefficient: -0.437387296417615
+parameter_column_norms:
+  electron_temperature_eV: 149.8124487284705
+  electron_density_m3: 305.51261513972906
+inactive_parameters: []
+condition_number: 15.56496385976628
+rank_estimate: 2
+rank_threshold: 3.3956705507438568e-06
+n_observations: 54
+n_parameters: 2
+target_parameter_names:
+- electron_temperature_eV
+- electron_density_m3
+nuisance_parameter_names: []
+projected_target:
+  singular_values:
+  - 339.5670550743857
+  - 21.816115869830522
+  singular_directions:
+  - index: 0
+    singular_value: 339.5670550743857
+    relative_strength: 1.0
+    identifiable: true
+    dominant_parameters:
+    - name: electron_density_m3
+      coefficient: 0.899273235970297
+    - name: electron_temperature_eV
+      coefficient: 0.437387296417615
+  - index: 1
+    singular_value: 21.816115869830522
+    relative_strength: 0.0642468565304472
+    identifiable: true
+    dominant_parameters:
+    - name: electron_temperature_eV
+      coefficient: 0.899273235970297
+    - name: electron_density_m3
+      coefficient: -0.437387296417615
+  parameter_column_norms:
+    electron_temperature_eV: 149.8124487284705
+    electron_density_m3: 305.51261513972906
+  inactive_parameters: []
+  condition_number: 15.56496385976628
+  rank_estimate: 2
+  rank_threshold: 3.3956705507438568e-06
+  n_observations: 54
+  n_parameters: 2
+nuisance_projection:
+  method: identity_no_explicit_nuisance
+  rank: 0
+  rank_threshold: 0.0
+  n_columns: 0
+basis: measurement_data_only
+implicit_nuisance_handling:
+  auto_gain_offset_tilt:
+    active:
+      gain: false
+      offset: false
+      tilt: false
+    handling: profiled_inside_each_residual_evaluation
+    explicit_projection_columns_added: false
+  shared_calibration_covariance:
+    handling: prewhitened_in_measurement_residual
+    explicit_projection_columns_added: false
+selected_windows:
+  ar750:
+  - ar750_fit
+  ar763:
+  - ar763_fit
+  ar800: []
+  ar922: []
+  o777:
+  - o777_fit
+declared_windows:
+  ar750:
+  - ar750_fit
+  ar763:
+  - ar763_fit
+  ar800:
+  - ar800_score
+  ar922:
+  - ar922_score
+  o777:
+  - o777_fit

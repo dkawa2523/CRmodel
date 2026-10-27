@@ -1,0 +1,725 @@
+{
+  "analytic": [
+    {
+      "quantity": "atomic_line_emissivity_W_m3_sr",
+      "analytic": 190.82371005089456,
+      "computed": 190.82371005089453,
+      "relative_error": 1.1102230246251565e-16
+    },
+    {
+      "quantity": "band_emissivity_W_m3_sr",
+      "analytic": 1373.9307123664407,
+      "computed": 1373.9317034500982,
+      "relative_error": 7.213490815782819e-07
+    },
+    {
+      "quantity": "combined_emissivity_W_m3_sr",
+      "analytic": 1564.7544224173353,
+      "computed": 1564.7554135009927,
+      "relative_error": 6.333796813695614e-07
+    },
+    {
+      "quantity": "central_chord_combined_radiance_W_m2_sr",
+      "analytic": 312.95088448346706,
+      "computed": 312.9510827001829,
+      "relative_error": 6.333796314095252e-07
+    }
+  ],
+  "two_band": [
+    {
+      "mode": "ratio",
+      "parameter": "target_density_m3",
+      "truth": 2e+18,
+      "estimated": 1.9999999996773642e+18,
+      "relative_error": 1.6131784796868942e-10,
+      "cost": 1.3023986796287957e-20,
+      "optimizer_success": true,
+      "measurement_rank": 1,
+      "measurement_observations": 1
+    },
+    {
+      "mode": "actinometry",
+      "parameter": "target_density_m3",
+      "truth": 2e+18,
+      "estimated": 1.9999999996773642e+18,
+      "relative_error": 1.6131784796868942e-10,
+      "cost": 1.3023986796287957e-20,
+      "optimizer_success": true,
+      "measurement_rank": 1,
+      "measurement_observations": 1
+    },
+    {
+      "mode": "absolute",
+      "parameter": "electron_density_m3",
+      "truth": 3e+16,
+      "estimated": 3.000000000000099e+16,
+      "relative_error": 3.3084646133829665e-14,
+      "cost": 1.213294083752858e-22,
+      "optimizer_success": true,
+      "measurement_rank": 1,
+      "measurement_observations": 10
+    }
+  ],
+  "common_state": [
+    {
+      "case": "ar_o2",
+      "parameter": "electron_temperature_eV",
+      "truth": 3.5,
+      "initial": 2.8,
+      "estimated": 3.5059561854774923,
+      "relative_error": 0.001701767279283617,
+      "condition_number": 15.56496385976628,
+      "rank": 2,
+      "runner_status": "pass"
+    },
+    {
+      "case": "ar_o2",
+      "parameter": "electron_density_m3",
+      "truth": 2e+16,
+      "initial": 3e+16,
+      "estimated": 1.9683195154996816e+16,
+      "relative_error": 0.01584024225015923,
+      "condition_number": 15.56496385976628,
+      "rank": 2,
+      "runner_status": "pass"
+    },
+    {
+      "case": "ar_cl2",
+      "parameter": "electron_temperature_eV",
+      "truth": 4.0,
+      "initial": 3.2,
+      "estimated": 3.7407261379411567,
+      "relative_error": 0.06481846551471082,
+      "condition_number": 220.19474101150965,
+      "rank": 2,
+      "runner_status": "fail"
+    },
+    {
+      "case": "ar_cl2",
+      "parameter": "electron_density_m3",
+      "truth": 1.6e+16,
+      "initial": 2.4e+16,
+      "estimated": 2.079018258361636e+16,
+      "relative_error": 0.2993864114760225,
+      "condition_number": 220.19474101150965,
+      "rank": 2,
+      "runner_status": "fail"
+    }
+  ],
+  "ar_six_kernel": {
+    "benchmark": "ar_six_kernel_candidate",
+    "truth_te_eV": 4.0,
+    "initial_te_eV": 2.5,
+    "estimated_te_eV": 3.98326445772494,
+    "relative_te_error": 0.004183885568765033,
+    "score_standardized_rmse": 0.5124193394424207,
+    "score_metrics": {
+      "all": {
+        "standardized_rmse": 0.5124193394424207,
+        "pixel_count": 234
+      },
+      "distinct_kernel_holdout": {
+        "standardized_rmse": 0.44576214740129566,
+        "pixel_count": 90
+      },
+      "branch_holdout": {
+        "standardized_rmse": 0.5499928490865604,
+        "pixel_count": 144
+      }
+    },
+    "measurement_count": 6,
+    "model_ready_package_count": 6,
+    "spectral_channel_count": 2,
+    "fit_distinct_kernel_count": 5,
+    "heldout_distinct_kernel_count": 1,
+    "fit_kernel_ids": [
+      "Ar_ground_2p1",
+      "Ar_ground_2p6",
+      "Ar_ground_2p7",
+      "Ar_ground_2p8",
+      "Ar_ground_2p9"
+    ],
+    "heldout_distinct_kernel_ids": [
+      "Ar_ground_2p10"
+    ],
+    "kernel_log_sensitivity_span_at_truth": 1.1551196033231292,
+    "software_recovery_pass": true,
+    "optimizer_success": true,
+    "cost": 26.206003521902225,
+    "identifiability": {
+      "singular_values": [
+        122.62841022071952
+      ],
+      "singular_directions": [
+        {
+          "index": 0,
+          "singular_value": 122.62841022071952,
+          "relative_strength": 1.0,
+          "identifiable": true,
+          "dominant_parameters": [
+            {
+              "name": "electron_temperature_eV",
+              "coefficient": 1.0
+            }
+          ]
+        }
+      ],
+      "parameter_column_norms": {
+        "electron_temperature_eV": 122.62841022071953
+      },
+      "inactive_parameters": [],
+      "condition_number": 1.0,
+      "rank_estimate": 1,
+      "rank_threshold": 1.2262841022071952e-06,
+      "n_observations": 204,
+      "n_parameters": 1,
+      "target_parameter_names": [
+        "electron_temperature_eV"
+      ],
+      "nuisance_parameter_names": [],
+      "projected_target": {
+        "singular_values": [
+          122.62841022071952
+        ],
+        "singular_directions": [
+          {
+            "index": 0,
+            "singular_value": 122.62841022071952,
+            "relative_strength": 1.0,
+            "identifiable": true,
+            "dominant_parameters": [
+              {
+                "name": "electron_temperature_eV",
+                "coefficient": 1.0
+              }
+            ]
+          }
+        ],
+        "parameter_column_norms": {
+          "electron_temperature_eV": 122.62841022071953
+        },
+        "inactive_parameters": [],
+        "condition_number": 1.0,
+        "rank_estimate": 1,
+        "rank_threshold": 1.2262841022071952e-06,
+        "n_observations": 204,
+        "n_parameters": 1
+      },
+      "nuisance_projection": {
+        "method": "identity_no_explicit_nuisance",
+        "rank": 0,
+        "rank_threshold": 0.0,
+        "n_columns": 0
+      },
+      "basis": "measurement_data_only",
+      "implicit_nuisance_handling": {
+        "auto_gain_offset_tilt": {
+          "active": {
+            "gain": true,
+            "offset": false,
+            "tilt": false
+          },
+          "handling": "profiled_inside_each_residual_evaluation",
+          "explicit_projection_columns_added": false
+        },
+        "shared_calibration_covariance": {
+          "handling": "prewhitened_in_measurement_residual",
+          "explicit_projection_columns_added": false
+        }
+      },
+      "selected_windows": {
+        "nir_840_1050": [
+          "Ar_2p7_866",
+          "Ar_2p6_922",
+          "Ar_2p8_978"
+        ],
+        "vis_650_850": [
+          "Ar_2p1_667",
+          "Ar_2p6_763",
+          "Ar_2p7_772",
+          "Ar_2p8_801",
+          "Ar_2p9_811"
+        ]
+      },
+      "declared_windows": {
+        "nir_840_1050": [
+          "Ar_2p8_842",
+          "Ar_2p7_866",
+          "Ar_2p10_912",
+          "Ar_2p6_922",
+          "Ar_2p7_935",
+          "Ar_2p10_965",
+          "Ar_2p8_978",
+          "Ar_2p10_1047"
+        ],
+        "vis_650_850": [
+          "Ar_2p1_667",
+          "Ar_2p1_750",
+          "Ar_2p6_763",
+          "Ar_2p7_772",
+          "Ar_2p6_800",
+          "Ar_2p8_801",
+          "Ar_2p7_810",
+          "Ar_2p9_811",
+          "Ar_2p8_842"
+        ]
+      }
+    },
+    "parameter_profiles": {
+      "kind": "local_conditional_measurement_objective",
+      "basis": "measurement_data_only",
+      "objective": "sum(whitened_measurement_residual**2)",
+      "constraints_included": false,
+      "other_parameters": "reoptimized_with_bounds",
+      "global_search_per_grid_point": false,
+      "reference": {
+        "success": true,
+        "message": "`xtol` termination condition is satisfied.",
+        "nfev": 3,
+        "active_bounds": [],
+        "measurement_sum_squares": 52.41200704380445,
+        "source": "measurement_only_all_free",
+        "refinement_count": 0,
+        "parameters": {
+          "electron_temperature_eV": 3.98326445772494
+        }
+      },
+      "profiles": {
+        "electron_temperature_eV": {
+          "role": "target",
+          "scale": "linear",
+          "configured_range": [
+            1.5,
+            7.0
+          ],
+          "effective_range": [
+            1.5,
+            7.0
+          ],
+          "reference_value": 3.98326445772494,
+          "reference_inside_configured_range": true,
+          "requested_points": 13,
+          "points": [
+            {
+              "value": 1.5,
+              "opt_value": 1.5,
+              "point_source": "configured_grid",
+              "is_reference": false,
+              "measurement_sum_squares": 219698.53739786716,
+              "success": true,
+              "message": "No remaining parameters to re-optimize.",
+              "nfev": 1,
+              "conditional_parameters": {
+                "electron_temperature_eV": 1.5
+              },
+              "active_bounds": [
+                {
+                  "name": "electron_temperature_eV",
+                  "side": "lower"
+                }
+              ],
+              "conditional_active_bounds": [],
+              "profile_value_at_bound": true,
+              "delta_measurement_sum_squares": 219646.12539082335
+            },
+            {
+              "value": 1.9583333333333333,
+              "opt_value": 1.9583333333333333,
+              "point_source": "configured_grid",
+              "is_reference": false,
+              "measurement_sum_squares": 122546.10893268281,
+              "success": true,
+              "message": "No remaining parameters to re-optimize.",
+              "nfev": 1,
+              "conditional_parameters": {
+                "electron_temperature_eV": 1.9583333333333333
+              },
+              "active_bounds": [],
+              "conditional_active_bounds": [],
+              "profile_value_at_bound": false,
+              "delta_measurement_sum_squares": 122493.696925639
+            },
+            {
+              "value": 2.4166666666666665,
+              "opt_value": 2.4166666666666665,
+              "point_source": "configured_grid",
+              "is_reference": false,
+              "measurement_sum_squares": 61983.42063109957,
+              "success": true,
+              "message": "No remaining parameters to re-optimize.",
+              "nfev": 1,
+              "conditional_parameters": {
+                "electron_temperature_eV": 2.4166666666666665
+              },
+              "active_bounds": [],
+              "conditional_active_bounds": [],
+              "profile_value_at_bound": false,
+              "delta_measurement_sum_squares": 61931.008624055765
+            },
+            {
+              "value": 2.875,
+              "opt_value": 2.875,
+              "point_source": "configured_grid",
+              "is_reference": false,
+              "measurement_sum_squares": 26429.265155641042,
+              "success": true,
+              "message": "No remaining parameters to re-optimize.",
+              "nfev": 1,
+              "conditional_parameters": {
+                "electron_temperature_eV": 2.875
+              },
+              "active_bounds": [],
+              "conditional_active_bounds": [],
+              "profile_value_at_bound": false,
+              "delta_measurement_sum_squares": 26376.853148597238
+            },
+            {
+              "value": 3.333333333333333,
+              "opt_value": 3.333333333333333,
+              "point_source": "configured_grid",
+              "is_reference": false,
+              "measurement_sum_squares": 7831.394437539605,
+              "success": true,
+              "message": "No remaining parameters to re-optimize.",
+              "nfev": 1,
+              "conditional_parameters": {
+                "electron_temperature_eV": 3.333333333333333
+              },
+              "active_bounds": [],
+              "conditional_active_bounds": [],
+              "profile_value_at_bound": false,
+              "delta_measurement_sum_squares": 7778.9824304958
+            },
+            {
+              "value": 3.7916666666666665,
+              "opt_value": 3.7916666666666665,
+              "point_source": "configured_grid",
+              "is_reference": false,
+              "measurement_sum_squares": 636.518252097197,
+              "success": true,
+              "message": "No remaining parameters to re-optimize.",
+              "nfev": 1,
+              "conditional_parameters": {
+                "electron_temperature_eV": 3.7916666666666665
+              },
+              "active_bounds": [],
+              "conditional_active_bounds": [],
+              "profile_value_at_bound": false,
+              "delta_measurement_sum_squares": 584.1062450533925
+            },
+            {
+              "value": 3.98326445772494,
+              "opt_value": 3.98326445772494,
+              "point_source": "inserted_reference",
+              "is_reference": true,
+              "measurement_sum_squares": 52.41200704380445,
+              "success": true,
+              "message": "No remaining parameters to re-optimize.",
+              "nfev": 1,
+              "conditional_parameters": {
+                "electron_temperature_eV": 3.98326445772494
+              },
+              "active_bounds": [],
+              "conditional_active_bounds": [],
+              "profile_value_at_bound": false,
+              "delta_measurement_sum_squares": 0.0
+            },
+            {
+              "value": 4.25,
+              "opt_value": 4.25,
+              "point_source": "configured_grid",
+              "is_reference": false,
+              "measurement_sum_squares": 1037.6454894524825,
+              "success": true,
+              "message": "No remaining parameters to re-optimize.",
+              "nfev": 1,
+              "conditional_parameters": {
+                "electron_temperature_eV": 4.25
+              },
+              "active_bounds": [],
+              "conditional_active_bounds": [],
+              "profile_value_at_bound": false,
+              "delta_measurement_sum_squares": 985.233482408678
+            },
+            {
+              "value": 4.708333333333333,
+              "opt_value": 4.708333333333333,
+              "point_source": "configured_grid",
+              "is_reference": false,
+              "measurement_sum_squares": 6431.545818587216,
+              "success": true,
+              "message": "No remaining parameters to re-optimize.",
+              "nfev": 1,
+              "conditional_parameters": {
+                "electron_temperature_eV": 4.708333333333333
+              },
+              "active_bounds": [],
+              "conditional_active_bounds": [],
+              "profile_value_at_bound": false,
+              "delta_measurement_sum_squares": 6379.133811543411
+            },
+            {
+              "value": 5.166666666666666,
+              "opt_value": 5.166666666666666,
+              "point_source": "configured_grid",
+              "is_reference": false,
+              "measurement_sum_squares": 15036.90456351682,
+              "success": true,
+              "message": "No remaining parameters to re-optimize.",
+              "nfev": 1,
+              "conditional_parameters": {
+                "electron_temperature_eV": 5.166666666666666
+              },
+              "active_bounds": [],
+              "conditional_active_bounds": [],
+              "profile_value_at_bound": false,
+              "delta_measurement_sum_squares": 14984.492556473017
+            },
+            {
+              "value": 5.625,
+              "opt_value": 5.625,
+              "point_source": "configured_grid",
+              "is_reference": false,
+              "measurement_sum_squares": 25631.859173099652,
+              "success": true,
+              "message": "No remaining parameters to re-optimize.",
+              "nfev": 1,
+              "conditional_parameters": {
+                "electron_temperature_eV": 5.625
+              },
+              "active_bounds": [],
+              "conditional_active_bounds": [],
+              "profile_value_at_bound": false,
+              "delta_measurement_sum_squares": 25579.44716605585
+            },
+            {
+              "value": 6.083333333333333,
+              "opt_value": 6.083333333333333,
+              "point_source": "configured_grid",
+              "is_reference": false,
+              "measurement_sum_squares": 37376.381271837236,
+              "success": true,
+              "message": "No remaining parameters to re-optimize.",
+              "nfev": 1,
+              "conditional_parameters": {
+                "electron_temperature_eV": 6.083333333333333
+              },
+              "active_bounds": [],
+              "conditional_active_bounds": [],
+              "profile_value_at_bound": false,
+              "delta_measurement_sum_squares": 37323.96926479343
+            },
+            {
+              "value": 6.541666666666666,
+              "opt_value": 6.541666666666666,
+              "point_source": "configured_grid",
+              "is_reference": false,
+              "measurement_sum_squares": 49692.802345586555,
+              "success": true,
+              "message": "No remaining parameters to re-optimize.",
+              "nfev": 1,
+              "conditional_parameters": {
+                "electron_temperature_eV": 6.541666666666666
+              },
+              "active_bounds": [],
+              "conditional_active_bounds": [],
+              "profile_value_at_bound": false,
+              "delta_measurement_sum_squares": 49640.39033854275
+            },
+            {
+              "value": 7.0,
+              "opt_value": 7.0,
+              "point_source": "configured_grid",
+              "is_reference": false,
+              "measurement_sum_squares": 62185.27088987616,
+              "success": true,
+              "message": "No remaining parameters to re-optimize.",
+              "nfev": 1,
+              "conditional_parameters": {
+                "electron_temperature_eV": 7.0
+              },
+              "active_bounds": [
+                {
+                  "name": "electron_temperature_eV",
+                  "side": "upper"
+                }
+              ],
+              "conditional_active_bounds": [],
+              "profile_value_at_bound": true,
+              "delta_measurement_sum_squares": 62132.858882832355
+            }
+          ]
+        }
+      },
+      "warnings": [],
+      "interpretation": "delta_measurement_sum_squares is descriptive. It is not a calibrated confidence interval without an independently justified Gaussian likelihood and coverage study."
+    }
+  },
+  "multichord": [
+    {
+      "case": "nf3",
+      "parameter": "te0",
+      "group": "te",
+      "shell_index": 0,
+      "truth": 2.75,
+      "estimated": 2.5864213386364727,
+      "relative_error": 0.05948314958673717,
+      "optimizer_success": true,
+      "cost": 162.68515531906658
+    },
+    {
+      "case": "nf3",
+      "parameter": "te1",
+      "group": "te",
+      "shell_index": 1,
+      "truth": 2.35,
+      "estimated": 2.2175064466983425,
+      "relative_error": 0.056380235447513805,
+      "optimizer_success": true,
+      "cost": 162.68515531906658
+    },
+    {
+      "case": "nf3",
+      "parameter": "te2",
+      "group": "te",
+      "shell_index": 2,
+      "truth": 2.0,
+      "estimated": 1.8992752755832636,
+      "relative_error": 0.050362362208368205,
+      "optimizer_success": true,
+      "cost": 162.68515531906658
+    },
+    {
+      "case": "nf3",
+      "parameter": "F0",
+      "group": "F",
+      "shell_index": 0,
+      "truth": 8e+18,
+      "estimated": 7.10044942316486e+18,
+      "relative_error": 0.11244382210439241,
+      "optimizer_success": true,
+      "cost": 162.68515531906658
+    },
+    {
+      "case": "nf3",
+      "parameter": "F1",
+      "group": "F",
+      "shell_index": 1,
+      "truth": 6e+18,
+      "estimated": 5.234276987963815e+18,
+      "relative_error": 0.1276205020060308,
+      "optimizer_success": true,
+      "cost": 162.68515531906658
+    },
+    {
+      "case": "nf3",
+      "parameter": "F2",
+      "group": "F",
+      "shell_index": 2,
+      "truth": 4.2e+18,
+      "estimated": 3.838581642383118e+18,
+      "relative_error": 0.08605198990878149,
+      "optimizer_success": true,
+      "cost": 162.68515531906658
+    },
+    {
+      "case": "nf3",
+      "parameter": "N2e0",
+      "group": "N2e",
+      "shell_index": 0,
+      "truth": 1.7e+18,
+      "estimated": 1.3067317967265114e+18,
+      "relative_error": 0.23133423721969915,
+      "optimizer_success": true,
+      "cost": 162.68515531906658
+    },
+    {
+      "case": "nf3",
+      "parameter": "N2e1",
+      "group": "N2e",
+      "shell_index": 1,
+      "truth": 1.1e+18,
+      "estimated": 8.258448609227192e+17,
+      "relative_error": 0.24923194461570974,
+      "optimizer_success": true,
+      "cost": 162.68515531906658
+    },
+    {
+      "case": "nf3",
+      "parameter": "N2e2",
+      "group": "N2e",
+      "shell_index": 2,
+      "truth": 7e+17,
+      "estimated": 6.123771481278245e+17,
+      "relative_error": 0.12517550267453637,
+      "optimizer_success": true,
+      "cost": 162.68515531906658
+    },
+    {
+      "case": "cl2",
+      "parameter": "Cl0",
+      "group": "Cl",
+      "shell_index": 0,
+      "truth": 1.8e+19,
+      "estimated": 1.4385699635996944e+19,
+      "relative_error": 0.20079446466683637,
+      "optimizer_success": true,
+      "cost": 52.65689595353534
+    },
+    {
+      "case": "cl2",
+      "parameter": "Cl1",
+      "group": "Cl",
+      "shell_index": 1,
+      "truth": 1.4e+19,
+      "estimated": 1.1447802627721546e+19,
+      "relative_error": 0.18229981230560388,
+      "optimizer_success": true,
+      "cost": 52.65689595353534
+    },
+    {
+      "case": "cl2",
+      "parameter": "Cl2",
+      "group": "Cl",
+      "shell_index": 2,
+      "truth": 9e+18,
+      "estimated": 8.045460298441609e+18,
+      "relative_error": 0.10605996683982122,
+      "optimizer_success": true,
+      "cost": 52.65689595353534
+    },
+    {
+      "case": "cl2",
+      "parameter": "Cl2e0",
+      "group": "Cl2e",
+      "shell_index": 0,
+      "truth": 9e+18,
+      "estimated": 7.456974245871786e+18,
+      "relative_error": 0.17144730601424596,
+      "optimizer_success": true,
+      "cost": 52.65689595353534
+    },
+    {
+      "case": "cl2",
+      "parameter": "Cl2e1",
+      "group": "Cl2e",
+      "shell_index": 1,
+      "truth": 7e+18,
+      "estimated": 5.880542142763325e+18,
+      "relative_error": 0.1599225510338107,
+      "optimizer_success": true,
+      "cost": 52.65689595353534
+    },
+    {
+      "case": "cl2",
+      "parameter": "Cl2e2",
+      "group": "Cl2e",
+      "shell_index": 2,
+      "truth": 4.5e+18,
+      "estimated": 4.2197393473765274e+18,
+      "relative_error": 0.062280145027438394,
+      "optimizer_success": true,
+      "cost": 52.65689595353534
+    }
+  ]
+}

@@ -1,0 +1,117 @@
+[
+  {
+    "name": "two_band_ratio",
+    "argv": [
+      "C:\\Users\\user\\Desktop\\oescr_schematized\\.venv\\Scripts\\python.exe",
+      "scripts/run_inverse.py",
+      "examples/use_cases/two_band/case_ratio_init.yaml",
+      "examples/use_cases/two_band/inverse_ratio.yaml",
+      "--out",
+      "C:\\Users\\user\\Desktop\\oescr_schematized\\.local_outputs\\paper_frozen_source_20261027_123900\\.local_outputs\\paper_benchmarks\\two_band_ratio",
+      "--audit"
+    ],
+    "started_utc": "2026-10-27T03:39:42.795785+00:00",
+    "elapsed_s": 1.0753466000314802,
+    "exit_status": 0
+  },
+  {
+    "name": "two_band_actinometry",
+    "argv": [
+      "C:\\Users\\user\\Desktop\\oescr_schematized\\.venv\\Scripts\\python.exe",
+      "scripts/run_inverse.py",
+      "examples/use_cases/two_band/case_ratio_init.yaml",
+      "examples/use_cases/two_band/inverse_actinometry.yaml",
+      "--out",
+      "C:\\Users\\user\\Desktop\\oescr_schematized\\.local_outputs\\paper_frozen_source_20261027_123900\\.local_outputs\\paper_benchmarks\\two_band_actinometry",
+      "--audit"
+    ],
+    "started_utc": "2026-10-27T03:39:43.871186+00:00",
+    "elapsed_s": 1.0245346000883728,
+    "exit_status": 0
+  },
+  {
+    "name": "two_band_absolute",
+    "argv": [
+      "C:\\Users\\user\\Desktop\\oescr_schematized\\.venv\\Scripts\\python.exe",
+      "scripts/run_inverse.py",
+      "examples/use_cases/two_band/case_absolute_init.yaml",
+      "examples/use_cases/two_band/inverse_absolute.yaml",
+      "--out",
+      "C:\\Users\\user\\Desktop\\oescr_schematized\\.local_outputs\\paper_frozen_source_20261027_123900\\.local_outputs\\paper_benchmarks\\two_band_absolute",
+      "--audit"
+    ],
+    "started_utc": "2026-10-27T03:39:44.895753+00:00",
+    "elapsed_s": 0.9607518999837339,
+    "exit_status": 0
+  },
+  {
+    "name": "ar_six_kernel",
+    "argv": [
+      "C:\\Users\\user\\Desktop\\oescr_schematized\\.venv\\Scripts\\python.exe",
+      "scripts/run_argon_six_kernel_candidate.py",
+      "--out",
+      "C:\\Users\\user\\Desktop\\oescr_schematized\\.local_outputs\\paper_frozen_source_20261027_123900\\.local_outputs\\paper_benchmarks\\ar_six_kernel"
+    ],
+    "started_utc": "2026-10-27T03:39:42.795648+00:00",
+    "elapsed_s": 3.4514168999157846,
+    "exit_status": 0
+  },
+  {
+    "name": "common_state",
+    "argv": [
+      "C:\\Users\\user\\Desktop\\oescr_schematized\\.venv\\Scripts\\python.exe",
+      "scripts/run_common_state_benchmarks.py",
+      "--out",
+      "C:\\Users\\user\\Desktop\\oescr_schematized\\.local_outputs\\paper_frozen_source_20261027_123900\\.local_outputs\\paper_benchmarks\\common_state"
+    ],
+    "started_utc": "2026-10-27T03:39:42.795496+00:00",
+    "elapsed_s": 7.747227200074121,
+    "exit_status": 1
+  },
+  {
+    "name": "focused_tests",
+    "argv": [
+      "C:\\Users\\user\\Desktop\\oescr_schematized\\.venv\\Scripts\\python.exe",
+      "-m",
+      "pytest",
+      "-q",
+      "tests/test_cr_analytic.py",
+      "tests/test_spectral_sampling.py",
+      "tests/test_model_contracts.py",
+      "tests/test_argon_six_kernel_candidate.py",
+      "tests/test_common_state_benchmarks.py",
+      "tests/test_use_case_examples.py"
+    ],
+    "started_utc": "2026-10-27T03:39:50.542766+00:00",
+    "elapsed_s": 9.840088499942794,
+    "exit_status": 0
+  },
+  {
+    "name": "cl2",
+    "argv": [
+      "C:\\Users\\user\\Desktop\\oescr_schematized\\.venv\\Scripts\\python.exe",
+      "scripts/run_project.py",
+      "examples/benchmarks/cl2_ar_icp_fuller2001/project.yaml",
+      "--out",
+      "C:\\Users\\user\\Desktop\\oescr_schematized\\.local_outputs\\paper_frozen_source_20261027_123900\\.local_outputs\\paper_benchmarks\\cl2",
+      "--audit"
+    ],
+    "started_utc": "2026-10-27T03:39:46.247098+00:00",
+    "elapsed_s": 220.8836062999908,
+    "exit_status": 0
+  },
+  {
+    "name": "nf3",
+    "argv": [
+      "C:\\Users\\user\\Desktop\\oescr_schematized\\.venv\\Scripts\\python.exe",
+      "scripts/run_project.py",
+      "examples/benchmarks/nf3_ar_ccp_clean_2023/project.yaml",
+      "--out",
+      "C:\\Users\\user\\Desktop\\oescr_schematized\\.local_outputs\\paper_frozen_source_20261027_123900\\.local_outputs\\paper_benchmarks\\nf3",
+      "--audit"
+    ],
+    "started_utc": "2026-10-27T03:39:45.856537+00:00",
+    "elapsed_s": 266.80969449994154,
+    "exit_status": 0
+  }
+]

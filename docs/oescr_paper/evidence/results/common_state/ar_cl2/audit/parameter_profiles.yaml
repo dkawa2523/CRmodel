@@ -1,0 +1,440 @@
+kind: local_conditional_measurement_objective
+basis: measurement_data_only
+objective: sum(whitened_measurement_residual**2)
+constraints_included: false
+other_parameters: reoptimized_with_bounds
+global_search_per_grid_point: false
+reference:
+  success: true
+  message: '`ftol` termination condition is satisfied.'
+  nfev: 2
+  active_bounds: []
+  measurement_sum_squares: 49.10611401758253
+  source: measurement_only_all_free
+  refinement_count: 0
+  parameters:
+    electron_temperature_eV: 3.740737755578553
+    electron_density_m3: 2.0789919170955656e+16
+profiles:
+  electron_temperature_eV:
+    role: target
+    scale: linear
+    configured_range:
+    - 1.5
+    - 7.0
+    effective_range:
+    - 1.5
+    - 7.0
+    reference_value: 3.740737755578553
+    reference_inside_configured_range: true
+    requested_points: 11
+    points:
+    - value: 1.5
+      opt_value: 1.5
+      point_source: configured_grid
+      is_reference: false
+      measurement_sum_squares: 23303.15931847253
+      success: true
+      message: '`gtol` termination condition is satisfied.'
+      nfev: 2
+      conditional_parameters:
+        electron_temperature_eV: 1.5
+        electron_density_m3: 5.999999999999954e+16
+      active_bounds:
+      - name: electron_temperature_eV
+        side: lower
+      - &id001
+        name: electron_density_m3
+        side: upper
+      conditional_active_bounds:
+      - *id001
+      profile_value_at_bound: true
+      delta_measurement_sum_squares: 23254.053204454947
+    - value: 2.05
+      opt_value: 2.05
+      point_source: configured_grid
+      is_reference: false
+      measurement_sum_squares: 18883.294599833003
+      success: true
+      message: '`gtol` termination condition is satisfied.'
+      nfev: 2
+      conditional_parameters:
+        electron_temperature_eV: 2.05
+        electron_density_m3: 5.999999999999954e+16
+      active_bounds:
+      - &id002
+        name: electron_density_m3
+        side: upper
+      conditional_active_bounds:
+      - *id002
+      profile_value_at_bound: false
+      delta_measurement_sum_squares: 18834.18848581542
+    - value: 2.6
+      opt_value: 2.6
+      point_source: configured_grid
+      is_reference: false
+      measurement_sum_squares: 6139.292621097638
+      success: true
+      message: '`gtol` termination condition is satisfied.'
+      nfev: 6
+      conditional_parameters:
+        electron_temperature_eV: 2.6
+        electron_density_m3: 5.999999999999954e+16
+      active_bounds:
+      - &id003
+        name: electron_density_m3
+        side: upper
+      conditional_active_bounds:
+      - *id003
+      profile_value_at_bound: false
+      delta_measurement_sum_squares: 6090.186507080056
+    - value: 3.1500000000000004
+      opt_value: 3.1500000000000004
+      point_source: configured_grid
+      is_reference: false
+      measurement_sum_squares: 50.772002231133705
+      success: true
+      message: Both `ftol` and `xtol` termination conditions are satisfied.
+      nfev: 7
+      conditional_parameters:
+        electron_temperature_eV: 3.1500000000000004
+        electron_density_m3: 4.450074499733516e+16
+      active_bounds: []
+      conditional_active_bounds: []
+      profile_value_at_bound: false
+      delta_measurement_sum_squares: 1.6658882135511774
+    - value: 3.7
+      opt_value: 3.7
+      point_source: configured_grid
+      is_reference: false
+      measurement_sum_squares: 49.112639807972364
+      success: true
+      message: '`ftol` termination condition is satisfied.'
+      nfev: 4
+      conditional_parameters:
+        electron_temperature_eV: 3.7
+        electron_density_m3: 2.1744859253777876e+16
+      active_bounds: []
+      conditional_active_bounds: []
+      profile_value_at_bound: false
+      delta_measurement_sum_squares: 0.006525790389837027
+    - value: 3.740737755578553
+      opt_value: 3.740737755578553
+      point_source: inserted_reference
+      is_reference: true
+      measurement_sum_squares: 49.10611401758253
+      success: true
+      message: '`xtol` termination condition is satisfied.'
+      nfev: 2
+      conditional_parameters:
+        electron_temperature_eV: 3.740737755578553
+        electron_density_m3: 2.0789919170955656e+16
+      active_bounds: []
+      conditional_active_bounds: []
+      profile_value_at_bound: false
+      delta_measurement_sum_squares: 0.0
+    - value: 4.25
+      opt_value: 4.25
+      point_source: configured_grid
+      is_reference: false
+      measurement_sum_squares: 49.968818365985214
+      success: true
+      message: Both `ftol` and `xtol` termination conditions are satisfied.
+      nfev: 7
+      conditional_parameters:
+        electron_temperature_eV: 4.25
+        electron_density_m3: 1.2729828693042764e+16
+      active_bounds: []
+      conditional_active_bounds: []
+      profile_value_at_bound: false
+      delta_measurement_sum_squares: 0.8627043484026871
+    - value: 4.800000000000001
+      opt_value: 4.800000000000001
+      point_source: configured_grid
+      is_reference: false
+      measurement_sum_squares: 52.324666523389695
+      success: true
+      message: '`xtol` termination condition is satisfied.'
+      nfev: 7
+      conditional_parameters:
+        electron_temperature_eV: 4.800000000000001
+        electron_density_m3: 8405756668883866.0
+      active_bounds: []
+      conditional_active_bounds: []
+      profile_value_at_bound: false
+      delta_measurement_sum_squares: 3.2185525058071676
+    - value: 5.3500000000000005
+      opt_value: 5.3500000000000005
+      point_source: configured_grid
+      is_reference: false
+      measurement_sum_squares: 55.60531192115939
+      success: true
+      message: '`ftol` termination condition is satisfied.'
+      nfev: 7
+      conditional_parameters:
+        electron_temperature_eV: 5.3500000000000005
+        electron_density_m3: 6039859885198618.0
+      active_bounds: []
+      conditional_active_bounds: []
+      profile_value_at_bound: false
+      delta_measurement_sum_squares: 6.499197903576864
+    - value: 5.9
+      opt_value: 5.9
+      point_source: configured_grid
+      is_reference: false
+      measurement_sum_squares: 222.76682284847735
+      success: true
+      message: '`gtol` termination condition is satisfied.'
+      nfev: 8
+      conditional_parameters:
+        electron_temperature_eV: 5.9
+        electron_density_m3: 5000000000000020.0
+      active_bounds:
+      - &id004
+        name: electron_density_m3
+        side: lower
+      conditional_active_bounds:
+      - *id004
+      profile_value_at_bound: false
+      delta_measurement_sum_squares: 173.6607088308948
+    - value: 6.45
+      opt_value: 6.45
+      point_source: configured_grid
+      is_reference: false
+      measurement_sum_squares: 3002.6726095756
+      success: true
+      message: '`gtol` termination condition is satisfied.'
+      nfev: 2
+      conditional_parameters:
+        electron_temperature_eV: 6.45
+        electron_density_m3: 5000000000000020.0
+      active_bounds:
+      - &id005
+        name: electron_density_m3
+        side: lower
+      conditional_active_bounds:
+      - *id005
+      profile_value_at_bound: false
+      delta_measurement_sum_squares: 2953.5664955580173
+    - value: 7.0
+      opt_value: 7.0
+      point_source: configured_grid
+      is_reference: false
+      measurement_sum_squares: 9433.336355089505
+      success: true
+      message: '`gtol` termination condition is satisfied.'
+      nfev: 2
+      conditional_parameters:
+        electron_temperature_eV: 7.0
+        electron_density_m3: 5000000000000020.0
+      active_bounds:
+      - name: electron_temperature_eV
+        side: upper
+      - &id006
+        name: electron_density_m3
+        side: lower
+      conditional_active_bounds:
+      - *id006
+      profile_value_at_bound: true
+      delta_measurement_sum_squares: 9384.230241071922
+  electron_density_m3:
+    role: target
+    scale: log
+    configured_range:
+    - 5000000000000000.0
+    - 6.0e+16
+    effective_range:
+    - 4999999999999999.0
+    - 6.000000000000003e+16
+    reference_value: 2.0789919170955656e+16
+    reference_inside_configured_range: true
+    requested_points: 11
+    points:
+    - value: 4999999999999999.0
+      opt_value: 15.698970004336019
+      point_source: configured_grid
+      is_reference: false
+      measurement_sum_squares: 58.183344491158856
+      success: true
+      message: '`xtol` termination condition is satisfied.'
+      nfev: 6
+      conditional_parameters:
+        electron_temperature_eV: 5.7243211997885775
+        electron_density_m3: 4999999999999999.0
+      active_bounds:
+      - name: electron_density_m3
+        side: lower
+      conditional_active_bounds: []
+      profile_value_at_bound: true
+      delta_measurement_sum_squares: 9.077230473576329
+    - value: 6410444269934066.0
+      opt_value: 15.80688812894078
+      point_source: configured_grid
+      is_reference: false
+      measurement_sum_squares: 54.904593025776656
+      success: true
+      message: '`ftol` termination condition is satisfied.'
+      nfev: 5
+      conditional_parameters:
+        electron_temperature_eV: 5.241401126128648
+        electron_density_m3: 6410444269934066.0
+      active_bounds: []
+      conditional_active_bounds: []
+      profile_value_at_bound: false
+      delta_measurement_sum_squares: 5.798479008194128
+    - value: 8218759147586135.0
+      opt_value: 15.914806253545544
+      point_source: configured_grid
+      is_reference: false
+      measurement_sum_squares: 52.503575905816355
+      success: true
+      message: Both `ftol` and `xtol` termination conditions are satisfied.
+      nfev: 5
+      conditional_parameters:
+        electron_temperature_eV: 4.833585506088567
+        electron_density_m3: 8218759147586135.0
+      active_bounds: []
+      conditional_active_bounds: []
+      profile_value_at_bound: false
+      delta_measurement_sum_squares: 3.3974618882338277
+    - value: 1.0537179496722392e+16
+      opt_value: 16.022724378150308
+      point_source: configured_grid
+      is_reference: false
+      measurement_sum_squares: 50.828941757521896
+      success: true
+      message: '`xtol` termination condition is satisfied.'
+      nfev: 5
+      conditional_parameters:
+        electron_temperature_eV: 4.484142947658895
+        electron_density_m3: 1.0537179496722392e+16
+      active_bounds: []
+      conditional_active_bounds: []
+      profile_value_at_bound: false
+      delta_measurement_sum_squares: 1.722827739939369
+    - value: 1.3509600385206158e+16
+      opt_value: 16.13064250275507
+      point_source: configured_grid
+      is_reference: false
+      measurement_sum_squares: 49.76423440553341
+      success: true
+      message: Both `ftol` and `xtol` termination conditions are satisfied.
+      nfev: 5
+      conditional_parameters:
+        electron_temperature_eV: 4.181121327919933
+        electron_density_m3: 1.3509600385206158e+16
+      active_bounds: []
+      conditional_active_bounds: []
+      profile_value_at_bound: false
+      delta_measurement_sum_squares: 0.6581203879508806
+    - value: 1.7320508075688776e+16
+      opt_value: 16.23856062735983
+      point_source: configured_grid
+      is_reference: false
+      measurement_sum_squares: 49.218575155128306
+      success: true
+      message: '`ftol` termination condition is satisfied.'
+      nfev: 4
+      conditional_parameters:
+        electron_temperature_eV: 3.9157107099143325
+        electron_density_m3: 1.7320508075688776e+16
+      active_bounds: []
+      conditional_active_bounds: []
+      profile_value_at_bound: false
+      delta_measurement_sum_squares: 0.11246113754577891
+    - value: 2.0789919170955656e+16
+      opt_value: 16.317852800842957
+      point_source: inserted_reference
+      is_reference: true
+      measurement_sum_squares: 49.10611401758253
+      success: true
+      message: '`xtol` termination condition is satisfied.'
+      nfev: 2
+      conditional_parameters:
+        electron_temperature_eV: 3.740737755578553
+        electron_density_m3: 2.0789919170955656e+16
+      active_bounds: []
+      conditional_active_bounds: []
+      profile_value_at_bound: false
+      delta_measurement_sum_squares: 0.0
+    - value: 2.2206430349229172e+16
+      opt_value: 16.346478751964593
+      point_source: configured_grid
+      is_reference: false
+      measurement_sum_squares: 49.12011755858592
+      success: true
+      message: '`xtol` termination condition is satisfied.'
+      nfev: 5
+      conditional_parameters:
+        electron_temperature_eV: 3.6812488068273588
+        electron_density_m3: 2.2206430349229172e+16
+      active_bounds: []
+      conditional_active_bounds: []
+      profile_value_at_bound: false
+      delta_measurement_sum_squares: 0.014003541003390296
+    - value: 2.847061683758122e+16
+      opt_value: 16.454396876569355
+      point_source: configured_grid
+      is_reference: false
+      measurement_sum_squares: 49.4113624013916
+      success: true
+      message: '`ftol` termination condition is satisfied.'
+      nfev: 5
+      conditional_parameters:
+        electron_temperature_eV: 3.472589196491546
+        electron_density_m3: 2.847061683758122e+16
+      active_bounds: []
+      conditional_active_bounds: []
+      profile_value_at_bound: false
+      delta_measurement_sum_squares: 0.30524838380907227
+    - value: 3.650186051359248e+16
+      opt_value: 16.56231500117412
+      point_source: configured_grid
+      is_reference: false
+      measurement_sum_squares: 50.04575757993934
+      success: true
+      message: '`ftol` termination condition is satisfied.'
+      nfev: 5
+      conditional_parameters:
+        electron_temperature_eV: 3.2856845333773745
+        electron_density_m3: 3.650186051359248e+16
+      active_bounds: []
+      conditional_active_bounds: []
+      profile_value_at_bound: false
+      delta_measurement_sum_squares: 0.9396435623568138
+    - value: 4.6798628514258296e+16
+      opt_value: 16.670233125778882
+      point_source: configured_grid
+      is_reference: false
+      measurement_sum_squares: 50.98520174068651
+      success: true
+      message: '`ftol` termination condition is satisfied.'
+      nfev: 5
+      conditional_parameters:
+        electron_temperature_eV: 3.1173026663576624
+        electron_density_m3: 4.6798628514258296e+16
+      active_bounds: []
+      conditional_active_bounds: []
+      profile_value_at_bound: false
+      delta_measurement_sum_squares: 1.8790877231039858
+    - value: 6.000000000000003e+16
+      opt_value: 16.778151250383644
+      point_source: configured_grid
+      is_reference: false
+      measurement_sum_squares: 52.19819149142766
+      success: true
+      message: '`ftol` termination condition is satisfied.'
+      nfev: 5
+      conditional_parameters:
+        electron_temperature_eV: 2.964827962982635
+        electron_density_m3: 6.000000000000003e+16
+      active_bounds:
+      - name: electron_density_m3
+        side: upper
+      conditional_active_bounds: []
+      profile_value_at_bound: true
+      delta_measurement_sum_squares: 3.09207747384513
+warnings: []
+interpretation: delta_measurement_sum_squares is descriptive. It is not a calibrated
+  confidence interval without an independently justified Gaussian likelihood and coverage
+  study.

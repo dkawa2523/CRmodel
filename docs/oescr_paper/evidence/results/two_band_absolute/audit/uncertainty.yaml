@@ -1,0 +1,7 @@
+std_opt_space:
+  electron_density_m3: 0.005186821520504826
+correlation_matrix:
+- - 1.0000000000000002
+interpretation: Local conditional curvature of the full objective, including configured
+  priors and regularization, with measurement and calibration covariance fixed; excludes
+  model discrepancy, cross-section uncertainty, and covariance hyperparameter uncertainty.

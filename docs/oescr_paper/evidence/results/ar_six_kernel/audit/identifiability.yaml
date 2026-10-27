@@ -1,0 +1,88 @@
+singular_values:
+- 122.62841022071952
+singular_directions:
+- index: 0
+  singular_value: 122.62841022071952
+  relative_strength: 1.0
+  identifiable: true
+  dominant_parameters:
+  - name: electron_temperature_eV
+    coefficient: 1.0
+parameter_column_norms:
+  electron_temperature_eV: 122.62841022071953
+inactive_parameters: []
+condition_number: 1.0
+rank_estimate: 1
+rank_threshold: 1.2262841022071952e-06
+n_observations: 204
+n_parameters: 1
+target_parameter_names:
+- electron_temperature_eV
+nuisance_parameter_names: []
+projected_target:
+  singular_values:
+  - 122.62841022071952
+  singular_directions:
+  - index: 0
+    singular_value: 122.62841022071952
+    relative_strength: 1.0
+    identifiable: true
+    dominant_parameters:
+    - name: electron_temperature_eV
+      coefficient: 1.0
+  parameter_column_norms:
+    electron_temperature_eV: 122.62841022071953
+  inactive_parameters: []
+  condition_number: 1.0
+  rank_estimate: 1
+  rank_threshold: 1.2262841022071952e-06
+  n_observations: 204
+  n_parameters: 1
+nuisance_projection:
+  method: identity_no_explicit_nuisance
+  rank: 0
+  rank_threshold: 0.0
+  n_columns: 0
+basis: measurement_data_only
+implicit_nuisance_handling:
+  auto_gain_offset_tilt:
+    active:
+      gain: true
+      offset: false
+      tilt: false
+    handling: profiled_inside_each_residual_evaluation
+    explicit_projection_columns_added: false
+  shared_calibration_covariance:
+    handling: prewhitened_in_measurement_residual
+    explicit_projection_columns_added: false
+selected_windows:
+  nir_840_1050:
+  - Ar_2p7_866
+  - Ar_2p6_922
+  - Ar_2p8_978
+  vis_650_850:
+  - Ar_2p1_667
+  - Ar_2p6_763
+  - Ar_2p7_772
+  - Ar_2p8_801
+  - Ar_2p9_811
+declared_windows:
+  nir_840_1050:
+  - Ar_2p8_842
+  - Ar_2p7_866
+  - Ar_2p10_912
+  - Ar_2p6_922
+  - Ar_2p7_935
+  - Ar_2p10_965
+  - Ar_2p8_978
+  - Ar_2p10_1047
+  vis_650_850:
+  - Ar_2p1_667
+  - Ar_2p1_750
+  - Ar_2p6_763
+  - Ar_2p7_772
+  - Ar_2p6_800
+  - Ar_2p8_801
+  - Ar_2p7_810
+  - Ar_2p9_811
+  - Ar_2p8_842

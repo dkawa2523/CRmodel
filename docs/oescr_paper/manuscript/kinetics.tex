@@ -1,0 +1,136 @@
+\section{プラズマ状態、電子衝突および準位収支}
+\subsection{既知量と未知量の分離}
+領域$z$の状態を、電子密度$\nelec(z)$、エネルギー空間の電子確率密度$\fe(E;z)$、外部供給密度$N_s(z)$、解く励起準位密度$n_i^*(z)$で表す。ガス圧力$p$とガス温度$T_g$から親ガスの密度を
+\begin{equation}
+N_{\mathrm{gas}}=\frac{p}{k_{\mathrm B}T_g},\qquad N_s=x_sN_{\mathrm{gas}}
+\label{eq:gas}
+\end{equation}
+とする。$x_s$は入力のモル分率である。ラジカル、準安定状態、残留ガスは別に指定できる。これらを加えた密度集合について、化学元素保存、電荷中性、解離反応の生成消滅を自己無撞着に解く機能はない。例えばCF$_4$/O$_2$/Arの親ガス分率からF、CF、CF$_2$、O密度が自動的に決まるわけではない。
+
+同一種の密度をガス分率とラジカル欄の両方で定義したり、未知準位を外部密度でも指定したりすると、入力を拒否する。これは辞書の更新順による密度の上書きを防ぐ。\code{solve: false}の準位は独立に与える密度として扱え、その上準位からの発光と解く下準位への放射供給にも使える。
+
+\subsection{電子エネルギー分布関数と温度の意味}
+本コードのEEDFは、速度空間分布や電子エネルギー確率関数（EEPF）そのものではなく、エネルギー空間の確率密度である。
+\begin{equation}
+\int_0^\infty \fe(E)\,dE=1,\qquad [\fe]=\mathrm{eV}^{-1},\qquad
+\langle E\rangle=\int_0^\infty E\fe(E)\,dE .
+\label{eq:pdf}
+\end{equation}
+Maxwell分布の入力$\Te$は、$k_{\mathrm B}T$をeVで表した量であり、十分な積分範囲では
+\begin{equation}
+f_{\mathrm M}(E;\Te)=\frac{2}{\sqrt\pi}\frac{\sqrt E}{\Te^{3/2}}
+\exp\!\left(-\frac{E}{\Te}\right),\qquad \langle E\rangle=\frac32\Te .
+\label{eq:maxwell}
+\end{equation}
+励起閾値より上の分布が速度係数を左右するため、平均エネルギーが同じでも、高エネルギー成分が異なれば発光は異なり得る\cite{hagelaar}。
+
+Druyvesteyn型は、実装の\code{te\_eV}を尺度$E_D$と読み替えて
+\begin{equation}
+f_{\mathrm D}(E;E_D)=\frac{2\sqrt E}{E_D^{3/2}\Gamma(3/4)}
+\exp\!\left[-\left(\frac E{E_D}\right)^2\right],\qquad
+\langle E\rangle=E_D\frac{\Gamma(5/4)}{\Gamma(3/4)}
+\label{eq:druy}
+\end{equation}
+と書ける。式\eqref{eq:druy}の係数と平均値は無限区間の解析値であり、コードは有限格子で数値的に正規化する。この$E_D$をMaxwell分布の温度と同じ数値的意味で扱ってはならない。
+
+二温度Maxwell分布は
+\begin{equation}
+f_{\mathrm{bi}}(E)=(1-\alpha)f_{\mathrm M}(E;T_c)+\alpha f_{\mathrm M}(E;T_h),
+\qquad 0\leq\alpha\leq1,\quad T_h\geq T_c>0
+\label{eq:bimax}
+\end{equation}
+である。$\alpha$は高温成分の粒子割合で、エネルギー割合ではない。高温成分の温度と割合は明示入力を要する。表形式EEDFは内部格子へ線形補間し、範囲外をゼロとして再正規化する。表形式EEDFの順解析は可能だが、任意形状の表をOESから自由に逆推定する機能は提供しない。
+
+数値計算では実際に使う格子$[E_{\min},E_{\max}]$上で各分布を再正規化する。上端付近の確率や分布振幅は監査するが、正規化値が1であることだけでは、$E_{\max}$より上の切り落とした裾が小さいことを保証できない。
+
+\subsection{電子衝突速度係数と断面積}
+反応$r$の断面積$\sigma_r(E)$とEEDFから、速度係数を
+\begin{equation}
+k_r[\fe]=\int_0^\infty \sigma_r(E)\sqrt{\frac{2eE}{m_{\mathrm e}}}\,\fe(E)\,dE,
+\qquad [k_r]=\mathrm{m^3\,s^{-1}}
+\label{eq:rate}
+\end{equation}
+で得る。$e$はeVをJへ換算する素電荷、$m_{\mathrm e}$は電子質量である。積分変数と確率密度がともにeV基準なので、積分全体に追加の$e$を掛ける必要はない。コードは断面積を共有エネルギー格子へ線形補間し、台形則で積分する。一定の速度係数や、閾値を持つ解析的な代用断面積も明示的に選べるが、代用式の採用は実験に対する適用性評価を意味しない。
+
+断面積CSVの列は\code{energy\_eV,sigma\_m2}であり、エネルギーの単調増加、有限性、断面積の非負性を検査する。実装上は表の外で断面積をゼロとする。ただし、これは未測定の高エネルギー断面積が物理的にゼロだと主張する操作ではない。上側範囲外のEEDF確率を未被覆として記録する。閾値から始まる表で、その最初の断面積がゼロかつ\code{zero\_below\_threshold}を宣言した場合のみ、閾値未満を既知のゼロ領域として区別する。
+
+断面積の出典、過程名、エネルギー範囲、SHA-256を残すため、LXCat等から抽出した入力を追跡できる\cite{lxcat}。確率の被覆率は入力の適用域を点検する量であり、$\sigma v$で重み付けされた速度係数誤差の上界ではない。電子分布の裾と励起閾値の位置を併せて確認する必要がある。
+
+\subsection{定常線形CR方程式の組立て}
+解く準位$i$への外部供給を$S_i$、追跡する準位$j$から$i$への一次移行頻度を$\nu_{j\to i}$、追跡外への損失を$\nu_{i\to\mathrm{out}}$とする。
+\begin{equation}
+\frac{dn_i^*}{dt}=S_i+\sum_{j\ne i}\nu_{j\to i}n_j^*
+-\left(\sum_{j\ne i}\nu_{i\to j}+\nu_{i\to\mathrm{out}}\right)n_i^* .
+\label{eq:balance}
+\end{equation}
+電子分布と衝突相手密度を固定すれば、すべての$\nu$は既知のs$^{-1}$である。定常化により
+\begin{equation}
+M\boldsymbol n^*=\boldsymbol b,\qquad
+M_{ii}=\sum_{j\ne i}\nu_{i\to j}+\nu_{i\to\mathrm{out}},\qquad
+M_{ij}=-\nu_{j\to i}\ (i\ne j),\qquad b_i=S_i
+\label{eq:matrix}
+\end{equation}
+を解く。外部密度$N_s$からの供給は$S_i\mathrel{+}=\nu_{s\to i}N_s$として右辺へ入る。未知準位を出発点とする過程は、対角の損失と、追跡する到達準位への非対角供給を同時に加える。各過程の行列寄与と生成・損失収支を同じ記録から構築するため、特定の項が結果を支配する理由を追跡できる。
+
+\begin{table}[htbp]
+\centering\small
+\begin{tabularx}{\linewidth}{p{31mm}p{38mm}p{24mm}Y}
+\toprule
+過程 & 有効移行頻度$\nu$ & 係数の単位 & 代表的用途 \\
+\midrule
+電子衝突 & $\nelec k_e[\fe]$ & m$^3$ s$^{-1}$ & 基底・準安定からの励起、宣言した準位移行 \\
+一次過程 & $k_1$ & s$^{-1}$ & 非放射損失、指定した一次移行 \\
+二体過程 & $k_2N_M$ & m$^3$ s$^{-1}$ & 中性粒子による消光 \\
+三体過程 & $k_3N_MN_N$ & m$^6$ s$^{-1}$ & 外部衝突相手を伴う有効移行・損失 \\
+放射過程 & $\Aeff_{u\ell}$ & s$^{-1}$ & 放射損失、追跡下準位へのcascade \\
+壁損失 & $\nu_{w,i}$ & s$^{-1}$ & 指定した準位の有効境界損失 \\
+\bottomrule
+\end{tabularx}
+\caption{線形性を保つ物理項。二体・三体過程の衝突相手は外部密度でなければならない。未知準位を衝突相手にすると未知数の積が現れるため、その入力は拒否される。}
+\label{tab:terms}
+\end{table}
+
+\subsection{二準位の例：式とコードの対応}
+外部基底粒子から準位1、2へ$S_1,S_2$が供給され、準位2から1へ放射cascade $A_{21}$があるとする。$D_i$を各準位の全損失頻度とすると
+\begin{equation}
+\begin{pmatrix}D_1&-A_{21}\\0&D_2\end{pmatrix}
+\begin{pmatrix}n_1^*\\n_2^*\end{pmatrix}
+=\begin{pmatrix}S_1\\S_2\end{pmatrix},\qquad
+n_2^*=\frac{S_2}{D_2},\quad
+n_1^*=\frac{S_1+A_{21}S_2/D_2}{D_1}.
+\label{eq:twolevel}
+\end{equation}
+$D_2$には$A_{21}$自体も含む。消光を加えれば該当する$D_i$が増え、cascadeの除外は上準位の損失と下準位の供給の双方を変える。単一準位の場合は
+\begin{equation}
+n_u^*=\frac{\nelec N_s k_{s\to u}}
+{\sum_\ell\Aeff_{u\ell}+\sum_M k_{q,uM}N_M+\nu_{w,u}+\nu_{\mathrm{other},u}}
+\label{eq:single}
+\end{equation}
+となり、密度と温度以外の入力が発光へどう入るかを明瞭に読める。
+
+定常近似が成立するには、採用した励起系の緩和時間が、関連する電子状態や供給密度の変動時間より十分短い必要がある。時間平均した入力の定常解と、時間依存解の平均は一般には一致しない。単独準位なら概ね$D_u^{-1}$、結合系なら行列の緩和固有モードを目安にできるが、現行コードは時間発展やこの時間尺度の自動検証を行わない。RF位相、パルス立上り、消灯後の過渡を直接解くモデルとは区別する。
+
+\subsection{放射捕獲、分岐、壁損失}
+放射捕獲は、指定した光学的厚さ$\tau$に対する簡略slab脱出係数で表す。
+\begin{equation}
+\beta(\tau)=\frac{1-\exp(-\tau)}{\tau},\qquad \beta(0)=1,\qquad
+\Aeff_{u\ell}=\beta_{u\ell}A_{u\ell}.
+\label{eq:escape}
+\end{equation}
+脱出係数を直接指定する場合も$0\leq\beta\leq1$を要する。この$\Aeff$を収支と発光の双方に使用する。$\tau$は入力であり、吸収準位密度や線形状から自己無撞着に導出しない。有限円柱の放射輸送や周波数依存の再吸収を解くものではない。数値的には、$\tau\leq10^{-12}$で1とし、slabの$\beta$を$[10^{-6},1]$に制限する。閉じた単一の放射経路だけなら$\beta$を減らすと占有率が増えて全脱出光子数が保たれる極限があるため、捕獲を単に発光へ掛けるだけの減光係数と考えるのも適切ではない。
+
+原子データは衝突過程と分離する。例えばArの2p1は667.7、750.4 nm、2p6は763.5、800.6、922.4 nmへの分岐を持つ。観測範囲外の分岐も$D_u$へ寄与するため、見ている線だけを残すと占有率と観測光子収率を過大評価する。NISTの波長と$A$値を固定した種別packは、この放射分岐集合の管理を容易にする\cite{nist}。
+
+壁損失は
+\begin{equation}
+\nu_{w,i}=\gamma_i f_{\mathrm{flux}}\frac{\bar v_i}{L},\qquad
+\bar v_i=\sqrt{\frac{8k_{\mathrm B}T_g}{\pi m_i}},\qquad
+L=\frac VA=\frac{RH}{2(H+R)}
+\label{eq:wall}
+\end{equation}
+とする。$R,H$は円柱容器の半径・高さで、$L$の直接指定も可能である。$\gamma_i$は状態別または種別の損失確率、$m_i$は質量である。\code{thermal\_flux\_factor}の既定値は互換性のため1であり、等方的な平均速さと通常の熱流束$N\bar v/4$を使う定義では$1/4$を明示する。非ゼロ損失には質量の指定が必要で、表面反応や拡散境界層は解かない。
+
+\subsection{解の監査と数値的な意味}
+準位系は密行列の直接解法で解く。空のCR系は分子帯のみのケースとして許容するが、非空の特異行列は通常予測でもエラーとなり、最小二乗で擬似的な定常密度を生成しない。監査では行列のrank・条件数、$\|M\boldsymbol n^*-\boldsymbol b\|_2/\|\boldsymbol b\|_2$、非負化前の負密度量を記録する。負値は大きさによらず最終的にゼロへ置き換える。監査は置換前の負値と置換前の解に対する相対残差を記録するため、非負化後の値が元の方程式を満たすかは別に判断する。
+
+エネルギー格子と波長格子を別々に細分化し、同じ検出画素上で予測の相対L2差を調べる任意の収束点検もある。これらは数値実装と入力範囲の妥当性を点検するもので、欠落反応や不正確な断面積によるモデル誤差を検出し尽くすものではない。

@@ -1,0 +1,167 @@
+cases:
+- case: ar_o2
+  status: pass
+  interpretation: synthetic_same_model_recovery
+  measurement_input: committed_synthetic_narrow_spectra
+  fit_result: ar_o2/result.yaml
+  fit_spectra:
+  - ar750
+  - ar763
+  - o777
+  held_out_spectra:
+  - ar800
+  - ar922
+  fit_excitation_kernel_ids:
+  - ArI_750.4_direct
+  - ArI_763.5_direct
+  - OI_777.4_multiplet
+  modeled_excitation_pathway_ids:
+  - ArI_750.4_direct
+  - ArI_763.5_800.6_922.4_shared_upper
+  - OI_777.4_multiplet
+  parameters:
+    truth:
+      electron_temperature_eV: 3.5
+      electron_density_m3: 2.0e+16
+    initial:
+      electron_temperature_eV: 2.8
+      electron_density_m3: 3.0e+16
+    oescr:
+      electron_temperature_eV: 3.5059561850966574
+      electron_density_m3: 1.968319516315329e+16
+  relative_errors:
+    initial:
+      te_relative: 0.20000000000000007
+      ne_relative: 0.5
+    oescr:
+      te_relative: 0.0017017671704735449
+      ne_relative: 0.015840241842335567
+  spectral_metrics:
+    initial:
+      fit_nrmse_vs_measurement: 0.40476151362814794
+      held_out_nrmse_vs_truth: 0.4862178322850323
+      held_out_nrmse_vs_measurement: 0.48589435724370256
+    oescr:
+      fit_nrmse_vs_measurement: 0.012743211554046063
+      held_out_nrmse_vs_truth: 0.008597195946816264
+      held_out_nrmse_vs_measurement: 0.02410261844300058
+  objective:
+    oescr: 35.858400743551144
+  numerical_refinement:
+    energy_grid: 0.000697168494431017
+    wavelength_grid: 5.599730750456783e-05
+  acceptance:
+    passed: true
+    checks:
+      optimizer_success:
+        value: true
+        passed: true
+      projected_target_jacobian_full_rank:
+        value: true
+        passed: true
+      oescr_te_relative:
+        value: 0.0017017671704735449
+        operator: <
+        threshold: 0.05
+        passed: true
+      oescr_ne_relative:
+        value: 0.015840241842335567
+        operator: <
+        threshold: 0.05
+        passed: true
+      oescr_held_out_truth_nrmse:
+        value: 0.008597195946816264
+        operator: <
+        threshold: 0.05
+        passed: true
+      numerical_refinement_relative_l2:
+        value: 0.000697168494431017
+        operator: <
+        threshold: 0.01
+        passed: true
+  limitation: Ar branches share two upper states; O I 844.6 nm is not yet covered.
+- case: ar_cl2
+  status: fail
+  interpretation: synthetic_same_model_recovery
+  measurement_input: committed_synthetic_narrow_spectra
+  fit_result: ar_cl2/result.yaml
+  fit_spectra:
+  - ar750
+  - ar763
+  - ar800
+  - ar922
+  held_out_spectra:
+  - cl725
+  - cl755
+  - cl822
+  fit_excitation_kernel_ids:
+  - ArI_750.4_direct
+  - ArI_763.5_800.6_922.4_shared_upper
+  modeled_excitation_pathway_ids:
+  - ArI_750.4_direct
+  - ArI_763.5_800.6_922.4_shared_upper
+  - ClI_725.7_effective_emitter
+  - ClI_754.7_effective_emitter
+  - Cl2_822.2_dissociative_effective_emitter
+  parameters:
+    truth:
+      electron_temperature_eV: 4.0
+      electron_density_m3: 1.6e+16
+    initial:
+      electron_temperature_eV: 3.2
+      electron_density_m3: 2.4e+16
+    oescr:
+      electron_temperature_eV: 3.74072592478275
+      electron_density_m3: 2.0790187417555588e+16
+  relative_errors:
+    initial:
+      te_relative: 0.19999999999999996
+      ne_relative: 0.5
+    oescr:
+      te_relative: 0.06481851880431255
+      ne_relative: 0.29938671359722435
+  spectral_metrics:
+    initial:
+      fit_nrmse_vs_measurement: 0.41911699930645885
+      held_out_nrmse_vs_truth: 0.11991453373086365
+      held_out_nrmse_vs_measurement: 0.11640053443320635
+    oescr:
+      fit_nrmse_vs_measurement: 0.009439870759290815
+      held_out_nrmse_vs_truth: 0.12297171636745627
+      held_out_nrmse_vs_measurement: 0.12880158184567833
+  objective:
+    oescr: 24.553057008793534
+  numerical_refinement:
+    energy_grid: 0.0005821394519877691
+    wavelength_grid: 5.619325298272533e-05
+  acceptance:
+    passed: false
+    checks:
+      optimizer_success:
+        value: true
+        passed: true
+      projected_target_jacobian_full_rank:
+        value: true
+        passed: true
+      oescr_te_relative:
+        value: 0.06481851880431255
+        operator: <
+        threshold: 0.05
+        passed: false
+      oescr_ne_relative:
+        value: 0.29938671359722435
+        operator: <
+        threshold: 0.05
+        passed: false
+      oescr_held_out_truth_nrmse:
+        value: 0.12297171636745627
+        operator: <
+        threshold: 0.05
+        passed: false
+      numerical_refinement_relative_l2:
+        value: 0.0005821394519877691
+        operator: <
+        threshold: 0.01
+        passed: true
+  limitation: The three Cl channels use illustrative effective-emitter curves, not
+    state-resolved data.

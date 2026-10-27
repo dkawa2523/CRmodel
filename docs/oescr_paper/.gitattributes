@@ -1,0 +1,2 @@
+# Preserve byte-for-byte hashes in the evidence and delivery manifests.
+* -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol

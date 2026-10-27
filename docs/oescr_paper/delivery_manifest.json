@@ -1,0 +1,532 @@
+{
+  "title": "OESCRの理論・実装と数値検証",
+  "date": "2026-10-27",
+  "pdf_pages": 25,
+  "files": [
+    {
+      "path": "docs/oescr_paper/.gitattributes",
+      "bytes": 144,
+      "sha256": "9989305b7cbca82cab2acbc20783184466bb505f05c7caad841bbc16783d2519"
+    },
+    {
+      "path": "docs/oescr_paper/data/analytic_conservation.csv",
+      "bytes": 410,
+      "sha256": "977165848d2b2ae9438058f7be3c77c6c98c64aae39dec44aeb2da7b3b90cc16"
+    },
+    {
+      "path": "docs/oescr_paper/data/analytic_spectrum.csv",
+      "bytes": 60042,
+      "sha256": "6af0a26ad21c3407636f94e74c654eed10e49718d3405d74f2cd63b2c65a3c0a"
+    },
+    {
+      "path": "docs/oescr_paper/data/ar_cl2_cl755_spectrum.csv",
+      "bytes": 1734,
+      "sha256": "187d07da0759cce3f1ee465ce100f04252b5ce74bb4c6911847f9b3cce404808"
+    },
+    {
+      "path": "docs/oescr_paper/data/ar_cl2_temperature_profile.csv",
+      "bytes": 640,
+      "sha256": "308be0ff75ce916ebe7dd2317d341e54163257ec920ee0785f13951c824af066"
+    },
+    {
+      "path": "docs/oescr_paper/data/ar_kernel_sensitivity.csv",
+      "bytes": 593,
+      "sha256": "fe7a40d850a249d492f7e508302bd792cc325e93d1d3c0606dd666aa0a2589a9"
+    },
+    {
+      "path": "docs/oescr_paper/data/ar_o2_o777_spectrum.csv",
+      "bytes": 1830,
+      "sha256": "4fd35d0dc8cbd69c7f2896ecf41f9957309726e518ba4a60dbf42663e971c88c"
+    },
+    {
+      "path": "docs/oescr_paper/data/ar_o2_temperature_profile.csv",
+      "bytes": 631,
+      "sha256": "9f8ac51c9559299b8149fb970565ee943033a7492f08787f55b6bc60ea90411d"
+    },
+    {
+      "path": "docs/oescr_paper/data/ar_six_kernel_summary.yaml",
+      "bytes": 11734,
+      "sha256": "642bf76f6b6ab3319b724dc9c2913a87bab4115a1e3c08101d6dd4d6fd4fffab"
+    },
+    {
+      "path": "docs/oescr_paper/data/ar_six_nir_840_1050_spectrum.csv",
+      "bytes": 91454,
+      "sha256": "c86ed79b9698627b67c9513a324aee831787f8b8e46cc37f83a0877056f9ad9d"
+    },
+    {
+      "path": "docs/oescr_paper/data/ar_six_vis_650_850_spectrum.csv",
+      "bytes": 96877,
+      "sha256": "fc26931b1cf48599221d3d966e39bc5f0e6af7f42b0bb5ae22e1714ea3ef11fc"
+    },
+    {
+      "path": "docs/oescr_paper/data/benchmark_metrics.json",
+      "bytes": 19201,
+      "sha256": "2011ada745351c4504edf96d8e1ce35be26589bf23e46244c3e6b1f57292e901"
+    },
+    {
+      "path": "docs/oescr_paper/data/common_state_parameter_recovery.csv",
+      "bytes": 521,
+      "sha256": "e703ed57658ba97432a75bed3c46c382d1c4a11b84b3cd6e9f0e84727a64756b"
+    },
+    {
+      "path": "docs/oescr_paper/data/common_state_summary.yaml",
+      "bytes": 4805,
+      "sha256": "e6feed391c4dc90ddf32988880a6d0ace51aeb07189bbf44215d9ca38cd980fd"
+    },
+    {
+      "path": "docs/oescr_paper/data/run_manifest.json",
+      "bytes": 68309,
+      "sha256": "cb21bc72979f20f33083909a704744c0bac24c9b05ed17b50c2218059c1d6ea6"
+    },
+    {
+      "path": "docs/oescr_paper/data/two_band_recovery.csv",
+      "bytes": 449,
+      "sha256": "15a1706f4e9778e579775eaca0f798e9bbf6687cd530d05bca5941ece30e13ab"
+    },
+    {
+      "path": "docs/oescr_paper/evidence/analytic_conservation.csv",
+      "bytes": 410,
+      "sha256": "977165848d2b2ae9438058f7be3c77c6c98c64aae39dec44aeb2da7b3b90cc16"
+    },
+    {
+      "path": "docs/oescr_paper/evidence/analytic_spectrum.csv",
+      "bytes": 60042,
+      "sha256": "6af0a26ad21c3407636f94e74c654eed10e49718d3405d74f2cd63b2c65a3c0a"
+    },
+    {
+      "path": "docs/oescr_paper/evidence/ar_cl2_cl755_spectrum.csv",
+      "bytes": 1709,
+      "sha256": "3d457df27aa3954c9b88d27f2f6c3adf8f255732cf075e639094a21960535065"
+    },
+    {
+      "path": "docs/oescr_paper/evidence/ar_cl2_temperature_profile.csv",
+      "bytes": 638,
+      "sha256": "d082d25f1415b5aaa0240b75c1dfbc2991a554018d109411ed33d795291cb00b"
+    },
+    {
+      "path": "docs/oescr_paper/evidence/ar_kernel_sensitivity.csv",
+      "bytes": 593,
+      "sha256": "fe7a40d850a249d492f7e508302bd792cc325e93d1d3c0606dd666aa0a2589a9"
+    },
+    {
+      "path": "docs/oescr_paper/evidence/ar_o2_o777_spectrum.csv",
+      "bytes": 1806,
+      "sha256": "0ad7d87c874fe7db8ea67a4d4be01f49e8476e06cfdb51ea7507db7cbbe0a267"
+    },
+    {
+      "path": "docs/oescr_paper/evidence/ar_o2_temperature_profile.csv",
+      "bytes": 630,
+      "sha256": "df64a9765d3fa48d4de2ca197e2ed28260a68d4809b3ab417690ad723eaf70f2"
+    },
+    {
+      "path": "docs/oescr_paper/evidence/ar_six_kernel_summary.yaml",
+      "bytes": 11734,
+      "sha256": "642bf76f6b6ab3319b724dc9c2913a87bab4115a1e3c08101d6dd4d6fd4fffab"
+    },
+    {
+      "path": "docs/oescr_paper/evidence/ar_six_nir_840_1050_spectrum.csv",
+      "bytes": 91454,
+      "sha256": "c86ed79b9698627b67c9513a324aee831787f8b8e46cc37f83a0877056f9ad9d"
+    },
+    {
+      "path": "docs/oescr_paper/evidence/ar_six_vis_650_850_spectrum.csv",
+      "bytes": 96877,
+      "sha256": "fc26931b1cf48599221d3d966e39bc5f0e6af7f42b0bb5ae22e1714ea3ef11fc"
+    },
+    {
+      "path": "docs/oescr_paper/evidence/benchmark_metrics.json",
+      "bytes": 23575,
+      "sha256": "b02896d6dd7d1ab5db0959349eeb98f5e3e09b3a18892644bc45915d78b615f5"
+    },
+    {
+      "path": "docs/oescr_paper/evidence/cl2_central_spectrum.csv",
+      "bytes": 215873,
+      "sha256": "0a4afa153d735ca998a4ee4636ed6b7f3cd75b1a1fe82e9c1f78e5230f5f2a7d"
+    },
+    {
+      "path": "docs/oescr_paper/evidence/common_state_parameter_recovery.csv",
+      "bytes": 518,
+      "sha256": "07d207eb069c1a0e9acdbe2ec294747b22ce596c07ce245de9459820242be9d0"
+    },
+    {
+      "path": "docs/oescr_paper/evidence/common_state_summary.yaml",
+      "bytes": 4801,
+      "sha256": "d76f03a8eca30932b51b43cf4ce5f578c348525b4b626c6e3cb2d6de33f85062"
+    },
+    {
+      "path": "docs/oescr_paper/evidence/document_quality.json",
+      "bytes": 1821,
+      "sha256": "3441d3b4b746ed5086383e263f16428890c49fece749ccb9e37c9be54c359909"
+    },
+    {
+      "path": "docs/oescr_paper/evidence/exported_spectral_metrics.csv",
+      "bytes": 1288,
+      "sha256": "be26d67fe78bbc30bc7403666744cab525f64d1870e44c8fbe11582f1e08a972"
+    },
+    {
+      "path": "docs/oescr_paper/evidence/logs/ar_six_kernel.log",
+      "bytes": 280,
+      "sha256": "d9ed3474bd0d3b69959b12cb964a234502c0a6fb40025144d0520e7570cfc342"
+    },
+    {
+      "path": "docs/oescr_paper/evidence/logs/cl2.log",
+      "bytes": 162,
+      "sha256": "20c610418229f88768b684a395675c580b08ae4be06620f777c3c5e476b8fcd6"
+    },
+    {
+      "path": "docs/oescr_paper/evidence/logs/common_state.log",
+      "bytes": 340,
+      "sha256": "f289110fe1655b12fabf05d64156a1027c3ee555102e85ebebeb589d2eadee26"
+    },
+    {
+      "path": "docs/oescr_paper/evidence/logs/focused_tests.log",
+      "bytes": 183,
+      "sha256": "aa58a6124bcb5b0ba1d30d28515cd8fa20627b9a38791b3236cedea0233b4e6a"
+    },
+    {
+      "path": "docs/oescr_paper/evidence/logs/nf3.log",
+      "bytes": 162,
+      "sha256": "f6b455f99595e033ff23c117f20c2d39984b604617f48fe9334aa3bd5ce9941e"
+    },
+    {
+      "path": "docs/oescr_paper/evidence/multichord_parameter_recovery.csv",
+      "bytes": 1387,
+      "sha256": "bf859722a73c301ec4160549be49b439aab15fba8c5b97bd6f3df3d98542f60d"
+    },
+    {
+      "path": "docs/oescr_paper/evidence/nf3_central_spectrum.csv",
+      "bytes": 74701,
+      "sha256": "e7cb5fb96fbf648f0e53776857ccece6ecaa83c13e5ba92307cc2a22f621d3af"
+    },
+    {
+      "path": "docs/oescr_paper/evidence/README.md",
+      "bytes": 9099,
+      "sha256": "f3d2928aaeb81e471ca1d0f726440da536e42f5345ad6fd79b74ad7884a90c5d"
+    },
+    {
+      "path": "docs/oescr_paper/evidence/results/ar_six_kernel/audit/identifiability.yaml",
+      "bytes": 2061,
+      "sha256": "3c3ccc5ccc02ba15953082d415752df13200480cd0d4c6cfa0439f3d4546b3fc"
+    },
+    {
+      "path": "docs/oescr_paper/evidence/results/ar_six_kernel/audit/parameter_profiles.yaml",
+      "bytes": 8097,
+      "sha256": "a5f0b0d13da60ec15472abe8b66c007d457b89e581d4da72fd6857978c75609a"
+    },
+    {
+      "path": "docs/oescr_paper/evidence/results/ar_six_kernel/audit/uncertainty.yaml",
+      "bytes": 366,
+      "sha256": "33976b6f577384b1db75027227b7b07035a830697fd892388e41ab5e1fb63f96"
+    },
+    {
+      "path": "docs/oescr_paper/evidence/results/ar_six_kernel/case_opt.yaml",
+      "bytes": 11209,
+      "sha256": "fad7472c3cf90af3c27b6327165d7a01cfbc2a5376e5770a9c9462235407da67"
+    },
+    {
+      "path": "docs/oescr_paper/evidence/results/ar_six_kernel/result.yaml",
+      "bytes": 3174,
+      "sha256": "198728020b5ff963bde6177eee595611fe98554c30f46a7315df12e65897760c"
+    },
+    {
+      "path": "docs/oescr_paper/evidence/results/cl2/audit/identifiability.yaml",
+      "bytes": 7069,
+      "sha256": "e813e9010a9561e1c44a169b9dbf7c5f51d8aed7d27791f0d81a3ef99d2d2f72"
+    },
+    {
+      "path": "docs/oescr_paper/evidence/results/cl2/audit/uncertainty.yaml",
+      "bytes": 1396,
+      "sha256": "5705c477eeab51b7371c020af3a5ca9ab56b5260e739476a7b472035864a040e"
+    },
+    {
+      "path": "docs/oescr_paper/evidence/results/cl2/case_opt.yaml",
+      "bytes": 3297,
+      "sha256": "7c779c9f6b9a6e25596f58dce9de0049e88bd57ea88a59eeb2b23a9e0b7c1fa8"
+    },
+    {
+      "path": "docs/oescr_paper/evidence/results/cl2/result.yaml",
+      "bytes": 3092,
+      "sha256": "00855312ce836b05a4ab284d924559f463ad1bcddbf270f3c47457a1e71c4b73"
+    },
+    {
+      "path": "docs/oescr_paper/evidence/results/common_state/ar_cl2/audit/identifiability.yaml",
+      "bytes": 2853,
+      "sha256": "2df0da166288cfbc4aa45f74d21679d11fd2b4e71bc87d050dd8ebe7e2f99c85"
+    },
+    {
+      "path": "docs/oescr_paper/evidence/results/common_state/ar_cl2/audit/parameter_profiles.yaml",
+      "bytes": 15548,
+      "sha256": "544f78a05c934a8dd36ba865f2dd054200d5aa0191b265564b6afcb3622ae3f5"
+    },
+    {
+      "path": "docs/oescr_paper/evidence/results/common_state/ar_cl2/audit/uncertainty.yaml",
+      "bytes": 482,
+      "sha256": "a90ee7e25e01aeef0a2b47438f78099a943ae52c183374f6d95bda9fc037638e"
+    },
+    {
+      "path": "docs/oescr_paper/evidence/results/common_state/ar_cl2/case_opt.yaml",
+      "bytes": 7772,
+      "sha256": "1cd7d23395c31e8fe6fee90a79ded570ef98f4e933da1173dba913eb255b809a"
+    },
+    {
+      "path": "docs/oescr_paper/evidence/results/common_state/ar_cl2/result.yaml",
+      "bytes": 2955,
+      "sha256": "8f4168949194430a4a3c74a66c443d772190e8461219cb34547298fe56cbf66a"
+    },
+    {
+      "path": "docs/oescr_paper/evidence/results/common_state/ar_o2/audit/identifiability.yaml",
+      "bytes": 2731,
+      "sha256": "b1710551fcc8d44856d770dee9596c193a49447e39c3625235296e116dcdf577"
+    },
+    {
+      "path": "docs/oescr_paper/evidence/results/common_state/ar_o2/audit/parameter_profiles.yaml",
+      "bytes": 15604,
+      "sha256": "64d01461be9e3ae1a0faff22962faf7adc092cd8ac098fe8a7c4dd1bc94d7eb6"
+    },
+    {
+      "path": "docs/oescr_paper/evidence/results/common_state/ar_o2/audit/uncertainty.yaml",
+      "bytes": 497,
+      "sha256": "1780c01e19787eeb86b945a547cdaaeeece2a1d04e1dca8b2abcd52e07a1caea"
+    },
+    {
+      "path": "docs/oescr_paper/evidence/results/common_state/ar_o2/case_opt.yaml",
+      "bytes": 5422,
+      "sha256": "9b570c4d90483efafdac8542009a77faf0e7d7bc69b1381a59a03d336a72ce8e"
+    },
+    {
+      "path": "docs/oescr_paper/evidence/results/common_state/ar_o2/result.yaml",
+      "bytes": 2380,
+      "sha256": "5453f0c2502cbb098c68767cae9678f5fad68206c2ddc71bbc118474de3edd4c"
+    },
+    {
+      "path": "docs/oescr_paper/evidence/results/nf3/audit/identifiability.yaml",
+      "bytes": 9870,
+      "sha256": "b14aa49122fb4724d994c33dc363b3d0b5a3e9147a35f839752e57fb2d57d183"
+    },
+    {
+      "path": "docs/oescr_paper/evidence/results/nf3/audit/uncertainty.yaml",
+      "bytes": 2516,
+      "sha256": "9df6f5de52556a6c83d01b1ecfd4742f52f623fb34d31a431f074e1c0d3c15c1"
+    },
+    {
+      "path": "docs/oescr_paper/evidence/results/nf3/case_opt.yaml",
+      "bytes": 3541,
+      "sha256": "9e7e8784c2b3b964838bcd731197b71918d71a01cd2b5a5426146cca2a66e754"
+    },
+    {
+      "path": "docs/oescr_paper/evidence/results/nf3/result.yaml",
+      "bytes": 3204,
+      "sha256": "e0ab9f88c3b886182b0580da38cb953f95e5bd486fccae81a7d74b7afe7c68d5"
+    },
+    {
+      "path": "docs/oescr_paper/evidence/results/two_band_absolute/audit/identifiability.yaml",
+      "bytes": 1688,
+      "sha256": "e988f0a26c7c3e0be5b7f9f49d9b14d99501c449621dd873d7548f7e035b24f1"
+    },
+    {
+      "path": "docs/oescr_paper/evidence/results/two_band_absolute/audit/uncertainty.yaml",
+      "bytes": 377,
+      "sha256": "292fe5a1e2182d934817d0fbc6783fd846910766af4df687dc8fc7821253ad1a"
+    },
+    {
+      "path": "docs/oescr_paper/evidence/results/two_band_absolute/case_opt.yaml",
+      "bytes": 1865,
+      "sha256": "1c39c0287a883785adc05c57d114d98bb98485ea31949f3dd7eccac5ef8a9d74"
+    },
+    {
+      "path": "docs/oescr_paper/evidence/results/two_band_absolute/result.yaml",
+      "bytes": 1277,
+      "sha256": "63e6d6307d4166ad35b60d82606299302ac611fd524300028fbe7d2049ecb18c"
+    },
+    {
+      "path": "docs/oescr_paper/evidence/results/two_band_actinometry/audit/identifiability.yaml",
+      "bytes": 1676,
+      "sha256": "982455df10a62fcd617f260f5829786c65381f728e688a55c17f5d7f2c9d4763"
+    },
+    {
+      "path": "docs/oescr_paper/evidence/results/two_band_actinometry/audit/uncertainty.yaml",
+      "bytes": 373,
+      "sha256": "a52c54de94020fd6db258733b74b3a8bff00cb52646dd67582b2b7d814348ecf"
+    },
+    {
+      "path": "docs/oescr_paper/evidence/results/two_band_actinometry/case_opt.yaml",
+      "bytes": 1866,
+      "sha256": "60dbba4e5b12971bc3982b173657b88c9eb2ad8ec2070ea3e654acaa7710cef1"
+    },
+    {
+      "path": "docs/oescr_paper/evidence/results/two_band_actinometry/result.yaml",
+      "bytes": 1159,
+      "sha256": "d922f4f0f4acf3b4731231b8035be8a3231bac3a00162b5438bf250b83a3e564"
+    },
+    {
+      "path": "docs/oescr_paper/evidence/results/two_band_ratio/audit/identifiability.yaml",
+      "bytes": 1676,
+      "sha256": "982455df10a62fcd617f260f5829786c65381f728e688a55c17f5d7f2c9d4763"
+    },
+    {
+      "path": "docs/oescr_paper/evidence/results/two_band_ratio/audit/uncertainty.yaml",
+      "bytes": 373,
+      "sha256": "a52c54de94020fd6db258733b74b3a8bff00cb52646dd67582b2b7d814348ecf"
+    },
+    {
+      "path": "docs/oescr_paper/evidence/results/two_band_ratio/case_opt.yaml",
+      "bytes": 1866,
+      "sha256": "60dbba4e5b12971bc3982b173657b88c9eb2ad8ec2070ea3e654acaa7710cef1"
+    },
+    {
+      "path": "docs/oescr_paper/evidence/results/two_band_ratio/result.yaml",
+      "bytes": 1149,
+      "sha256": "f42ed6d979e7a9ca9c984d750f81c1c0a2b2c02e87ba683fef011ef14e5ef7b8"
+    },
+    {
+      "path": "docs/oescr_paper/evidence/run_execution.json",
+      "bytes": 4422,
+      "sha256": "059dcc46c26e4cd9c5f59171e9a77b64f5cfccc8bd8f7c6224d38eb55b64c7f9"
+    },
+    {
+      "path": "docs/oescr_paper/evidence/run_manifest.json",
+      "bytes": 89579,
+      "sha256": "84fb67a0a4a872d61d707f88d8f086311ad291aab71da46b6479bb4d177c4718"
+    },
+    {
+      "path": "docs/oescr_paper/evidence/source_snapshot.zip",
+      "bytes": 8368159,
+      "sha256": "16a5f0c95cf381c26e6a6bfbfb2666c45655412d27b699969c9c2d5050815549"
+    },
+    {
+      "path": "docs/oescr_paper/evidence/source_snapshot_manifest.json",
+      "bytes": 65386,
+      "sha256": "1d7e06ca87a4f8acc822dfa62dd727ece1eb85bad815e031b1e78728c2a61c18"
+    },
+    {
+      "path": "docs/oescr_paper/evidence/two_band_recovery.csv",
+      "bytes": 449,
+      "sha256": "15a1706f4e9778e579775eaca0f798e9bbf6687cd530d05bca5941ece30e13ab"
+    },
+    {
+      "path": "docs/oescr_paper/figures/benchmark_analytic.pdf",
+      "bytes": 23815,
+      "sha256": "452fe84ea36f1ed82ff8f2b186b7295a579d62c31715ffd6cfa4c82243cbd0ed"
+    },
+    {
+      "path": "docs/oescr_paper/figures/benchmark_analytic.png",
+      "bytes": 92474,
+      "sha256": "334d55b9c0ac2b3dc14172c774021947cf55a3cf3764fb8b01ce5e1bd11edc7b"
+    },
+    {
+      "path": "docs/oescr_paper/figures/benchmark_ar_six_kernel.pdf",
+      "bytes": 33722,
+      "sha256": "518f5c4989bdeb5104a51eaab6631599378879caa7e2bc91120af846c0ba6325"
+    },
+    {
+      "path": "docs/oescr_paper/figures/benchmark_ar_six_kernel.png",
+      "bytes": 200459,
+      "sha256": "c1270ff255da8048214cb6dd1df299a45cf75f3c4a1f13cd639a68c3de106364"
+    },
+    {
+      "path": "docs/oescr_paper/figures/benchmark_common_state.pdf",
+      "bytes": 33909,
+      "sha256": "e5ad8b9f670c8e118ce8c6215d7d752026598fe833dc04a38c22e513d83f6a40"
+    },
+    {
+      "path": "docs/oescr_paper/figures/benchmark_common_state.png",
+      "bytes": 274289,
+      "sha256": "f504963d570aa895ee75fd9827f22cf82e442812d2d19b02b9d6d0c8a80844cc"
+    },
+    {
+      "path": "docs/oescr_paper/figures/benchmark_multichord.pdf",
+      "bytes": 49713,
+      "sha256": "07de7bf6a768e4aed3138e0cdfa114e6c764d592a22740d20e766c7c2a6bec6e"
+    },
+    {
+      "path": "docs/oescr_paper/figures/benchmark_multichord.png",
+      "bytes": 225991,
+      "sha256": "474984835e41c454cbd6bb656b38bfcc2b13933fee180cc691626e6104294270"
+    },
+    {
+      "path": "docs/oescr_paper/manuscript/appendix.tex",
+      "bytes": 3907,
+      "sha256": "f316748f0663765c205035ff5b731563ef98f9a15d51a75b84c1f86c448fa6e7"
+    },
+    {
+      "path": "docs/oescr_paper/manuscript/background.tex",
+      "bytes": 5452,
+      "sha256": "888844757d502eaea16fb88e9de3910f2a6790a385116e6a08b26855f1c873a4"
+    },
+    {
+      "path": "docs/oescr_paper/manuscript/benchmarks.tex",
+      "bytes": 16558,
+      "sha256": "957035f209b2e34924232ec441406201394d0684f404cbf5a3589be9eeca6f53"
+    },
+    {
+      "path": "docs/oescr_paper/manuscript/discussion.tex",
+      "bytes": 5359,
+      "sha256": "5a37410f13a2eb31df96518111dbed115ffbd692c0b8bb135a747e73a8573c90"
+    },
+    {
+      "path": "docs/oescr_paper/manuscript/extensions.tex",
+      "bytes": 6438,
+      "sha256": "ca5570fa0b4dd4f548b6967d1190b60aaf77a3f558a20be5fb9e0ca4009a55bb"
+    },
+    {
+      "path": "docs/oescr_paper/manuscript/inverse.tex",
+      "bytes": 9150,
+      "sha256": "9f7474367c60c85f2a553984d0b71432c9a135983d8ae8f5756a63f0848f5f3a"
+    },
+    {
+      "path": "docs/oescr_paper/manuscript/kinetics.tex",
+      "bytes": 12007,
+      "sha256": "73029f2ccf69abb69ed774f0adba1d3a85d45075ad42ba74969a24275117f86b"
+    },
+    {
+      "path": "docs/oescr_paper/manuscript/main.tex",
+      "bytes": 4078,
+      "sha256": "d75a63c50c605e4ea3c87fec8260e9c7c4a3fce2b326e1d3f66b8f94d7eab98b"
+    },
+    {
+      "path": "docs/oescr_paper/manuscript/observation.tex",
+      "bytes": 7222,
+      "sha256": "4b87d132bd839800224fccc04d5d47a4184098df96b94900f3cf345c54d2431d"
+    },
+    {
+      "path": "docs/oescr_paper/manuscript/overview.tex",
+      "bytes": 3675,
+      "sha256": "bfbe43d38cd3ac1d56762e53301f39e3fd40e3ec375c0f39ee687952bc76039b"
+    },
+    {
+      "path": "docs/oescr_paper/manuscript/references.tex",
+      "bytes": 3830,
+      "sha256": "177c6699af1e79fb1090bb3299ddea907438517f4fd932905c66d3ddd4259fe8"
+    },
+    {
+      "path": "docs/oescr_paper/README.md",
+      "bytes": 2610,
+      "sha256": "8f868daaec5bdcb46c7b3bc8c1c582f4223abb9bf59d103f434ce5f27b24f487"
+    },
+    {
+      "path": "docs/oescr_paper/references.bib",
+      "bytes": 4444,
+      "sha256": "c39d9f149084d72cc02b27de34eacafb09822d6c078d5f4187a2e924893ad106"
+    },
+    {
+      "path": "docs/oescr_paper/reproduce/build_pdf.ps1",
+      "bytes": 816,
+      "sha256": "8723d34314db9c2f92ab0d1a812d15e72fce24a941b483d2ac58e02d73315182"
+    },
+    {
+      "path": "docs/oescr_paper/reproduce/make_benchmark_figures.py",
+      "bytes": 19986,
+      "sha256": "e682635b93ac48fe69c00c45bea0a4dd41719a3f9bc4f74b711147272212a411"
+    },
+    {
+      "path": "docs/oescr_paper/reproduce/run_benchmarks.py",
+      "bytes": 3199,
+      "sha256": "184c43a43a807bbf0413cb86e281af90e9b01e2e1a0b99c33c78781401ee1842"
+    },
+    {
+      "path": "output/pdf/oescr_theory_and_validation_ja.pdf",
+      "bytes": 704680,
+      "sha256": "d1f886b0f4b9cf9bb60c5f1e29f3852b8d7ee3ea2e56e68f33ddcfb5a5fd6233"
+    }
+  ]
+}

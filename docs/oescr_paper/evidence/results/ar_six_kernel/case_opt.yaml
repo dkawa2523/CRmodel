@@ -1,0 +1,419 @@
+plasma_mode: te
+emission_mode: physical
+energy_grid:
+  min_eV: 0.0
+  max_eV: 60.0
+  n_points: 601
+numerics:
+  wavelength_refinement_factor: 1.0
+geometry:
+  mode: axisym_shell
+  n_shells: 1
+  chamber_radius_m: 0.05
+  chamber_height_m: 0.08
+  chord_r_m:
+  - 0.0
+plasma_state:
+  metastables: {}
+  radicals: {}
+  te_eedf_kind: maxwell
+  ne_shells_m3:
+  - 2.0e+16
+  te_shells_eV:
+  - 3.98326445772494
+residuals:
+  mode: 'off'
+  species_density_m3: {}
+wall:
+  gamma: {}
+  model: none
+metadata:
+  benchmark_role: deliberately displaced initialization for the six-kernel case
+  interpretation: synthetic same-model calculation using validation-candidate cross
+    sections
+  permitted_claim: Maxwellian effective-Te software recovery only; not external physical
+    validation
+gas_mixture:
+  total_pressure_Pa: 2.0
+  gas_temperature_K: 400.0
+  fractions:
+    Ar: 1.0
+states:
+- id: Ar_2p10
+  species: Ar
+  energy_eV: 12.9070153
+  mass_amu: 39.948
+  solve: true
+- id: Ar_2p9
+  species: Ar
+  energy_eV: 13.07571571
+  mass_amu: 39.948
+  solve: true
+- id: Ar_2p8
+  species: Ar
+  energy_eV: 13.09487256
+  mass_amu: 39.948
+  solve: true
+- id: Ar_2p7
+  species: Ar
+  energy_eV: 13.15314387
+  mass_amu: 39.948
+  solve: true
+- id: Ar_2p6
+  species: Ar
+  energy_eV: 13.1717777
+  mass_amu: 39.948
+  solve: true
+- id: Ar_2p1
+  species: Ar
+  energy_eV: 13.47988682
+  mass_amu: 39.948
+  solve: true
+reactions:
+- id: exc_Ar_ground_to_2p10
+  kind: electron_excitation
+  source_state: Ar
+  target_state: Ar_2p10
+  cross_section_file: C:\Users\user\Desktop\oescr_schematized\.local_outputs\paper_frozen_source_20261027_123900\examples\data\cross_sections_external\argon_zenodo_8192503\xs_ar_excitation_10_zenodo.csv
+  colliders: []
+- id: exc_Ar_ground_to_2p9
+  kind: electron_excitation
+  source_state: Ar
+  target_state: Ar_2p9
+  cross_section_file: C:\Users\user\Desktop\oescr_schematized\.local_outputs\paper_frozen_source_20261027_123900\examples\data\cross_sections_external\argon_zenodo_8192503\xs_ar_excitation_11_zenodo.csv
+  colliders: []
+- id: exc_Ar_ground_to_2p8
+  kind: electron_excitation
+  source_state: Ar
+  target_state: Ar_2p8
+  cross_section_file: C:\Users\user\Desktop\oescr_schematized\.local_outputs\paper_frozen_source_20261027_123900\examples\data\cross_sections_external\argon_zenodo_8192503\xs_ar_excitation_12_zenodo.csv
+  colliders: []
+- id: exc_Ar_ground_to_2p7
+  kind: electron_excitation
+  source_state: Ar
+  target_state: Ar_2p7
+  cross_section_file: C:\Users\user\Desktop\oescr_schematized\.local_outputs\paper_frozen_source_20261027_123900\examples\data\cross_sections_external\argon_zenodo_8192503\xs_ar_excitation_13_zenodo.csv
+  colliders: []
+- id: exc_Ar_ground_to_2p6
+  kind: electron_excitation
+  source_state: Ar
+  target_state: Ar_2p6
+  cross_section_file: C:\Users\user\Desktop\oescr_schematized\.local_outputs\paper_frozen_source_20261027_123900\examples\data\cross_sections_external\argon_zenodo_8192503\xs_ar_excitation_14_zenodo.csv
+  colliders: []
+- id: exc_Ar_ground_to_2p1
+  kind: electron_excitation
+  source_state: Ar
+  target_state: Ar_2p1
+  cross_section_file: C:\Users\user\Desktop\oescr_schematized\.local_outputs\paper_frozen_source_20261027_123900\examples\data\cross_sections_external\argon_zenodo_8192503\xs_ar_excitation_18_zenodo.csv
+  colliders: []
+transitions:
+- id: Ar_2p1_667
+  upper: Ar_2p1
+  lower: Ar_1s4
+  wavelength_nm: 667.7282
+  A_s-1: 236000.0
+  profile:
+    kind: gaussian
+    fwhm_nm: 0.03
+- id: Ar_2p1_750
+  upper: Ar_2p1
+  lower: Ar_1s2
+  wavelength_nm: 750.3869
+  A_s-1: 45000000.0
+  profile:
+    kind: gaussian
+    fwhm_nm: 0.03
+- id: Ar_2p6_763
+  upper: Ar_2p6
+  lower: Ar_1s5
+  wavelength_nm: 763.5106
+  A_s-1: 24500000.0
+  profile:
+    kind: gaussian
+    fwhm_nm: 0.03
+- id: Ar_2p6_800
+  upper: Ar_2p6
+  lower: Ar_1s4
+  wavelength_nm: 800.6157
+  A_s-1: 4900000.0
+  profile:
+    kind: gaussian
+    fwhm_nm: 0.03
+- id: Ar_2p6_922
+  upper: Ar_2p6
+  lower: Ar_1s2
+  wavelength_nm: 922.4499
+  A_s-1: 5000000.0
+  profile:
+    kind: gaussian
+    fwhm_nm: 0.03
+- id: Ar_2p7_772
+  upper: Ar_2p7
+  lower: Ar_1s5
+  wavelength_nm: 772.3761
+  A_s-1: 5200000.0
+  profile:
+    kind: gaussian
+    fwhm_nm: 0.03
+- id: Ar_2p7_810
+  upper: Ar_2p7
+  lower: Ar_1s4
+  wavelength_nm: 810.3693
+  A_s-1: 25000000.0
+  profile:
+    kind: gaussian
+    fwhm_nm: 0.03
+- id: Ar_2p7_866
+  upper: Ar_2p7
+  lower: Ar_1s3
+  wavelength_nm: 866.7944
+  A_s-1: 2430000.0
+  profile:
+    kind: gaussian
+    fwhm_nm: 0.03
+- id: Ar_2p7_935
+  upper: Ar_2p7
+  lower: Ar_1s2
+  wavelength_nm: 935.422
+  A_s-1: 1060000.0
+  profile:
+    kind: gaussian
+    fwhm_nm: 0.03
+- id: Ar_2p8_801
+  upper: Ar_2p8
+  lower: Ar_1s5
+  wavelength_nm: 801.4786
+  A_s-1: 9300000.0
+  profile:
+    kind: gaussian
+    fwhm_nm: 0.03
+- id: Ar_2p8_842
+  upper: Ar_2p8
+  lower: Ar_1s4
+  wavelength_nm: 842.4648
+  A_s-1: 21500000.0
+  profile:
+    kind: gaussian
+    fwhm_nm: 0.03
+- id: Ar_2p8_978
+  upper: Ar_2p8
+  lower: Ar_1s2
+  wavelength_nm: 978.4503
+  A_s-1: 1470000.0
+  profile:
+    kind: gaussian
+    fwhm_nm: 0.03
+- id: Ar_2p9_811
+  upper: Ar_2p9
+  lower: Ar_1s5
+  wavelength_nm: 811.5311
+  A_s-1: 33000000.0
+  profile:
+    kind: gaussian
+    fwhm_nm: 0.03
+- id: Ar_2p10_912
+  upper: Ar_2p10
+  lower: Ar_1s5
+  wavelength_nm: 912.2967
+  A_s-1: 18900000.0
+  profile:
+    kind: gaussian
+    fwhm_nm: 0.03
+- id: Ar_2p10_965
+  upper: Ar_2p10
+  lower: Ar_1s4
+  wavelength_nm: 965.7786
+  A_s-1: 5400000.0
+  profile:
+    kind: gaussian
+    fwhm_nm: 0.03
+- id: Ar_2p10_1047
+  upper: Ar_2p10
+  lower: Ar_1s3
+  wavelength_nm: 1047.0054
+  A_s-1: 980000.0
+  profile:
+    kind: gaussian
+    fwhm_nm: 0.03
+- id: Ar_2p10_1148
+  upper: Ar_2p10
+  lower: Ar_1s2
+  wavelength_nm: 1148.8109
+  A_s-1: 190000.0
+  profile:
+    kind: gaussian
+    fwhm_nm: 0.03
+bands: []
+diagnostics:
+  quality:
+    enabled: true
+    on_error: report
+  convergence:
+    enabled: false
+instruments:
+- id: vis_650_850
+  wavelength_min_nm: 650.0
+  wavelength_max_nm: 850.0
+  bin_nm: 0.2
+  throughput:
+    kind: tabulated
+    wavelength_nm:
+    - 650.0
+    - 750.0
+    - 850.0
+    values:
+    - 0.82
+    - 1.0
+    - 0.9
+  lsf:
+    kind: gaussian
+    fwhm_nm: 0.35
+  baseline:
+    kind: constant
+    offset: 0.0
+  nuisance:
+    gain: 1.0
+    wavelength_shift_nm: 0.0
+- id: nir_840_1050
+  wavelength_min_nm: 840.0
+  wavelength_max_nm: 1050.0
+  bin_nm: 0.2
+  throughput:
+    kind: tabulated
+    wavelength_nm:
+    - 840.0
+    - 930.0
+    - 1050.0
+    values:
+    - 0.91
+    - 1.0
+    - 0.72
+  lsf:
+    kind: gaussian
+    fwhm_nm: 0.4
+  baseline:
+    kind: constant
+    offset: 0.0
+  nuisance:
+    gain: 1.0
+    wavelength_shift_nm: 0.0
+emission_kernels:
+- id: Ar_ground_2p10
+  upper_state: Ar_2p10
+  process_ids:
+  - exc_Ar_ground_to_2p10
+  transition_ids:
+  - Ar_2p10_912
+  - Ar_2p10_965
+  - Ar_2p10_1047
+  - Ar_2p10_1148
+  pathway: direct_ground
+  evidence:
+    status: validation_candidate
+    reference: Zenodo 10.5281/zenodo.8192503 v1, exact LXCat-style process; atomic
+      branches from NIST ASD 5.12 (10.18434/T4W30F)
+    limitations:
+    - Direct ground-state excitation only
+    - Independent state-resolved comparison is not yet complete
+    - Metastable stepwise excitation, cascade, quenching, and trapping are not closed
+    process_artifacts:
+    - process_id: exc_Ar_ground_to_2p10
+      sha256: 13da80b14f79246f9f366fe3603cf504f11d2ca2c0cf50bcb76446c537beff65
+- id: Ar_ground_2p9
+  upper_state: Ar_2p9
+  process_ids:
+  - exc_Ar_ground_to_2p9
+  transition_ids:
+  - Ar_2p9_811
+  pathway: direct_ground
+  evidence:
+    status: validation_candidate
+    reference: Zenodo 10.5281/zenodo.8192503 v1, exact LXCat-style process; atomic
+      branches from NIST ASD 5.12 (10.18434/T4W30F)
+    limitations:
+    - Direct ground-state excitation only
+    - Independent state-resolved comparison is not yet complete
+    - Metastable stepwise excitation, cascade, quenching, and trapping are not closed
+    process_artifacts:
+    - process_id: exc_Ar_ground_to_2p9
+      sha256: ed4eb2746847de45150ead86939b9eaa95e12752f5778a0ac8dd3eb72b56c6cb
+- id: Ar_ground_2p8
+  upper_state: Ar_2p8
+  process_ids:
+  - exc_Ar_ground_to_2p8
+  transition_ids:
+  - Ar_2p8_801
+  - Ar_2p8_842
+  - Ar_2p8_978
+  pathway: direct_ground
+  evidence:
+    status: validation_candidate
+    reference: Zenodo 10.5281/zenodo.8192503 v1, exact LXCat-style process; atomic
+      branches from NIST ASD 5.12 (10.18434/T4W30F)
+    limitations:
+    - Direct ground-state excitation only
+    - Independent state-resolved comparison is not yet complete
+    - Metastable stepwise excitation, cascade, quenching, and trapping are not closed
+    process_artifacts:
+    - process_id: exc_Ar_ground_to_2p8
+      sha256: 86089ff806d039dceb388589a33b886979a7c94658c3f17dddb5ea755ca3be06
+- id: Ar_ground_2p7
+  upper_state: Ar_2p7
+  process_ids:
+  - exc_Ar_ground_to_2p7
+  transition_ids:
+  - Ar_2p7_772
+  - Ar_2p7_810
+  - Ar_2p7_866
+  - Ar_2p7_935
+  pathway: direct_ground
+  evidence:
+    status: validation_candidate
+    reference: Zenodo 10.5281/zenodo.8192503 v1, exact LXCat-style process; atomic
+      branches from NIST ASD 5.12 (10.18434/T4W30F)
+    limitations:
+    - Direct ground-state excitation only
+    - Independent state-resolved comparison is not yet complete
+    - Metastable stepwise excitation, cascade, quenching, and trapping are not closed
+    process_artifacts:
+    - process_id: exc_Ar_ground_to_2p7
+      sha256: 80607aa6d04aad2f871e321d664207382788f0548a0d1b08749f5600a2cbc33e
+- id: Ar_ground_2p6
+  upper_state: Ar_2p6
+  process_ids:
+  - exc_Ar_ground_to_2p6
+  transition_ids:
+  - Ar_2p6_763
+  - Ar_2p6_800
+  - Ar_2p6_922
+  pathway: direct_ground
+  evidence:
+    status: validation_candidate
+    reference: Zenodo 10.5281/zenodo.8192503 v1, exact LXCat-style process; atomic
+      branches from NIST ASD 5.12 (10.18434/T4W30F)
+    limitations:
+    - Direct ground-state excitation only
+    - Independent state-resolved comparison is not yet complete
+    - Metastable stepwise excitation, cascade, quenching, and trapping are not closed
+    process_artifacts:
+    - process_id: exc_Ar_ground_to_2p6
+      sha256: e8d3960d79345ae125dc9a617af753a8d983fd993621cba488cb38965f28f5a4
+- id: Ar_ground_2p1
+  upper_state: Ar_2p1
+  process_ids:
+  - exc_Ar_ground_to_2p1
+  transition_ids:
+  - Ar_2p1_667
+  - Ar_2p1_750
+  pathway: direct_ground
+  evidence:
+    status: validation_candidate
+    reference: Zenodo 10.5281/zenodo.8192503 v1, exact LXCat-style process; atomic
+      branches from NIST ASD 5.12 (10.18434/T4W30F)
+    limitations:
+    - Direct ground-state excitation only
+    - Independent state-resolved comparison is not yet complete
+    - Metastable stepwise excitation, cascade, quenching, and trapping are not closed
+    process_artifacts:
+    - process_id: exc_Ar_ground_to_2p1
+      sha256: 9800c4ac83f0f618df4963e53d612428d459f2a56a9592f00c7a930991488549

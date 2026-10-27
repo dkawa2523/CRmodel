@@ -1,0 +1,103 @@
+success: true
+message: '`ftol` termination condition is satisfied.'
+cost: 24.553057008994745
+parameters:
+  electron_temperature_eV: 3.7407261379411567
+  electron_density_m3: 2.079018258361636e+16
+selected_windows:
+  ar750:
+  - ar750_fit
+  ar763:
+  - ar763_fit
+  ar800:
+  - ar800_fit
+  ar922:
+  - ar922_fit
+  cl725: []
+  cl755: []
+  cl822: []
+declared_windows:
+  ar750:
+  - ar750_fit
+  ar763:
+  - ar763_fit
+  ar800:
+  - ar800_fit
+  ar922:
+  - ar922_fit
+  cl725:
+  - cl725_score
+  cl755:
+  - cl755_score
+  cl822:
+  - cl822_score
+assessment:
+  mode: calibrated_absolute
+  absolute_scale_prerequisites_met: true
+  absolute_scale_locally_identifiable: true
+  assumptions:
+  - The configuration declares absolute instrument calibration and disables fitted
+    scale and baseline corrections.
+  - Quantitative absolute-scale interpretation additionally requires independently
+    closed viewing geometry, emitter densities, and quenching; the fit does not verify
+    them.
+calibration_uncertainty:
+  cl725: 0.01
+  ar750: 0.01
+  cl755: 0.01
+  ar763: 0.01
+  ar800: 0.01
+  cl822: 0.01
+  ar922: 0.01
+spectral_fits:
+- observation_id: ar750:ar750:489e149a35
+  instrument_id: ar750
+  prediction_key: chord_0
+  output_basis: spectral_radiance_W_m-2_sr-1_nm-1
+  output_unit: W_m-2_sr-1_nm-1
+  file: spectra/00_ar750_ar750_489e149a35.csv
+- observation_id: ar763:ar763:a7f54abb7e
+  instrument_id: ar763
+  prediction_key: chord_0
+  output_basis: spectral_radiance_W_m-2_sr-1_nm-1
+  output_unit: W_m-2_sr-1_nm-1
+  file: spectra/01_ar763_ar763_a7f54abb7e.csv
+- observation_id: ar800:ar800:3e0e4c3a4a
+  instrument_id: ar800
+  prediction_key: chord_0
+  output_basis: spectral_radiance_W_m-2_sr-1_nm-1
+  output_unit: W_m-2_sr-1_nm-1
+  file: spectra/02_ar800_ar800_3e0e4c3a4a.csv
+- observation_id: ar922:ar922:633a189083
+  instrument_id: ar922
+  prediction_key: chord_0
+  output_basis: spectral_radiance_W_m-2_sr-1_nm-1
+  output_unit: W_m-2_sr-1_nm-1
+  file: spectra/03_ar922_ar922_633a189083.csv
+- observation_id: cl725:cl725:990df06c32
+  instrument_id: cl725
+  prediction_key: chord_0
+  output_basis: spectral_radiance_W_m-2_sr-1_nm-1
+  output_unit: W_m-2_sr-1_nm-1
+  file: spectra/04_cl725_cl725_990df06c32.csv
+- observation_id: cl755:cl755:1e51d864fd
+  instrument_id: cl755
+  prediction_key: chord_0
+  output_basis: spectral_radiance_W_m-2_sr-1_nm-1
+  output_unit: W_m-2_sr-1_nm-1
+  file: spectra/05_cl755_cl755_1e51d864fd.csv
+- observation_id: cl822:cl822:b8abd2fb74
+  instrument_id: cl822
+  prediction_key: chord_0
+  output_basis: spectral_radiance_W_m-2_sr-1_nm-1
+  output_unit: W_m-2_sr-1_nm-1
+  file: spectra/06_cl822_cl822_b8abd2fb74.csv
+audit:
+  uncertainty:
+    file: audit/uncertainty.yaml
+  identifiability:
+    file: audit/identifiability.yaml
+  forward_quality:
+    file: audit/forward_quality.yaml
+  parameter_profiles:
+    file: audit/parameter_profiles.yaml

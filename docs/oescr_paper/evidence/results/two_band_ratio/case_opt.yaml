@@ -1,0 +1,98 @@
+plasma_mode: te
+emission_mode: physical
+energy_grid:
+  min_eV: 0.0
+  max_eV: 20.0
+  n_points: 201
+numerics:
+  wavelength_refinement_factor: 1.0
+geometry:
+  mode: axisym_shell
+  n_shells: 1
+  chamber_radius_m: 0.1
+  chamber_height_m: 0.1
+  chord_r_m:
+  - 0.0
+plasma_state:
+  metastables: {}
+  radicals:
+    Target:
+    - 1.9999999996773642e+18
+    Actinometer:
+    - 1.0e+18
+  te_eedf_kind: maxwell
+  ne_shells_m3:
+  - 3.0e+16
+  te_shells_eV:
+  - 3.0
+residuals:
+  mode: 'off'
+  species_density_m3: {}
+wall:
+  gamma: {}
+gas_mixture:
+  total_pressure_Pa: 1.0
+  gas_temperature_K: 300.0
+  fractions:
+    Ar: 1.0
+states: []
+reactions: []
+transitions: []
+bands:
+- id: target_band
+  kind: electron_impact_photon_band
+  source_density_key: Target
+  coefficient_m3_s: 1.0e-14
+  photon_yield: 1.0
+  branching_ratio: 1.0
+  profile_kind: gaussian
+  center_nm: 500.0
+  fwhm_nm: 0.6
+- id: actinometer_band
+  kind: electron_impact_photon_band
+  source_density_key: Actinometer
+  coefficient_m3_s: 2.0e-14
+  photon_yield: 1.0
+  branching_ratio: 1.0
+  profile_kind: gaussian
+  center_nm: 510.0
+  fwhm_nm: 0.6
+instruments:
+- id: two_band_radiance
+  wavelength_grid_nm:
+  - 498.0
+  - 498.5
+  - 499.0
+  - 499.5
+  - 500.0
+  - 500.5
+  - 501.0
+  - 501.5
+  - 502.0
+  - 508.0
+  - 508.5
+  - 509.0
+  - 509.5
+  - 510.0
+  - 510.5
+  - 511.0
+  - 511.5
+  - 512.0
+  throughput: 1.0
+  lsf:
+    kind: gaussian
+    fwhm_nm: 0.3
+  baseline:
+    kind: constant
+    offset: 0.0
+  nuisance:
+    gain: 1.0
+    wavelength_shift_nm: 0.0
+  calibration:
+    kind: spectral_radiance
+    absolute: true
+    input_basis: spectral_radiance
+    output_unit: W_m-2_sr-1_nm-1
+    reference: Generated analytic identity calibration for OESCR use-case examples
+    relative_standard_uncertainty: 0.01
+emission_kernels: []

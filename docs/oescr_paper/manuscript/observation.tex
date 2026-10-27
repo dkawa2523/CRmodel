@@ -1,0 +1,79 @@
+\section{固有発光から測定スペクトルへの変換}
+\subsection{原子線の発光係数}
+上準位$u$から下準位$\ell$への放射について、等方発光を仮定した体積・立体角・波長当たりの発光係数を
+\begin{equation}
+j_{u\ell,\lambda}=a_{u\ell}\frac{hc}{4\pi\lambda_{u\ell}}
+n_u^*\Aeff_{u\ell}\,\phi_{u\ell}(\lambda),\qquad
+\int\phi_{u\ell}(\lambda)\,d\lambda=1
+\label{eq:line}
+\end{equation}
+とする。$a_{u\ell}$は明示的な\code{amplitude\_scale}で既定値1、$[j_\lambda]=\mathrm{W\,m^{-3}\,sr^{-1}\,nm^{-1}}$である。光子エネルギーに使う波長はmへ変換する。$1/(4\pi)$があるため、後段の放射輝度を全立体角で積分した発光パワーと混同しない。
+
+固有原子線形は、指定した中心とFWHMに対するGaussianである。
+\begin{equation}
+\phi(\lambda)=\frac{1}{\sqrt{2\pi}s_\lambda}
+\exp\!\left[-\frac{(\lambda-\lambda_0)^2}{2s_\lambda^2}\right],\qquad
+s_\lambda=\frac{\mathrm{FWHM}}{2\sqrt{2\ln2}}.
+\label{eq:gaussian}
+\end{equation}
+Doppler幅、Stark幅、圧力幅を温度や密度から自動的に計算する機能ではない。線形は観測区間と独立に正規化する。観測窓で線の片側が欠けたとき、その失われた光を残った区間へ再配分しない。
+
+同一上準位の光学的に薄い二分岐を完全積分した強度比は、応答補正後には
+\begin{equation}
+\frac{J_{u\ell_1}}{J_{u\ell_2}}
+=\frac{a_{u\ell_1}A_{u\ell_1}/\lambda_{u\ell_1}}
+{a_{u\ell_2}A_{u\ell_2}/\lambda_{u\ell_2}}
+\label{eq:branchratio}
+\end{equation}
+となり、占有率$n_u^*$は消える。分岐線は波長応答や放射分岐の整合性の確認には有用だが、線の本数だけ独立なEEDF情報が増えるわけではない。本稿でいう励起kernelは、断面積から上準位占有率を経て発光へ至る応答経路を区別する単位であり、数値的な感度の独立性まで保証する語ではない。
+
+\subsection{物理的な分子帯と経験的な分子帯}
+\code{electron\_impact\_photon\_band}は、供給粒子密度$N_s$、速度係数$k_b$、反応当たり光子収率$Y_b$、分岐割合$B_b$を使って
+\begin{equation}
+j_{b,\lambda}=\frac{hc}{4\pi\lambda}\nelec N_s k_b[\fe]Y_bB_b\psi_b(\lambda),
+\qquad \int\psi_b(\lambda)\,d\lambda=1
+\label{eq:band}
+\end{equation}
+を与える。帯域内の各波長で光子エネルギーを換算するため、原子線と同じ放射パワー基準で加算できる。$Y_b$は明示入力であり、コードが励起状態の消光や振動分布から導出するものではない。帯の形はGaussianまたは表形式profileで指定し、表形式は元の全波長支持域で正規化する。
+
+一方、\code{effective\_excitation\_band}は$a\nelec N_sk_b\psi_b$、\code{effective\_density\_band}は$cN_s\psi_b$に比例する経験的出力である。これらは事象率または経験係数で尺度づけた形で、放射輝度と同じ次元とは限らない。使用には\code{emission\_mode: empirical}を明示し、絶対強度推定には使わない。現行のNF$_3$/Ar、Cl$_2$/Ar例にはこの経験的成分がある。分子帯の回転・振動準位を連立CRで解く機能や、帯形から回転温度を自動推定する機能は含まれない。
+
+\subsection{視線積分と軸対称の殻モデル}
+半径方向に等幅の殻領域を置き、殻$z$の発光を一定と近似する。同一高さの視線$m$のimpact parameterを$b_m$、殻の内外半径を$r_z,r_{z+1}$とすると
+\begin{equation}
+I_{m,\lambda}=\sum_zW_{mz}j_{z,\lambda},\qquad
+W_{mz}=2\left[\sqrt{(r_{z+1}^2-b_m^2)_+}-\sqrt{(r_z^2-b_m^2)_+}\right],
+\label{eq:chord}
+\end{equation}
+ただし$(x)_+=\max(x,0)$である。$W$の単位はm、$I_\lambda$は放射輝度$\mathrm{W\,m^{-2}\,sr^{-1}\,nm^{-1}}$となる。各殻のCR計算は独立で、殻間拡散や輸送による結合はない。多視線の逆解析は、この投影を含む少数殻の状態推定であって、任意の二・三次元場の再構成ではない。
+
+外部行列を使う\code{user\_field}で別の幾何を接続できる。\code{chordavg}は全1の行列で領域を加算する簡略機能であり、それ自体は実長を持つ視線積分ではない。\code{asym\_lowrank}は視線ごとに$1+a_m\cos\theta_m$を掛ける補正で、角度方向のトモグラフィではない。絶対強度に用いる場合は、選択した投影重みの物理的長さと観測体積の意味を明示する。
+
+\subsection{装置応答の順序と単位}
+入射放射輝度$I$に対し、透過率$T(\lambda)$、次元換算$\mathcal C$、波長写像$\mathcal S_\delta$、線広がり関数（line spread function; LSF）$K$、固定gain $g$、baseline $b$を順に適用する。画素$i$の予測は
+\begin{equation}
+F_i=\frac{1}{\Delta\lambda_i}\int_{\lambda_{i-1/2}}^{\lambda_{i+1/2}}
+\left\{g\left[K*\mathcal S_\delta\!\left(\mathcal C[TI]\right)\right](\lambda)
++b(\lambda)\right\}\,d\lambda .
+\label{eq:instrument}
+\end{equation}
+光子数換算と透過率は入射した物理波長で計算する。波長依存の透過率とLSFの畳み込みは一般に交換できず、波長写像後の見かけの波長から光子エネルギーを再計算しない。現在の波長shiftの実装は$\mathcal S_\delta q(\lambda)=q(\lambda+\delta)$で、正の\code{wavelength\_shift\_nm}はピークを短波長側へ移す。
+
+装置LSFはGaussianまたはVoigtで、離散kernelの総和を1にして波長方向へFFT畳み込みを行う。現行のkernelは波長に対して並進不変で、有限支持域のVoigt翼は切断後に再正規化する。透過率は定数または表、baselineは定数または多項式である。観測端での切断やLSF翼の影響は別途点検する。
+
+\begin{table}[htbp]
+\centering\small
+\begin{tabularx}{\linewidth}{p{35mm}p{48mm}Y}
+\toprule
+出力基準 & 変換 & 出力単位 \\
+\midrule
+相対装置信号 & 絶対校正を主張しない応答 & arb \\
+分光放射輝度 & $I_\lambda$を維持 & W m$^{-2}$ sr$^{-1}$ nm$^{-1}$ \\
+収集分光パワー & $P_\lambda=I_\lambda A_c\Omega f_v$ & W nm$^{-1}$ \\
+光電子スペクトル & $N_{e,\lambda}=P_\lambda t\eta/(hc/\lambda)$ & photoelectron nm$^{-1}$ \\
+\bottomrule
+\end{tabularx}
+\caption{装置出力の基準。$A_c$は収集面積、$\Omega$は立体角、$f_v$はviewing factor、$t$は積分時間、$\eta$は量子効率。現行の量子効率はスカラー入力である。baselineは変換後の出力単位で加算する。}
+\end{table}
+
+検出画素には中心波長の点値ではなく、式\eqref{eq:instrument}の\textbf{画素平均}を出力する。したがって、光電子スペクトルを画素当たりの光電子数へ直すには画素幅を掛ける。細い原子線を内部の細格子で保持し、画素境界を含む積分を最後に行うため、粗い測定画素の間へ未分解線が落ちて消える問題を避けられる。この処理は低分解能分光器で線強度と帯形を比較する際に重要である。

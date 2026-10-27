@@ -1,0 +1,82 @@
+success: true
+message: '`xtol` termination condition is satisfied.'
+cost: 35.858400743975594
+parameters:
+  electron_temperature_eV: 3.5059561854774923
+  electron_density_m3: 1.9683195154996816e+16
+selected_windows:
+  ar750:
+  - ar750_fit
+  ar763:
+  - ar763_fit
+  ar800: []
+  ar922: []
+  o777:
+  - o777_fit
+declared_windows:
+  ar750:
+  - ar750_fit
+  ar763:
+  - ar763_fit
+  ar800:
+  - ar800_score
+  ar922:
+  - ar922_score
+  o777:
+  - o777_fit
+assessment:
+  mode: calibrated_absolute
+  absolute_scale_prerequisites_met: true
+  absolute_scale_locally_identifiable: true
+  assumptions:
+  - The configuration declares absolute instrument calibration and disables fitted
+    scale and baseline corrections.
+  - Quantitative absolute-scale interpretation additionally requires independently
+    closed viewing geometry, emitter densities, and quenching; the fit does not verify
+    them.
+calibration_uncertainty:
+  ar750: 0.01
+  ar763: 0.01
+  o777: 0.01
+  ar800: 0.01
+  ar922: 0.01
+spectral_fits:
+- observation_id: ar750:ar750:489e149a35
+  instrument_id: ar750
+  prediction_key: chord_0
+  output_basis: spectral_radiance_W_m-2_sr-1_nm-1
+  output_unit: W_m-2_sr-1_nm-1
+  file: spectra/00_ar750_ar750_489e149a35.csv
+- observation_id: ar763:ar763:a7f54abb7e
+  instrument_id: ar763
+  prediction_key: chord_0
+  output_basis: spectral_radiance_W_m-2_sr-1_nm-1
+  output_unit: W_m-2_sr-1_nm-1
+  file: spectra/01_ar763_ar763_a7f54abb7e.csv
+- observation_id: ar800:ar800:3e0e4c3a4a
+  instrument_id: ar800
+  prediction_key: chord_0
+  output_basis: spectral_radiance_W_m-2_sr-1_nm-1
+  output_unit: W_m-2_sr-1_nm-1
+  file: spectra/02_ar800_ar800_3e0e4c3a4a.csv
+- observation_id: ar922:ar922:633a189083
+  instrument_id: ar922
+  prediction_key: chord_0
+  output_basis: spectral_radiance_W_m-2_sr-1_nm-1
+  output_unit: W_m-2_sr-1_nm-1
+  file: spectra/03_ar922_ar922_633a189083.csv
+- observation_id: o777:o777:7a3ce618e0
+  instrument_id: o777
+  prediction_key: chord_0
+  output_basis: spectral_radiance_W_m-2_sr-1_nm-1
+  output_unit: W_m-2_sr-1_nm-1
+  file: spectra/04_o777_o777_7a3ce618e0.csv
+audit:
+  uncertainty:
+    file: audit/uncertainty.yaml
+  identifiability:
+    file: audit/identifiability.yaml
+  forward_quality:
+    file: audit/forward_quality.yaml
+  parameter_profiles:
+    file: audit/parameter_profiles.yaml

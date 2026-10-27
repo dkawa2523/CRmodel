@@ -1,0 +1,4 @@
+output: C:\Users\user\Desktop\oescr_schematized\.local_outputs\paper_frozen_source_20261027_123900\.local_outputs\paper_benchmarks\ar_six_kernel
+Te: initial=2.500 eV, truth=4.000 eV, estimated=3.983264 eV
+software recovery: True
+scientific status: abstain_external_validation

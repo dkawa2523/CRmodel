@@ -1,0 +1,4 @@
+mode,parameter,truth,estimated,relative_error,cost,optimizer_success,measurement_rank,measurement_observations
+ratio,target_density_m3,2e+18,1.9999999996773642e+18,1.6131784796868942e-10,1.3023986796287957e-20,True,1,1
+actinometry,target_density_m3,2e+18,1.9999999996773642e+18,1.6131784796868942e-10,1.3023986796287957e-20,True,1,1
+absolute,electron_density_m3,3e+16,3.000000000000099e+16,3.3084646133829665e-14,1.213294083752858e-22,True,1,10

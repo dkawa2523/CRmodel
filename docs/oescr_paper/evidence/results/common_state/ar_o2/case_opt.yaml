@@ -1,0 +1,242 @@
+emission_mode: physical
+energy_grid:
+  min_eV: 0.0
+  max_eV: 60.0
+  n_points: 601
+numerics:
+  wavelength_refinement_factor: 1.0
+geometry:
+  mode: axisym_shell
+  n_shells: 1
+  chamber_radius_m: 0.05
+  chamber_height_m: 0.08
+  chord_r_m:
+  - 0.0
+plasma_state:
+  metastables: {}
+  radicals:
+    O:
+    - 2.0e+19
+  ne_shells_m3:
+  - 1.9683195154996816e+16
+residuals:
+  mode: 'off'
+  species_density_m3: {}
+wall:
+  gamma: {}
+  model: none
+eedf:
+  kind: te_maxwell
+  zones:
+  - te_eV: 3.5059561854774923
+metadata:
+  benchmark_role: synthetic common-state recovery
+  interpretation: same-model self-consistency; not external physical validation
+gas_mixture:
+  total_pressure_Pa: 2.0
+  gas_temperature_K: 400.0
+  fractions:
+    Ar: 0.8
+    O2: 0.2
+states:
+- id: Ar_2p1
+  species: Ar
+  energy_eV: 13.479887
+  mass_amu: 39.948
+  solve: true
+- id: Ar_2p6
+  species: Ar
+  energy_eV: 13.171778
+  mass_amu: 39.948
+  solve: true
+- id: O_3p5P
+  species: O
+  energy_eV: 10.74
+  mass_amu: 15.999
+  solve: true
+reactions:
+- id: exc_Ar_to_2p1
+  kind: electron_excitation
+  source_state: Ar
+  target_state: Ar_2p1
+  cross_section_file: ..\..\..\..\examples\data\cross_sections_curated\ar\Ar_ground_to_4p_2p1_curated.csv
+- id: exc_Ar_to_2p6
+  kind: electron_excitation
+  source_state: Ar
+  target_state: Ar_2p6
+  cross_section_file: ..\..\..\..\examples\data\cross_sections_curated\ar\Ar_ground_to_4p_2p6_curated.csv
+- id: exc_O_to_3p5P
+  kind: electron_excitation
+  source_state: O
+  target_state: O_3p5P
+  cross_section_file: C:\Users\user\Desktop\oescr_schematized\.local_outputs\paper_frozen_source_20261027_123900\examples\data\cross_sections\O_to_3p5P.csv
+  colliders: []
+- id: quench_O_3p5P_by_O2
+  kind: two_body
+  source_state: O_3p5P
+  colliders:
+  - O2
+  coefficient_m3_s: 2.0e-16
+transitions:
+- id: Ar667
+  upper: Ar_2p1
+  lower: Ar_1s4
+  wavelength_nm: 667.7282
+  A_s-1: 236000.0
+  profile:
+    kind: gaussian
+    fwhm_nm: 0.03
+- id: Ar750
+  upper: Ar_2p1
+  lower: Ar_1s2
+  wavelength_nm: 750.3869
+  A_s-1: 45000000.0
+  profile:
+    kind: gaussian
+    fwhm_nm: 0.03
+- id: Ar763
+  upper: Ar_2p6
+  lower: Ar_1s5
+  wavelength_nm: 763.5106
+  A_s-1: 24400000.0
+  profile:
+    kind: gaussian
+    fwhm_nm: 0.03
+- id: Ar800
+  upper: Ar_2p6
+  lower: Ar_1s4
+  wavelength_nm: 800.6157
+  A_s-1: 4800000.0
+  profile:
+    kind: gaussian
+    fwhm_nm: 0.03
+- id: Ar922
+  upper: Ar_2p6
+  lower: Ar_1s2
+  wavelength_nm: 922.4499
+  A_s-1: 5000000.0
+  profile:
+    kind: gaussian
+    fwhm_nm: 0.03
+- id: O777
+  upper: O_3p5P
+  lower: O_3s5S
+  wavelength_nm: 777.417
+  A_s-1: 32000000.0
+  profile:
+    kind: gaussian
+    fwhm_nm: 0.03
+bands: []
+diagnostics:
+  quality:
+    enabled: true
+    on_error: report
+  convergence:
+    enabled: false
+instruments:
+- id: ar750
+  wavelength_min_nm: 748.4
+  wavelength_max_nm: 752.4
+  bin_nm: 0.2
+  throughput: 1.0
+  lsf:
+    kind: gaussian
+    fwhm_nm: 0.35
+  baseline:
+    kind: constant
+    offset: 0.0
+  nuisance:
+    gain: 1.0
+    wavelength_shift_nm: 0.0
+  calibration:
+    kind: spectral_radiance
+    absolute: true
+    input_basis: spectral_radiance
+    output_unit: W_m-2_sr-1_nm-1
+    reference: Synthetic identity calibration for common-state benchmark
+    relative_standard_uncertainty: 0.01
+- id: ar763
+  wavelength_min_nm: 761.5
+  wavelength_max_nm: 765.5
+  bin_nm: 0.2
+  throughput: 1.0
+  lsf:
+    kind: gaussian
+    fwhm_nm: 0.35
+  baseline:
+    kind: constant
+    offset: 0.0
+  nuisance:
+    gain: 1.0
+    wavelength_shift_nm: 0.0
+  calibration:
+    kind: spectral_radiance
+    absolute: true
+    input_basis: spectral_radiance
+    output_unit: W_m-2_sr-1_nm-1
+    reference: Synthetic identity calibration for common-state benchmark
+    relative_standard_uncertainty: 0.01
+- id: o777
+  wavelength_min_nm: 775.4
+  wavelength_max_nm: 779.4
+  bin_nm: 0.2
+  throughput: 1.0
+  lsf:
+    kind: gaussian
+    fwhm_nm: 0.35
+  baseline:
+    kind: constant
+    offset: 0.0
+  nuisance:
+    gain: 1.0
+    wavelength_shift_nm: 0.0
+  calibration:
+    kind: spectral_radiance
+    absolute: true
+    input_basis: spectral_radiance
+    output_unit: W_m-2_sr-1_nm-1
+    reference: Synthetic identity calibration for common-state benchmark
+    relative_standard_uncertainty: 0.01
+- id: ar800
+  wavelength_min_nm: 798.6
+  wavelength_max_nm: 802.6
+  bin_nm: 0.2
+  throughput: 1.0
+  lsf:
+    kind: gaussian
+    fwhm_nm: 0.35
+  baseline:
+    kind: constant
+    offset: 0.0
+  nuisance:
+    gain: 1.0
+    wavelength_shift_nm: 0.0
+  calibration:
+    kind: spectral_radiance
+    absolute: true
+    input_basis: spectral_radiance
+    output_unit: W_m-2_sr-1_nm-1
+    reference: Synthetic identity calibration for common-state benchmark
+    relative_standard_uncertainty: 0.01
+- id: ar922
+  wavelength_min_nm: 920.4
+  wavelength_max_nm: 924.4
+  bin_nm: 0.2
+  throughput: 1.0
+  lsf:
+    kind: gaussian
+    fwhm_nm: 0.35
+  baseline:
+    kind: constant
+    offset: 0.0
+  nuisance:
+    gain: 1.0
+    wavelength_shift_nm: 0.0
+  calibration:
+    kind: spectral_radiance
+    absolute: true
+    input_basis: spectral_radiance
+    output_unit: W_m-2_sr-1_nm-1
+    reference: Synthetic identity calibration for common-state benchmark
+    relative_standard_uncertainty: 0.01
+emission_kernels: []

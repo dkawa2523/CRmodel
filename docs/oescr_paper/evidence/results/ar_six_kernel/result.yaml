@@ -1,0 +1,123 @@
+success: true
+message: '`ftol` termination condition is satisfied.'
+cost: 26.206003521902225
+parameters:
+  electron_temperature_eV: 3.98326445772494
+gain_offset:
+- instrument_id: nir_840_1050
+  observation_id: nir_840_1050_rep_0
+  gain: 1.0142539834144704
+  offset: 0.0
+  tilt: 0.0
+- instrument_id: nir_840_1050
+  observation_id: nir_840_1050_rep_1
+  gain: 1.0142539834144704
+  offset: 0.0
+  tilt: 0.0
+- instrument_id: nir_840_1050
+  observation_id: nir_840_1050_rep_2
+  gain: 1.0142539834144704
+  offset: 0.0
+  tilt: 0.0
+- instrument_id: vis_650_850
+  observation_id: vis_650_850_rep_0
+  gain: 1.013220298087997
+  offset: 0.0
+  tilt: 0.0
+- instrument_id: vis_650_850
+  observation_id: vis_650_850_rep_1
+  gain: 1.013220298087997
+  offset: 0.0
+  tilt: 0.0
+- instrument_id: vis_650_850
+  observation_id: vis_650_850_rep_2
+  gain: 1.013220298087997
+  offset: 0.0
+  tilt: 0.0
+selected_windows:
+  nir_840_1050:
+  - Ar_2p7_866
+  - Ar_2p6_922
+  - Ar_2p8_978
+  vis_650_850:
+  - Ar_2p1_667
+  - Ar_2p6_763
+  - Ar_2p7_772
+  - Ar_2p8_801
+  - Ar_2p9_811
+declared_windows:
+  nir_840_1050:
+  - Ar_2p8_842
+  - Ar_2p7_866
+  - Ar_2p10_912
+  - Ar_2p6_922
+  - Ar_2p7_935
+  - Ar_2p10_965
+  - Ar_2p8_978
+  - Ar_2p10_1047
+  vis_650_850:
+  - Ar_2p1_667
+  - Ar_2p1_750
+  - Ar_2p6_763
+  - Ar_2p7_772
+  - Ar_2p6_800
+  - Ar_2p8_801
+  - Ar_2p7_810
+  - Ar_2p9_811
+  - Ar_2p8_842
+assessment:
+  mode: relative_shape
+  absolute_scale_prerequisites_met: false
+  assumptions:
+  - Only relative spectral or spatial information is interpreted.
+calibration_uncertainty:
+  vis_650_850: 0.0
+  nir_840_1050: 0.0
+spectral_fits:
+- observation_id: nir_840_1050_rep_0
+  instrument_id: nir_840_1050
+  prediction_key: chord_0
+  output_basis: relative_instrument_signal
+  output_unit: arb
+  file: spectra/00_nir_840_1050_rep_0.csv
+- observation_id: nir_840_1050_rep_1
+  instrument_id: nir_840_1050
+  prediction_key: chord_0
+  output_basis: relative_instrument_signal
+  output_unit: arb
+  file: spectra/01_nir_840_1050_rep_1.csv
+- observation_id: nir_840_1050_rep_2
+  instrument_id: nir_840_1050
+  prediction_key: chord_0
+  output_basis: relative_instrument_signal
+  output_unit: arb
+  file: spectra/02_nir_840_1050_rep_2.csv
+- observation_id: vis_650_850_rep_0
+  instrument_id: vis_650_850
+  prediction_key: chord_0
+  output_basis: relative_instrument_signal
+  output_unit: arb
+  file: spectra/03_vis_650_850_rep_0.csv
+- observation_id: vis_650_850_rep_1
+  instrument_id: vis_650_850
+  prediction_key: chord_0
+  output_basis: relative_instrument_signal
+  output_unit: arb
+  file: spectra/04_vis_650_850_rep_1.csv
+- observation_id: vis_650_850_rep_2
+  instrument_id: vis_650_850
+  prediction_key: chord_0
+  output_basis: relative_instrument_signal
+  output_unit: arb
+  file: spectra/05_vis_650_850_rep_2.csv
+audit:
+  uncertainty:
+    file: audit/uncertainty.yaml
+  identifiability:
+    file: audit/identifiability.yaml
+  forward_quality:
+    file: audit/forward_quality.yaml
+  optimization_trace:
+    file: audit/optimization_trace.yaml
+  parameter_profiles:
+    file: audit/parameter_profiles.yaml
